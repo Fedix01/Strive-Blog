@@ -1,5 +1,4 @@
 import { Schema, model } from "mongoose";
-
 const userSchema = new Schema(
     {
         nome: {
@@ -18,7 +17,7 @@ const userSchema = new Schema(
         },
 
         dataDiNascita: {
-            type: String,
+            type: Date,
             required: true
         },
 
