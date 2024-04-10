@@ -1,4 +1,5 @@
 import { Schema, model } from "mongoose";
+// Creazione dello schema dell api
 const userSchema = new Schema(
     {
         nome: {
@@ -30,5 +31,5 @@ const userSchema = new Schema(
         collection: "authors"
     }
 );
-
+// Esporto il modello
 export default model("User", userSchema);
