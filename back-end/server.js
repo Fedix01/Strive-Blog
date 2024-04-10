@@ -15,11 +15,8 @@ app.use(express.json());
 // Abilito l utilizzo di cors
 app.use(cors())
 
-app.get('/', (req, res) => {
-    res.send('Hello World!')
-})
 //  Importo la route
-app.use("/api", apiRoute);
+app.use("/", apiRoute);
 
 // Funzione per inizializzare il server
 const initServer = async () => {
