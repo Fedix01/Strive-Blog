@@ -1,14 +1,12 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Card, ListGroup, Button } from 'react-bootstrap';
-import { ModifyAuthors } from '../ModifyAuthorsProvider/ModifyAuthorsProvider';
 
 export default function SingleAuthor(props) {
-    const { name, surname, email, birth, avatar, deleteAuthor, id, setId } = props;
+    const { name, surname, email, birth, avatar, deleteAuthor, id, setId, setMod, mod } = props;
 
-    const { modify, setModify } = useContext(ModifyAuthors);
 
     const handleModify = (id) => {
-        setModify(!modify);
+        setMod(!mod);
         setId(id)
     }
     return (
@@ -21,13 +19,13 @@ export default function SingleAuthor(props) {
                         <h2>Cognome: {surname}</h2>
                     </Card.Title>
                 </Card.Body>
-                <ListGroup className="list-group-flush">
+                <ListGroup className="list-group-flush" style={{ borderBottom: "none" }}>
                     <ListGroup.Item>Email: {email}</ListGroup.Item>
                     <ListGroup.Item>Data di nascita: {birth}</ListGroup.Item>
                 </ListGroup>
-                <div>
+                <div className='ms-2 mt-2 mb-1'>
                     <Button variant="primary" onClick={() => handleModify(id)}>Modifica</Button>
-                    <Button variant="danger" onClick={() => deleteAuthor(id)}>Elimina</Button>
+                    <Button variant="danger" className='ms-3' onClick={() => deleteAuthor(id)}>Elimina</Button>
                 </div>
             </Card>
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Container } from 'react-bootstrap';
+import { Row, Col, Container, Alert } from 'react-bootstrap';
 import SingleAuthor from '../SingleAuthor/SingleAuthor';
 import AddAuthor from '../AddAuthor/AddAuthor';
 
@@ -9,6 +9,10 @@ export default function AllAuthors() {
     const endpoint = "http://localhost:3001";
     // id passato per la richiesta put
     const [id, setId] = useState("");
+
+    const [mod, setMod] = useState(true)
+
+    const [alert, setAlert] = useState("");
 
     const getFromApi = async () => {
         try {
@@ -44,7 +48,11 @@ export default function AllAuthors() {
             })
             if (post.ok) {
                 console.log(post, "Chiamata post fatta");
-                getFromApi()
+                getFromApi();
+                setAlert("Autore aggiunto")
+                setTimeout(() => {
+                    setAlert("")
+                }, 3000);
 
             }
         } catch (error) {
@@ -62,7 +70,11 @@ export default function AllAuthors() {
             })
             if (response.ok) {
                 console.log("L autore è stato eliminato");
-                getFromApi()
+                getFromApi();
+                setAlert("Autore eliminato")
+                setTimeout(() => {
+                    setAlert("")
+                }, 3000);
             }
         } catch (error) {
             console.error(error)
@@ -86,7 +98,12 @@ export default function AllAuthors() {
             })
             if (response.ok) {
                 console.log("l Autore è stato cambiato");
-                getFromApi()
+                getFromApi();
+                setMod(true);
+                setAlert("Autore modificato")
+                setTimeout(() => {
+                    setAlert("")
+                }, 3000);
             }
         } catch (error) {
             console.error(error)
@@ -94,13 +111,17 @@ export default function AllAuthors() {
     }
     return (
         <div className='mt-3'>
+            {alert && (
+                <Alert variant='success'>
+                    {alert}
+                </Alert>)}
             <Container>
 
                 {data &&
-                    <AddAuthor post={postAuthor} put={modifyAuthor} />}
+                    <AddAuthor post={postAuthor} put={modifyAuthor} mod={mod} />}
 
                 <Row>
-                    <Col md={12}>
+                    <Col md={12} className='mt-5'>
                         <h4>Tutti gli autori</h4>
                     </Col>
                 </Row>
@@ -109,7 +130,7 @@ export default function AllAuthors() {
                     {data &&
                         data.map((el) => (
                             <Col md={4} key={el._id}>
-                                <SingleAuthor key={el._id} id={el._id} name={el.nome} surname={el.cognome} email={el.email} birth={el.dataDiNascita} avatar={el.avatar} deleteAuthor={deleteAuthor} setId={setId} />
+                                <SingleAuthor key={el._id} id={el._id} name={el.nome} surname={el.cognome} email={el.email} birth={el.dataDiNascita} avatar={el.avatar} deleteAuthor={deleteAuthor} setId={setId} setMod={setMod} mod={mod} />
                             </Col>))}
 
                 </Row>

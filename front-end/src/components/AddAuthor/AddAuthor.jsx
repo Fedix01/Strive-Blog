@@ -1,10 +1,8 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { Form, Button, Row, Col } from 'react-bootstrap';
-import { ModifyAuthors } from '../ModifyAuthorsProvider/ModifyAuthorsProvider';
 
-export default function AddAuthor({ post, put }) {
+export default function AddAuthor({ post, put, mod }) {
 
-    const { modify } = useContext(ModifyAuthors)
     const [name, setName] = useState("");
     const [surname, setSurname] = useState("");
 
@@ -12,6 +10,23 @@ export default function AddAuthor({ post, put }) {
     const [date, setDate] = useState("");
     const [avatar, setAvatar] = useState("");
 
+    const handleFormPost = (e) => {
+        post(e, name, surname, email, date, avatar);
+        setName("");
+        setSurname("");
+        setEmail("");
+        setDate("");
+        setAvatar("");
+    }
+
+    const handleFormPut = (e) => {
+        put(e, name, surname, email, date, avatar);
+        setName("");
+        setSurname("");
+        setEmail("");
+        setDate("");
+        setAvatar("");
+    }
     return (
         <Form>
             <Row className="mb-3">
@@ -38,11 +53,12 @@ export default function AddAuthor({ post, put }) {
 
             <Form.Group className="mb-3" controlId="formGridDate">
                 <Form.Label>Avatar</Form.Label>
-                <Form.Control type='file' value={avatar} onChange={(e) => setAvatar(e.target.value)} />
+                <Form.Control type='text' placeholder='Inserisci il link dell avatar' value={avatar} onChange={(e) => setAvatar(e.target.value)} />
             </Form.Group>
-            {modify ? <Button variant="success" type="submit" onClick={(e) => post(e, name, surname, email, date, avatar)}>
+
+            {mod ? <Button variant="success" type="submit" onClick={(e) => handleFormPost(e, name, surname, email, date, avatar)}>
                 Aggiungi
-            </Button> : <Button variant="primary" type="submit" onClick={(e) => put(e, name, surname, email, date, avatar)}>
+            </Button> : <Button variant="primary" type="submit" onClick={(e) => handleFormPut(e, name, surname, email, date, avatar)}>
                 Modifica
             </Button>}
 
