@@ -2,11 +2,14 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import MyNavbar from './components/MyNavbar/MyNavbar';
 import AllAuthors from './components/AllAuthors/AllAuthors';
+import ModifyAuthorsProvider from './components/ModifyAuthorsProvider/ModifyAuthorsProvider';
 function App() {
   return (
     <>
-      <MyNavbar />
-      <AllAuthors />
+      <ModifyAuthorsProvider>
+        <MyNavbar />
+        <AllAuthors />
+      </ModifyAuthorsProvider>
     </>
   );
 }
