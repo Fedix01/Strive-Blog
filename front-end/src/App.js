@@ -1,14 +1,19 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import MyNavbar from './components/MyNavbar/MyNavbar';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Homepage from './components/Homepage/Homepage';
 import AllAuthors from './components/AllAuthors/AllAuthors';
-import MyFooter from './components/MyFooter/MyFooter';
+import AllBlogPosts from './components/AllBlogPosts/AllBlogPosts';
 function App() {
   return (
     <>
-      <MyNavbar />
-      <AllAuthors />
-      <MyFooter />
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<Homepage />}></Route>
+          <Route path='/authors' element={<AllAuthors />}></Route>
+          <Route path='/blogPosts' element={<AllBlogPosts />}></Route>
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }

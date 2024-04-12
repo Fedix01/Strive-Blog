@@ -1,8 +1,9 @@
 import express from "express";
 import { config } from "dotenv";
 import mongoose from "mongoose";
-import { apiRoute } from "./services/routes/api.route.js";
+import { apiRouteAuthors } from "./services/routes/author.route.js";
 import cors from "cors";
+import { apiRoutePosts } from "./services/routes/blogPost.route.js";
 
 // Creo il server
 const app = express()
@@ -16,7 +17,8 @@ app.use(express.json());
 app.use(cors())
 
 //  Importo la route
-app.use("/", apiRoute);
+app.use("/api", apiRouteAuthors);
+app.use("/api", apiRoutePosts);
 
 // Funzione per inizializzare il server
 const initServer = async () => {

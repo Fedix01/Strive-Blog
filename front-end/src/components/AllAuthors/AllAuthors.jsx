@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Row, Col, Container, Alert } from 'react-bootstrap';
 import SingleAuthor from '../SingleAuthor/SingleAuthor';
 import AddAuthor from '../AddAuthor/AddAuthor';
+import MyNavbar from '../MyNavbar/MyNavbar';
 
 export default function AllAuthors() {
     const [data, setData] = useState([]);
 
-    const endpoint = "http://localhost:3001";
+    const endpoint = "http://localhost:3001/api/authors";
     // id passato per la richiesta put
     const [id, setId] = useState("");
 
@@ -110,31 +111,34 @@ export default function AllAuthors() {
         }
     }
     return (
-        <div className='mt-3'>
-            {alert && (
-                <Alert variant='success'>
-                    {alert}
-                </Alert>)}
-            <Container>
-
-                {data &&
-                    <AddAuthor post={postAuthor} put={modifyAuthor} mod={mod} />}
-
-                <Row>
-                    <Col md={12} className='mt-5'>
-                        <h4>Tutti gli autori</h4>
-                    </Col>
-                </Row>
-                <Row>
+        <>
+            <MyNavbar />
+            <div className='mt-3'>
+                {alert && (
+                    <Alert variant='success'>
+                        {alert}
+                    </Alert>)}
+                <Container>
 
                     {data &&
-                        data.map((el) => (
-                            <Col md={4} key={el._id}>
-                                <SingleAuthor key={el._id} id={el._id} name={el.nome} surname={el.cognome} email={el.email} birth={el.dataDiNascita} avatar={el.avatar} deleteAuthor={deleteAuthor} setId={setId} setMod={setMod} mod={mod} />
-                            </Col>))}
+                        <AddAuthor post={postAuthor} put={modifyAuthor} mod={mod} />}
 
-                </Row>
-            </Container>
-        </div>
+                    <Row>
+                        <Col md={12} className='mt-5'>
+                            <h4>Tutti gli autori</h4>
+                        </Col>
+                    </Row>
+                    <Row>
+
+                        {data &&
+                            data.map((el) => (
+                                <Col md={4} key={el._id}>
+                                    <SingleAuthor key={el._id} id={el._id} name={el.nome} surname={el.cognome} email={el.email} birth={el.dataDiNascita} avatar={el.avatar} deleteAuthor={deleteAuthor} setId={setId} setMod={setMod} mod={mod} />
+                                </Col>))}
+
+                    </Row>
+                </Container>
+            </div>
+        </>
     )
 }
