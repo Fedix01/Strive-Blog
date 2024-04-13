@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 
-export default function AddBlogPost({ post }) {
+export default function AddBlogPost({ post, put, mod, id }) {
     const [title, setTitle] = useState("");
     const [category, setCategory] = useState("");
 
@@ -26,14 +26,17 @@ export default function AddBlogPost({ post }) {
         setCategory("");
     }
 
-    // const handleFormPut = (e) => {
-    //     put(e, name, surname, email, date, avatar);
-    //     setName("");
-    //     setSurname("");
-    //     setEmail("");
-    //     setDate("");
-    //     setAvatar("");
-    // }
+    const handleFormPut = (e, title, authorName, authorAvatar, cover, readValue, readUnit, content, category, id) => {
+        put(e, title, authorName, authorAvatar, cover, readValue, readUnit, content, category, id);
+        setTitle("");
+        setAuthorName("");
+        setAuthorAvatar("");
+        setCover("");
+        setReadValue("");
+        setReadUnit("");
+        setContent("");
+        setCategory("");
+    }
 
     return (
         <Form>
@@ -78,13 +81,13 @@ export default function AddBlogPost({ post }) {
                 <Form.Label>Categoria</Form.Label>
                 <Form.Control type='text' placeholder='Inserisci la categoria' value={category} onChange={(e) => setCategory(e.target.value)} />
             </Form.Group>
-
-            <Button variant="success" type="submit" onClick={(e) => handleFormPost(e, title, authorName, authorAvatar, cover, readValue, readUnit, content, category)}>
+            {mod ? <Button variant="success" type="submit" onClick={(e) => handleFormPost(e, title, authorName, authorAvatar, cover, readValue, readUnit, content, category)}>
                 Aggiungi
-            </Button>
-            {/* <Button variant="primary" type="submit" onClick={(e) => handleFormPut(e, name, surname, email, date, avatar)}>
+            </Button> : <Button variant="primary" type="submit" onClick={(e) => handleFormPut(e, title, authorName, authorAvatar, cover, readValue, readUnit, content, category, id)}>
                 Modifica
-            </Button> */}
+            </Button>}
+
+
 
         </Form>
 
