@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import MyNavbar from '../MyNavbar/MyNavbar';
-import { Row, Col, Container } from 'react-bootstrap';
+import { Row, Col, Container, Alert, Button } from 'react-bootstrap';
 import SingleBlogPost from '../SingleBlogPost/SingleBlogPost';
 import AddBlogPost from '../AddBlogPost/AddBlogPost';
 
@@ -15,6 +15,8 @@ export default function AllBlogPosts() {
     const [mod, setMod] = useState(true)
 
     const [alert, setAlert] = useState("");
+
+    const [searchTerm, setSearchTerm] = useState("");
 
     const getFromApi = async () => {
         try {
@@ -58,6 +60,10 @@ export default function AllBlogPosts() {
             });
             if (res.ok) {
                 getFromApi();
+                setAlert("Blog post aggiunto correttamente");
+                setInterval(() => {
+                    setAlert("")
+                }, 3000);
                 console.log("Blog Post creato")
             }
         } catch (error) {
@@ -74,6 +80,10 @@ export default function AllBlogPosts() {
             });
             if (res.ok) {
                 getFromApi();
+                setAlert("Blog post cancellato correttamente");
+                setInterval(() => {
+                    setAlert("")
+                }, 3000);
                 console.log("il blog post è stato cancellato")
             }
         } catch (error) {
@@ -105,6 +115,11 @@ export default function AllBlogPosts() {
             });
             if (res.ok) {
                 getFromApi();
+                setAlert("Blog post modificato correttamente");
+                setInterval(() => {
+                    setAlert("")
+                }, 3000);
+
                 console.log("Blog modificato")
             }
         } catch (error) {
@@ -112,10 +127,27 @@ export default function AllBlogPosts() {
         }
     }
 
+    const handleSearch = async () => {
+        try {
+            const response = await fetch(`${endpoint}?title=${searchTerm}`);
+            setSearchResult(response);
+        } catch (err) {
+            console.error(err)
+        }
+    }
 
     return (
         <>
             <MyNavbar />
+            {alert &&
+                <Alert variant='info'>
+                    {alert}
+                </Alert>}
+
+            <div>
+                <input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+                <Button variant='primary' onClick={handleSearch}>Cerca Blog</Button>
+            </div>
             <Container>
                 <Row>
                     {data &&

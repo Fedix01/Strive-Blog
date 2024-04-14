@@ -12,6 +12,17 @@ apiRoutePosts.get("/blogPost", async (req, res, next) => {
     }
 });
 
+app.get('/blogPost', async (req, res) => {
+    const { title } = req.query;
+    try {
+        const post = await BlogPost.findOne({ title: { $regex: title, $options: 'i' } });
+        res.json(post);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Errore nel trovare il post.' });
+    }
+});
+
 apiRoutePosts.get("/blogPost/:id", async (req, res, next) => {
     try {
         let singlePost = await BlogPost.findById(req.params.id);
