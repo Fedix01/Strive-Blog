@@ -8,7 +8,7 @@ export default function AllBlogPosts() {
 
     const [data, setData] = useState([]);
 
-    const endpoint = "http://localhost:3001/api/blogPost";
+    const endpoint = "http://localhost:3001/api/blogPosts";
 
     const [id, setId] = useState("");
 
@@ -16,7 +16,7 @@ export default function AllBlogPosts() {
 
     const [alert, setAlert] = useState("");
 
-    const [searchTerm, setSearchTerm] = useState("");
+    const [searchTerm, setSearchTerm] = useState([]);
 
     const getFromApi = async () => {
         try {
@@ -130,11 +130,17 @@ export default function AllBlogPosts() {
     const handleSearch = async () => {
         try {
             const response = await fetch(`${endpoint}?title=${searchTerm}`);
-            setSearchResult(response);
-        } catch (err) {
-            console.error(err)
+            if (response.ok) {
+                const results = await response.json();
+                setData(results);
+                console.log("Risultati ricerca:", results);
+            } else {
+                console.error('Errore nella risposta:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Errore durante la ricerca:', error);
         }
-    }
+    };
 
     return (
         <>
@@ -146,7 +152,7 @@ export default function AllBlogPosts() {
 
             <div>
                 <input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
-                <Button variant='primary' onClick={handleSearch}>Cerca Blog</Button>
+                <Button variant='primary' onClick={() => handleSearch()}>Cerca Blog</Button>
             </div>
             <Container>
                 <Row>
