@@ -4,6 +4,8 @@ import mongoose from "mongoose";
 import { apiRouteAuthors } from "./services/routes/author.route.js";
 import cors from "cors";
 import { apiRoutePosts } from "./services/routes/blogPost.route.js";
+import { logger } from "./services/middlewares/logger.js";
+import { authenticate } from "./services/middlewares/authentication.js";
 
 // Creo il server
 const app = express()
@@ -14,7 +16,10 @@ config();
 app.use(express.json());
 
 // Abilito l utilizzo di cors
-app.use(cors())
+app.use(cors());
+// Aggiungo dei middleware
+app.use(logger);
+// app.use(authenticate)
 
 //  Importo la route
 app.use("/api", apiRouteAuthors);
