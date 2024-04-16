@@ -6,6 +6,7 @@ import cors from "cors";
 import { apiRoutePosts } from "./services/routes/blogPost.route.js";
 import { logger } from "./services/middlewares/logger.js";
 import { authenticate } from "./services/middlewares/authentication.js";
+import { badRequestHandler, genericErrorHandler, notFoundHandler, unhatorizedHandler } from "./services/middlewares/errorHandler.js";
 
 // Creo il server
 const app = express()
@@ -24,6 +25,17 @@ app.use(logger);
 //  Importo la route
 app.use("/api", apiRouteAuthors);
 app.use("/api", apiRoutePosts);
+app.get("*", (req, res, next) => {
+    const error = new Error;
+    error.status = 404;
+    error.message = "404 Page Not Found";
+    res.send(error)
+})
+// Inserisco gli errori
+app.use(badRequestHandler);
+app.use(unhatorizedHandler);
+app.use(notFoundHandler);
+app.use(genericErrorHandler);
 
 // Funzione per inizializzare il server
 const initServer = async () => {
