@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import MyNavbar from '../MyNavbar/MyNavbar';
-import { Row, Col, Container, Alert, Button } from 'react-bootstrap';
+import { Row, Col, Container, Alert, Button, Form, InputGroup } from 'react-bootstrap';
 import SingleBlogPost from '../SingleBlogPost/SingleBlogPost';
 import AddBlogPost from '../AddBlogPost/AddBlogPost';
+import MyFooter from '../MyFooter/MyFooter';
 
 export default function AllBlogPosts() {
 
@@ -16,7 +17,7 @@ export default function AllBlogPosts() {
 
     const [alert, setAlert] = useState("");
 
-    const [searchTerm, setSearchTerm] = useState([]);
+    const [searchTerm, setSearchTerm] = useState("");
 
     const getFromApi = async () => {
         try {
@@ -35,7 +36,17 @@ export default function AllBlogPosts() {
         getFromApi()
     }, [])
 
-    const postBlog = async (e, category, title, cover, readUnit, readValue, authorName, authorAvatar, content) => {
+    useEffect(() => {
+        if (searchTerm) {
+            const filteredTitle = data.filter((el) => el.title.toLowerCase().includes(searchTerm.toLowerCase()));
+            setData(filteredTitle)
+        } else {
+            getFromApi()
+        }
+    }, [searchTerm])
+
+
+    const postBlog = async (e, title, authorName, authorAvatar, cover, readValue, readUnit, content, category) => {
         e.preventDefault();
         const payload = {
             "category": category,
@@ -91,7 +102,7 @@ export default function AllBlogPosts() {
         }
     }
 
-    const modifyBlog = async (e, category, title, cover, readUnit, readValue, authorName, authorAvatar, content, id) => {
+    const modifyBlog = async (e, title, authorName, authorAvatar, cover, readValue, readUnit, content, category, id) => {
         e.preventDefault()
         const payload = {
             "category": category,
@@ -127,20 +138,20 @@ export default function AllBlogPosts() {
         }
     }
 
-    const handleSearch = async () => {
-        try {
-            const response = await fetch(`${endpoint}?title=${searchTerm}`);
-            if (response.ok) {
-                const results = await response.json();
-                setData(results);
-                console.log("Risultati ricerca:", results);
-            } else {
-                console.error('Errore nella risposta:', response.statusText);
-            }
-        } catch (error) {
-            console.error('Errore durante la ricerca:', error);
-        }
-    };
+    // const handleSearch = async () => {
+    //     try {
+    //         const response = await fetch(`${endpoint}?title=${searchTerm}`);
+    //         if (response.ok) {
+    //             const results = await response.json();
+    //             setData(results);
+    //             console.log("Risultati ricerca:", results);
+    //         } else {
+    //             console.error('Errore nella risposta:', response.statusText);
+    //         }
+    //     } catch (error) {
+    //         console.error('Errore durante la ricerca:', error);
+    //     }
+    // };
 
     return (
         <>
@@ -150,11 +161,21 @@ export default function AllBlogPosts() {
                     {alert}
                 </Alert>}
 
-            <div>
-                <input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
-                <Button variant='primary' onClick={() => handleSearch()}>Cerca Blog</Button>
-            </div>
             <Container>
+                <div className='d-flex justify-content-center'>
+
+                    <InputGroup className="mx-5 my-5" style={{ width: "60%" }}>
+                        <Form.Control
+                            placeholder="Inserisci il nome di un blog..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                        {/* <Button variant="outline-secondary"
+                        onClick={() => handleSearch()}>
+                        Cerca Blog
+                    </Button> */}
+                    </InputGroup>
+                </div>
                 <Row>
                     {data &&
                         <AddBlogPost post={postBlog} put={modifyBlog} mod={mod} id={id} />}
@@ -180,6 +201,7 @@ export default function AllBlogPosts() {
 
                 </Row>
             </Container>
+            <MyFooter />
         </>
     )
 }

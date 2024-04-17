@@ -3,6 +3,7 @@ import { Row, Col, Container, Alert } from 'react-bootstrap';
 import SingleAuthor from '../SingleAuthor/SingleAuthor';
 import AddAuthor from '../AddAuthor/AddAuthor';
 import MyNavbar from '../MyNavbar/MyNavbar';
+import MyFooter from '../MyFooter/MyFooter';
 
 export default function AllAuthors() {
     const [data, setData] = useState([]);
@@ -139,6 +140,7 @@ export default function AllAuthors() {
                     </Row>
                 </Container>
             </div>
+            <MyFooter />
         </>
     )
 }

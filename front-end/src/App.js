@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Homepage from './components/Homepage/Homepage';
 import AllAuthors from './components/AllAuthors/AllAuthors';
 import AllBlogPosts from './components/AllBlogPosts/AllBlogPosts';
+import NotFound from './components/NotFound/NotFound';
 function App() {
   return (
     <>
@@ -12,6 +13,7 @@ function App() {
           <Route path='/' element={<Homepage />}></Route>
           <Route path='/authors' element={<AllAuthors />}></Route>
           <Route path='/blogPosts' element={<AllBlogPosts />}></Route>
+          <Route path='/*' element={<NotFound />}></Route>
         </Routes>
       </BrowserRouter>
     </>

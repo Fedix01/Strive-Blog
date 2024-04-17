@@ -7,7 +7,7 @@ export default function AddBlogPost({ post, put, mod, id }) {
 
     const [cover, setCover] = useState("");
     const [readUnit, setReadUnit] = useState("");
-    const [readValue, setReadValue] = useState("");
+    const [readValue, setReadValue] = useState(0);
 
     const [authorName, setAuthorName] = useState("");
     const [authorAvatar, setAuthorAvatar] = useState("");
@@ -20,7 +20,7 @@ export default function AddBlogPost({ post, put, mod, id }) {
         setAuthorName("");
         setAuthorAvatar("");
         setCover("");
-        setReadValue("");
+        setReadValue(0);
         setReadUnit("");
         setContent("");
         setCategory("");
@@ -32,7 +32,7 @@ export default function AddBlogPost({ post, put, mod, id }) {
         setAuthorName("");
         setAuthorAvatar("");
         setCover("");
-        setReadValue("");
+        setReadValue(0);
         setReadUnit("");
         setContent("");
         setCategory("");
@@ -64,12 +64,12 @@ export default function AddBlogPost({ post, put, mod, id }) {
 
             <Form.Group className="mb-3" controlId="formGridDate">
                 <Form.Label>Tempo di lettura</Form.Label>
-                <Form.Control type='text' placeholder='Inserisci il tempo di lettura' value={readValue} onChange={(e) => setReadValue(e.target.value)} />
+                <Form.Control type='number' placeholder='Inserisci il tempo di lettura in numero' value={readValue} onChange={(e) => setReadValue(e.target.value)} />
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formGridDate">
-                <Form.Label>Minuti o secondi</Form.Label>
-                <Form.Control type='text' placeholder='Inserisci il tempo di lettura' value={readUnit} onChange={(e) => setReadUnit(e.target.value)} />
+                <Form.Label>Minuti o ore</Form.Label>
+                <Form.Control type='text' placeholder='Inserisci il minuti oppure ore' value={readUnit} onChange={(e) => setReadUnit(e.target.value)} />
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formGridDate">

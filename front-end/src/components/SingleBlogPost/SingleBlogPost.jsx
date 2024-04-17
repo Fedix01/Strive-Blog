@@ -15,25 +15,23 @@ export default function SingleBlogPost(props) {
             <Card className='mt-4'>
                 <Card.Img variant="top" src={cover} />
                 <Card.Body>
-                    <Card.Title>{title}</Card.Title>
+                    <Card.Title>Titolo: {title}</Card.Title>
 
-                    <div className='d-flex'>
-                        <div>
-                            {authorAvatar}
-                        </div>
-                        <div>
-                            <h4>Autore: {authorName}</h4>
-                            <h4>Categoria: {category}</h4>
-                        </div>
-                    </div>
+
+                    <Card.Img src={authorAvatar} style={{ width: "30px" }} />
+                    <span className='ms-2'>Autore: {authorName}</span>
                     <div>
-                        {content}
+                        <h4>Categoria: {category}</h4>
                     </div>
+
+                    {content}
+
 
                 </Card.Body>
                 <Card.Footer>
-                    {timeValue}, {timeUnit}
+                    {timeValue} {timeUnit}
                 </Card.Footer>
+
                 <Button variant='danger' onClick={() => deleteBlog(id)}>Elimina</Button>
                 <Button variant='primary' onClick={() => handleModify(id)}>Modifica</Button>
 
