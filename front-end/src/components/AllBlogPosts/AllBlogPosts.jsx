@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import MyNavbar from '../MyNavbar/MyNavbar';
-import { Row, Col, Container, Alert, Button, Form, InputGroup } from 'react-bootstrap';
+import { Row, Col, Container, Form, InputGroup } from 'react-bootstrap';
 import SingleBlogPost from '../SingleBlogPost/SingleBlogPost';
 import AddBlogPost from '../AddBlogPost/AddBlogPost';
 import MyFooter from '../MyFooter/MyFooter';
+import { alertContext } from '../AlertProvider/AlertProvider';
 
 export default function AllBlogPosts() {
 
@@ -15,7 +16,7 @@ export default function AllBlogPosts() {
 
     const [mod, setMod] = useState(true)
 
-    const [alert, setAlert] = useState("");
+    const { setAlert } = useContext(alertContext);
 
     const [searchTerm, setSearchTerm] = useState("");
 
@@ -156,10 +157,6 @@ export default function AllBlogPosts() {
     return (
         <>
             <MyNavbar />
-            {alert &&
-                <Alert variant='info'>
-                    {alert}
-                </Alert>}
 
             <Container>
                 <div className='d-flex justify-content-center'>

@@ -5,16 +5,19 @@ import Homepage from './components/Homepage/Homepage';
 import AllAuthors from './components/AllAuthors/AllAuthors';
 import AllBlogPosts from './components/AllBlogPosts/AllBlogPosts';
 import NotFound from './components/NotFound/NotFound';
+import AlertProvider from './components/AlertProvider/AlertProvider';
 function App() {
   return (
     <>
       <BrowserRouter>
-        <Routes>
-          <Route path='/' element={<Homepage />}></Route>
-          <Route path='/authors' element={<AllAuthors />}></Route>
-          <Route path='/blogPosts' element={<AllBlogPosts />}></Route>
-          <Route path='/*' element={<NotFound />}></Route>
-        </Routes>
+        <AlertProvider>
+          <Routes>
+            <Route path='/' element={<Homepage />}></Route>
+            <Route path='/authors' element={<AllAuthors />}></Route>
+            <Route path='/blogPosts' element={<AllBlogPosts />}></Route>
+            <Route path='/*' element={<NotFound />}></Route>
+          </Routes>
+        </AlertProvider>
       </BrowserRouter>
     </>
   );

@@ -13,7 +13,7 @@ export default function SingleBlogPost(props) {
     return (
         <>
             <Card className='mt-4'>
-                <Card.Img variant="top" src={cover} />
+                <Card.Img variant="top" src={cover} style={{ maxHeight: "400px" }} />
                 <Card.Body>
                     <Card.Title>Titolo: {title}</Card.Title>
 
