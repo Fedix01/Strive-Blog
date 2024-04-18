@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import MyNavbar from '../MyNavbar/MyNavbar';
-import { Row, Col, Container, Form, InputGroup } from 'react-bootstrap';
+import { Row, Col, Container, Form, InputGroup, Button } from 'react-bootstrap';
 import SingleBlogPost from '../SingleBlogPost/SingleBlogPost';
 import AddBlogPost from '../AddBlogPost/AddBlogPost';
 import MyFooter from '../MyFooter/MyFooter';
@@ -19,6 +19,8 @@ export default function AllBlogPosts() {
     const { setAlert } = useContext(alertContext);
 
     const [searchTerm, setSearchTerm] = useState("");
+
+    const [form, setForm] = useState(false);
 
     const getFromApi = async () => {
         try {
@@ -174,7 +176,10 @@ export default function AllBlogPosts() {
                     </InputGroup>
                 </div>
                 <Row>
-                    {data &&
+                    <Button variant='secondary' onClick={() => setForm(!form)}>{form ? "Chiudi Form" : "Apri Form per aggiungere o modificare"}</Button>
+                    {(!mod && form) &&
+                        <Button onClick={() => setMod(true)} variant='success' className='mt-3' style={{ width: "20%" }}>Aggiungi Nuovo Blog</Button>}
+                    {(data && form) &&
                         <AddBlogPost post={postBlog} put={modifyBlog} mod={mod} id={id} />}
 
                     {data &&
@@ -193,6 +198,8 @@ export default function AllBlogPosts() {
                                     deleteBlog={deleteBlog}
                                     setMod={setMod}
                                     setId={setId}
+                                    openForm={setForm}
+
                                 />
                             </Col>))}
 

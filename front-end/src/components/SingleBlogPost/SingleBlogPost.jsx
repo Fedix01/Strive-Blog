@@ -3,12 +3,13 @@ import { Card, Button } from 'react-bootstrap';
 
 export default function SingleBlogPost(props) {
 
-    const { id, category, title, cover, timeValue, timeUnit, authorName, authorAvatar, content, deleteBlog, setMod, setId } = props;
+    const { id, category, title, cover, timeValue, timeUnit, authorName, authorAvatar, content, deleteBlog, setMod, setId, openForm } = props;
 
 
     const handleModify = async () => {
         setId(id);
-        setMod(false)
+        setMod(false);
+        openForm(true);
     };
     return (
         <>
