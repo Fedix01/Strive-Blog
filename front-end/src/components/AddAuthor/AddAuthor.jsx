@@ -8,7 +8,7 @@ export default function AddAuthor({ post, put, mod }) {
 
     const [email, setEmail] = useState("");
     const [date, setDate] = useState("");
-    const [avatar, setAvatar] = useState("");
+    const [avatar, setAvatar] = useState(null);
 
     const handleFormPost = (e) => {
         post(e, name, surname, email, date, avatar);
@@ -53,7 +53,7 @@ export default function AddAuthor({ post, put, mod }) {
 
             <Form.Group className="mb-3" controlId="formGridDate">
                 <Form.Label>Avatar</Form.Label>
-                <Form.Control type='text' placeholder='Inserisci il link dell avatar' value={avatar} onChange={(e) => setAvatar(e.target.value)} />
+                <Form.Control type='file' placeholder='Inserisci il link dell avatar' onChange={(e) => setAvatar(e.target.files[0])} />
             </Form.Group>
 
             {mod ? <Button variant="success" type="submit" onClick={(e) => handleFormPost(e, name, surname, email, date, avatar)}>

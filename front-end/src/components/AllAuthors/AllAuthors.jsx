@@ -39,8 +39,7 @@ export default function AllAuthors() {
             "nome": name,
             "cognome": surname,
             "email": email,
-            "dataDiNascita": date,
-            "avatar": avatar
+            "dataDiNascita": date
         }
         try {
             const post = await fetch(endpoint, {
@@ -50,6 +49,16 @@ export default function AllAuthors() {
             })
             if (post.ok) {
                 console.log(post, "Chiamata post fatta");
+                const newUser = await post.json();
+                console.log(newUser)
+                const formData = new FormData();
+                formData.append("avatar", avatar)
+                const patch = await fetch(`${endpoint}/${newUser._id}/avatar`, {
+                    method: "PATCH",
+                    body: formData
+                });
+                const res = patch.json();
+                console.log(res.json);
                 getFromApi();
                 setAlert("Autore aggiunto")
                 setTimeout(() => {

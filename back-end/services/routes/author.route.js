@@ -1,11 +1,12 @@
 import { Router } from "express";
 import User from "../models/user.model.js";
+import cloudinaryMiddleware from '../middlewares/multer.js'
 // Importo il modello dell api
 
 export const apiRouteAuthors = Router();
 
 // Chiamata get a tutti gli oggetti dell api
-apiRouteAuthors.get("/authors", async (req, res, next) => {
+apiRouteAuthors.get("/", async (req, res, next) => {
     try {
         let users = await User.find();
         res.send(users)
@@ -15,7 +16,7 @@ apiRouteAuthors.get("/authors", async (req, res, next) => {
 });
 
 // Chiamata get all esatto parametro passato
-apiRouteAuthors.get("/authors/:id", async (req, res, next) => {
+apiRouteAuthors.get("/:id", async (req, res, next) => {
     try {
         let user = await User.findById(req.params.id);
         res.send(user)
@@ -26,7 +27,7 @@ apiRouteAuthors.get("/authors/:id", async (req, res, next) => {
 });
 // Chiamata post col body
 
-apiRouteAuthors.post("/authors", async (req, res, next) => {
+apiRouteAuthors.post("/", async (req, res, next) => {
     try {
         let user = await User.create(req.body);
         res.send(user).status(400)
@@ -36,7 +37,7 @@ apiRouteAuthors.post("/authors", async (req, res, next) => {
 });
 // Chiamata put con id e body allegati
 
-apiRouteAuthors.put("/authors/:id", async (req, res, next) => {
+apiRouteAuthors.put("/:id", async (req, res, next) => {
     try {
         let user = await User.findByIdAndUpdate(req.params.id, req.body, {
             new: true
@@ -49,7 +50,7 @@ apiRouteAuthors.put("/authors/:id", async (req, res, next) => {
 
 // Chiamata delete con id
 
-apiRouteAuthors.delete("/authors/:id", async (req, res, next) => {
+apiRouteAuthors.delete("/:id", async (req, res, next) => {
     try {
         await User.deleteOne({
             _id: req.params.id
@@ -58,4 +59,20 @@ apiRouteAuthors.delete("/authors/:id", async (req, res, next) => {
     } catch (error) {
         next(error)
     }
+});
+
+apiRouteAuthors.patch("/:id/avatar", cloudinaryMiddleware, async (req, res, next) => {
+    try {
+        let updateUser = await User.findByIdAndUpdate(
+            req.params.id,
+            { avatar: req.file.path },
+            { new: true }
+        );
+        res.send(updateUser)
+    }
+
+    catch (error) {
+        next(error)
+    }
+
 })

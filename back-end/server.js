@@ -23,8 +23,8 @@ app.use(logger);
 // app.use(authenticate)
 
 //  Importo la route
-app.use("/api", apiRouteAuthors);
-app.use("/api", apiRoutePosts);
+app.use("/api/authors", apiRouteAuthors);
+app.use("/api/blogPosts", apiRoutePosts);
 app.get("*", (req, res, next) => {
     const error = new Error;
     error.status = 404;
