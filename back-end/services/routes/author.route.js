@@ -61,7 +61,7 @@ apiRouteAuthors.delete("/:id", async (req, res, next) => {
     }
 });
 
-apiRouteAuthors.patch("/:id/avatar", cloudinaryMiddleware, async (req, res, next) => {
+apiRouteAuthors.patch("/:id/avatar", cloudinaryMiddleware.single("avatar"), async (req, res, next) => {
     try {
         let updateUser = await User.findByIdAndUpdate(
             req.params.id,

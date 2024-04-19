@@ -4,7 +4,7 @@ import cloudinaryMiddleware from '../middlewares/multer.js';
 export const apiRoutePosts = Router();
 
 
-apiRoutePosts.get("/blogPosts", async (req, res, next) => {
+apiRoutePosts.get("/", async (req, res, next) => {
     try {
         let posts;
         const query = req.query.title;
@@ -21,7 +21,7 @@ apiRoutePosts.get("/blogPosts", async (req, res, next) => {
     }
 });
 
-apiRoutePosts.get("/blogPosts/:id", async (req, res, next) => {
+apiRoutePosts.get("/:id", async (req, res, next) => {
     try {
         let singlePost = await BlogPost.findById(req.params.id);
         res.send(singlePost)
@@ -30,7 +30,7 @@ apiRoutePosts.get("/blogPosts/:id", async (req, res, next) => {
     }
 });
 
-apiRoutePosts.post("/blogPosts", async (req, res, next) => {
+apiRoutePosts.post("/", async (req, res, next) => {
     try {
         let makePost = await BlogPost.create(req.body);
         res.send(makePost)
@@ -39,7 +39,7 @@ apiRoutePosts.post("/blogPosts", async (req, res, next) => {
     }
 });
 
-apiRoutePosts.put("/blogPosts/:id", async (req, res, next) => {
+apiRoutePosts.put("/:id", async (req, res, next) => {
     try {
         let modifyPost = await BlogPost.findByIdAndUpdate(req.params.id, req.body, {
             new: true
@@ -50,7 +50,7 @@ apiRoutePosts.put("/blogPosts/:id", async (req, res, next) => {
     }
 });
 
-apiRoutePosts.delete("/blogPosts/:id", async (req, res, next) => {
+apiRoutePosts.delete("/:id", async (req, res, next) => {
     try {
         let deletePost = await BlogPost.deleteOne({
             _id: req.params.id
@@ -61,11 +61,11 @@ apiRoutePosts.delete("/blogPosts/:id", async (req, res, next) => {
     }
 });
 
-apiRoutePosts.patch("/:id/avatar", cloudinaryMiddleware, async (req, res, next) => {
+apiRoutePosts.patch("/:id/cover", cloudinaryMiddleware.single("cover"), async (req, res, next) => {
     try {
         let updateUser = await BlogPost.findByIdAndUpdate(
             req.params.id,
-            { avatar: req.file.path },
+            { cover: req.file.path },
             { new: true }
         );
         res.send(updateUser)

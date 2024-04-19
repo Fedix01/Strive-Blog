@@ -17,4 +17,4 @@ export default multer({
             folder: "avatar"
         },
     }),
-}).single("avatar");
+});
