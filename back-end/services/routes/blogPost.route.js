@@ -1,6 +1,7 @@
 import { Router } from "express";
 import BlogPost from "../models/blogPost.model.js";
 import { coverCloud } from '../middlewares/multer.js';
+import { sendEmail } from "../middlewares/sendEmail.js";
 export const apiRoutePosts = Router();
 
 
@@ -33,7 +34,8 @@ apiRoutePosts.get("/:id", async (req, res, next) => {
 apiRoutePosts.post("/", async (req, res, next) => {
     try {
         let makePost = await BlogPost.create(req.body);
-        res.send(makePost)
+        res.send(makePost);
+        sendEmail(makePost.author.name)
     } catch (error) {
         next(error)
     }

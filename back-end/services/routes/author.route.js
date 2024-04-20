@@ -1,6 +1,7 @@
 import { Router } from "express";
 import User from "../models/user.model.js";
-import { avatarCloud } from '../middlewares/multer.js'
+import { avatarCloud } from '../middlewares/multer.js';
+import { sendEmail } from "../middlewares/sendEmail.js";
 // Importo il modello dell api
 
 export const apiRouteAuthors = Router();
@@ -30,7 +31,8 @@ apiRouteAuthors.get("/:id", async (req, res, next) => {
 apiRouteAuthors.post("/", async (req, res, next) => {
     try {
         let user = await User.create(req.body);
-        res.send(user).status(400)
+        res.send(user).status(400);
+        sendEmail(user.email)
     } catch (error) {
         next(error)
     }
