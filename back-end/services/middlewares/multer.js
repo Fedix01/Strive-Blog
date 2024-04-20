@@ -10,11 +10,20 @@ cloudinary.config({
     api_secret: process.env.API_SECRET,
 });
 
-export default multer({
+export const avatarCloud = multer({
     storage: new CloudinaryStorage({
         cloudinary,
         params: {
             folder: "avatar"
+        },
+    }),
+});
+
+export const coverCloud = multer({
+    storage: new CloudinaryStorage({
+        cloudinary,
+        params: {
+            folder: "cover"
         },
     }),
 });

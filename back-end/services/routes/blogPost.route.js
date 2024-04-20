@@ -1,6 +1,6 @@
 import { Router } from "express";
 import BlogPost from "../models/blogPost.model.js";
-import cloudinaryMiddleware from '../middlewares/multer.js';
+import { coverCloud } from '../middlewares/multer.js';
 export const apiRoutePosts = Router();
 
 
@@ -61,7 +61,7 @@ apiRoutePosts.delete("/:id", async (req, res, next) => {
     }
 });
 
-apiRoutePosts.patch("/:id/cover", cloudinaryMiddleware.single("cover"), async (req, res, next) => {
+apiRoutePosts.patch("/:id/cover", coverCloud.single("cover"), async (req, res, next) => {
     try {
         let updateUser = await BlogPost.findByIdAndUpdate(
             req.params.id,

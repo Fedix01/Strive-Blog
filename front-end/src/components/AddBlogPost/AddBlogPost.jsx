@@ -5,7 +5,7 @@ export default function AddBlogPost({ post, put, mod, id }) {
     const [title, setTitle] = useState("");
     const [category, setCategory] = useState("");
 
-    const [cover, setCover] = useState("");
+    const [cover, setCover] = useState(null);
     const [readUnit, setReadUnit] = useState("");
     const [readValue, setReadValue] = useState(0);
 
@@ -59,7 +59,7 @@ export default function AddBlogPost({ post, put, mod, id }) {
 
             <Form.Group className="mb-3" controlId="formGridDate">
                 <Form.Label>Cover</Form.Label>
-                <Form.Control type='text' placeholder='Inserisci la cover...' value={cover} onChange={(e) => setCover(e.target.value)} />
+                <Form.Control type='file' placeholder='Inserisci la cover...' onChange={(e) => setCover(e.target.files[0])} />
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formGridDate">

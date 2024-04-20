@@ -54,7 +54,6 @@ export default function AllBlogPosts() {
         const payload = {
             "category": category,
             "title": title,
-            "cover": cover,
             "readTime": {
                 "value": readValue,
                 "unit": readUnit
@@ -73,12 +72,24 @@ export default function AllBlogPosts() {
                 body: JSON.stringify(payload)
             });
             if (res.ok) {
-                getFromApi();
-                setAlert("Blog post aggiunto correttamente");
-                setInterval(() => {
-                    setAlert("")
-                }, 3000);
-                console.log("Blog Post creato")
+                const newBlog = await res.json();
+                const formData = new FormData();
+                formData.append("cover", cover);
+                const patch = await fetch(`${endpoint}/${newBlog._id}/cover`, {
+                    method: "PATCH",
+                    body: formData
+                });
+                if (patch.ok) {
+                    const posted = await patch.json();
+                    console.log(posted)
+                    getFromApi();
+                    setAlert("Blog post aggiunto correttamente");
+                    setInterval(() => {
+                        setAlert("")
+                    }, 3000);
+                    console.log("Blog Post creato")
+
+                }
             }
         } catch (error) {
             console.error(error)

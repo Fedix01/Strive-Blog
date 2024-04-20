@@ -1,6 +1,6 @@
 import { Router } from "express";
 import User from "../models/user.model.js";
-import cloudinaryMiddleware from '../middlewares/multer.js'
+import { avatarCloud } from '../middlewares/multer.js'
 // Importo il modello dell api
 
 export const apiRouteAuthors = Router();
@@ -61,7 +61,7 @@ apiRouteAuthors.delete("/:id", async (req, res, next) => {
     }
 });
 
-apiRouteAuthors.patch("/:id/avatar", cloudinaryMiddleware.single("avatar"), async (req, res, next) => {
+apiRouteAuthors.patch("/:id/avatar", avatarCloud.single("avatar"), async (req, res, next) => {
     try {
         let updateUser = await User.findByIdAndUpdate(
             req.params.id,
