@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Row, Col, Container, Alert } from 'react-bootstrap';
 import SingleAuthor from '../SingleAuthor/SingleAuthor';
 import AddAuthor from '../AddAuthor/AddAuthor';
@@ -15,6 +15,12 @@ export default function AllAuthors() {
     const [mod, setMod] = useState(true)
 
     const [alert, setAlert] = useState("");
+
+    const ref = useRef(null);
+
+    const handleScroll = () => {
+        return ref.current.scrollIntoView({ behavior: 'smooth' })
+    }
 
     const getFromApi = async () => {
         try {
@@ -129,10 +135,10 @@ export default function AllAuthors() {
                         {alert}
                     </Alert>)}
                 <Container>
-
-                    {data &&
-                        <AddAuthor post={postAuthor} put={modifyAuthor} mod={mod} />}
-
+                    <div ref={ref}>
+                        {data &&
+                            <AddAuthor post={postAuthor} put={modifyAuthor} mod={mod} />}
+                    </div>
                     <Row>
                         <Col md={12} className='mt-5'>
                             <h4>Tutti gli autori</h4>
@@ -143,7 +149,7 @@ export default function AllAuthors() {
                         {data &&
                             data.map((el) => (
                                 <Col md={4} key={el._id}>
-                                    <SingleAuthor key={el._id} id={el._id} name={el.nome} surname={el.cognome} email={el.email} birth={el.dataDiNascita} avatar={el.avatar} deleteAuthor={deleteAuthor} setId={setId} setMod={setMod} mod={mod} />
+                                    <SingleAuthor key={el._id} id={el._id} name={el.nome} surname={el.cognome} email={el.email} birth={el.dataDiNascita} avatar={el.avatar} deleteAuthor={deleteAuthor} setId={setId} setMod={setMod} mod={mod} scroll={handleScroll} />
                                 </Col>))}
 
                     </Row>

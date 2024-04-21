@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import MyNavbar from '../MyNavbar/MyNavbar';
 import { Row, Col, Container, Form, InputGroup, Button } from 'react-bootstrap';
 import SingleBlogPost from '../SingleBlogPost/SingleBlogPost';
@@ -21,6 +21,12 @@ export default function AllBlogPosts() {
     const [searchTerm, setSearchTerm] = useState("");
 
     const [form, setForm] = useState(false);
+
+    const ref = useRef(null);
+
+    const handleScroll = () => {
+        return ref.current.scrollIntoView({ behavior: 'smooth' })
+    }
 
     const getFromApi = async () => {
         try {
@@ -187,7 +193,7 @@ export default function AllBlogPosts() {
                     </InputGroup>
                 </div>
                 <Row>
-                    <Button variant='secondary' onClick={() => setForm(!form)}>{form ? "Chiudi Form" : "Apri Form per aggiungere o modificare"}</Button>
+                    <Button ref={ref} variant='secondary' onClick={() => setForm(!form)}>{form ? "Chiudi Form" : "Apri Form per aggiungere o modificare"}</Button>
                     {(!mod && form) &&
                         <Button onClick={() => setMod(true)} variant='success' className='mt-3' style={{ width: "20%" }}>Aggiungi Nuovo Blog</Button>}
                     {(data && form) &&
@@ -210,7 +216,7 @@ export default function AllBlogPosts() {
                                     setMod={setMod}
                                     setId={setId}
                                     openForm={setForm}
-
+                                    scroll={handleScroll}
                                 />
                             </Col>))}
 

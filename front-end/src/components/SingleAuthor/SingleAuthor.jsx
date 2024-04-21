@@ -2,12 +2,13 @@ import React from 'react';
 import { Card, ListGroup, Button } from 'react-bootstrap';
 
 export default function SingleAuthor(props) {
-    const { name, surname, email, birth, avatar, deleteAuthor, id, setId, setMod, mod } = props;
+    const { name, surname, email, birth, avatar, deleteAuthor, id, setId, setMod, mod, scroll } = props;
 
 
     const handleModify = (id) => {
         setMod(!mod);
-        setId(id)
+        setId(id);
+        scroll()
     }
     return (
         <>
