@@ -56,10 +56,10 @@ export default function AddAuthor({ post, put, mod }) {
                 <Form.Control type='file' placeholder='Inserisci il link dell avatar' onChange={(e) => setAvatar(e.target.files[0])} />
             </Form.Group>
 
-            {mod ? <Button variant="success" type="submit" onClick={(e) => handleFormPost(e, name, surname, email, date, avatar)}>
-                Aggiungi
-            </Button> : <Button variant="primary" type="submit" onClick={(e) => handleFormPut(e, name, surname, email, date, avatar)}>
+            {mod ? <Button variant="primary" type="submit" onClick={(e) => handleFormPut(e, name, surname, email, date, avatar)}>
                 Modifica
+            </Button> : <Button variant="success" type="submit" onClick={(e) => handleFormPost(e, name, surname, email, date, avatar)}>
+                Aggiungi
             </Button>}
 
         </Form>

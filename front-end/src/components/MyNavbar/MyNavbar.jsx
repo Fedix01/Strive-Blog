@@ -1,11 +1,22 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Container, Nav, Navbar, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { alertContext } from '../AlertProvider/AlertProvider';
 
 export default function MyNavbar() {
     const navigate = useNavigate();
-    const { alert } = useContext(alertContext)
+    const { alert } = useContext(alertContext);
+    const [variant, setVariant] = useState("");
+    useEffect(() => {
+        if (alert === "Valore aggiunto") {
+            setVariant("success")
+        } else if (alert === "Autore eliminato") {
+            setVariant("danger")
+        } else if (alert === "Autore modificato") {
+            setVariant("primary")
+        }
+    }, [alert])
+
 
     return (
         <>
@@ -21,7 +32,7 @@ export default function MyNavbar() {
             </Navbar>
             <div style={{ position: "sticky", top: "56px", zIndex: 2 }}>
                 {alert &&
-                    <Alert variant='info'>
+                    <Alert variant={variant}>
                         {alert}
                     </Alert>}
             </div>

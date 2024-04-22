@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Row, Col, Container, Alert } from 'react-bootstrap';
+import React, { useState, useEffect, useRef, useContext } from 'react';
+import { Row, Col, Container, Alert, Button } from 'react-bootstrap';
 import SingleAuthor from '../SingleAuthor/SingleAuthor';
 import AddAuthor from '../AddAuthor/AddAuthor';
 import MyNavbar from '../MyNavbar/MyNavbar';
 import MyFooter from '../MyFooter/MyFooter';
+import { alertContext } from '../AlertProvider/AlertProvider';
 
 export default function AllAuthors() {
     const [data, setData] = useState([]);
@@ -12,11 +13,13 @@ export default function AllAuthors() {
     // id passato per la richiesta put
     const [id, setId] = useState("");
 
-    const [mod, setMod] = useState(true)
+    const [mod, setMod] = useState(false)
 
-    const [alert, setAlert] = useState("");
+    const { alert, setAlert } = useContext(alertContext);
 
     const ref = useRef(null);
+
+    const [open, setOpen] = useState(false);
 
     const handleScroll = () => {
         return ref.current.scrollIntoView({ behavior: 'smooth' })
@@ -116,7 +119,7 @@ export default function AllAuthors() {
             if (response.ok) {
                 console.log("l Autore è stato cambiato");
                 getFromApi();
-                setMod(true);
+                setMod(false);
                 setAlert("Autore modificato")
                 setTimeout(() => {
                     setAlert("")
@@ -128,6 +131,9 @@ export default function AllAuthors() {
     }
     return (
         <>
+            <div ref={ref}>
+
+            </div>
             <MyNavbar />
             <div className='mt-3'>
                 {alert && (
@@ -135,7 +141,12 @@ export default function AllAuthors() {
                         {alert}
                     </Alert>)}
                 <Container>
-                    <div ref={ref}>
+                    <div className='d-flex justify-content-center'>
+                        <Button variant='secondary' className='my-2' onClick={() => setOpen(!open)}>{open ? "Chiudi il form" : "Apri il form"}</Button>
+                    </div>
+                    <div className={open ? "d-block" : "d-none"}>
+                        {mod ? <Button variant='success' className='my-2' onClick={() => setMod(false)}>Aggiungi nuovo autore</Button> : ""}
+
                         {data &&
                             <AddAuthor post={postAuthor} put={modifyAuthor} mod={mod} />}
                     </div>
@@ -149,7 +160,19 @@ export default function AllAuthors() {
                         {data &&
                             data.map((el) => (
                                 <Col md={4} key={el._id}>
-                                    <SingleAuthor key={el._id} id={el._id} name={el.nome} surname={el.cognome} email={el.email} birth={el.dataDiNascita} avatar={el.avatar} deleteAuthor={deleteAuthor} setId={setId} setMod={setMod} mod={mod} scroll={handleScroll} />
+                                    <SingleAuthor key={el._id}
+                                        id={el._id}
+                                        name={el.nome}
+                                        surname={el.cognome}
+                                        email={el.email}
+                                        birth={el.dataDiNascita}
+                                        avatar={el.avatar}
+                                        deleteAuthor={deleteAuthor}
+                                        setId={setId}
+                                        setMod={setMod}
+                                        mod={mod}
+                                        scroll={handleScroll}
+                                        openForm={setOpen} />
                                 </Col>))}
 
                     </Row>
