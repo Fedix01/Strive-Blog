@@ -42,7 +42,16 @@ const blogPostModel = new Schema(
         content: {
             type: String,
             require: true
-        }
+        },
+
+        comments: [
+            {
+                comment: {
+                    type: String,
+                    required: true
+                }
+            }
+        ]
     },
 
     {

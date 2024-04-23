@@ -79,3 +79,90 @@ apiRoutePosts.patch("/:id/cover", coverCloud.single("cover"), async (req, res, n
 
 })
 
+apiRoutePosts.get("/:id/comments", async (req, res, next) => {
+    try {
+        let blogPost = await BlogPost.findById(req.params.id);
+        let comments = blogPost.comments
+        res.send(comments)
+    } catch (error) {
+        next(error)
+    }
+})
+
+apiRoutePosts.get("/:id/comments/:commentId", async (req, res, next) => {
+    try {
+        const blogPostId = req.params.id;
+        const commentId = req.params.commentId;
+
+        const blogPost = await BlogPost.findById(blogPostId);
+        const comment = blogPost.comments.find((el) => el._id == commentId)
+        res.send(comment)
+    } catch (error) {
+        next(error)
+    }
+})
+
+apiRoutePosts.post("/:id", async (req, res, next) => {
+    try {
+        const blogPost = await BlogPost.findById(req.params.id);
+        if (!blogPost) {
+            return res.status(404).send('Post del blog non trovato');
+        }
+        blogPost.comments.push({ comment: req.body.comment });
+
+        const updateBlogPost = await blogPost.save();
+
+        res.send(updateBlogPost)
+
+    } catch (error) {
+        next(error)
+    }
+})
+
+apiRoutePosts.put("/:id/comment/:commentId", async (req, res, next) => {
+    try {
+        const blogPostId = req.params.id;
+        const commentId = req.params.commentId;
+
+        const commentBody = req.body.comment;
+
+        const post = await BlogPost.findById(blogPostId);
+
+        const comments = post.comments.id(commentId);
+
+        if (!comments) {
+            return res.status(404).send('commento del blog non trovato');
+
+        }
+
+        comments.comment = commentBody;
+
+        await post.save();
+
+        res.send(comments);
+    } catch (error) {
+        next(error)
+    }
+})
+
+
+apiRoutePosts.delete("/:id/comment/:commentId", async (req, res, next) => {
+    try {
+        const blogPostId = req.params.id;
+        const commentId = req.params.commentId;
+
+        const blog = await BlogPost.findById(blogPostId);
+        const comments = blog.comments;
+
+        const del = comments.find((el) => el._id == commentId);
+
+        comments.pull(del);
+
+        await blog.save();
+
+        res.send(del)
+    } catch (error) {
+        next(error)
+    }
+})
+
