@@ -6,9 +6,9 @@ import AddBlogPost from '../AddBlogPost/AddBlogPost';
 import MyFooter from '../MyFooter/MyFooter';
 import { alertContext } from '../AlertProvider/AlertProvider';
 
-export default function AllBlogPosts() {
+export default function AllBlogPosts({ data, getFromApi }) {
 
-    const [data, setData] = useState([]);
+    // const [data, setData] = useState([]);
 
     const endpoint = "http://localhost:3001/api/blogPosts";
 
@@ -18,7 +18,7 @@ export default function AllBlogPosts() {
 
     const { setAlert } = useContext(alertContext);
 
-    const [searchTerm, setSearchTerm] = useState("");
+    // const [searchTerm, setSearchTerm] = useState("");
 
     const [form, setForm] = useState(false);
 
@@ -28,31 +28,31 @@ export default function AllBlogPosts() {
         return ref.current.scrollIntoView({ behavior: 'smooth' })
     }
 
-    const getFromApi = async () => {
-        try {
-            const response = await fetch(endpoint);
-            if (response.ok) {
-                const results = await response.json();
-                setData(results);
-                console.log("fetch get ok")
-            }
-        } catch (error) {
-            console.error(error)
-        }
-    }
+    // const getFromApi = async () => {
+    //     try {
+    //         const response = await fetch(endpoint);
+    //         if (response.ok) {
+    //             const results = await response.json();
+    //             setData(results);
+    //             console.log("fetch get ok")
+    //         }
+    //     } catch (error) {
+    //         console.error(error)
+    //     }
+    // }
 
-    useEffect(() => {
-        getFromApi()
-    }, [])
+    // useEffect(() => {
+    //     getFromApi()
+    // }, [])
 
-    useEffect(() => {
-        if (searchTerm) {
-            const filteredTitle = data.filter((el) => el.title.toLowerCase().includes(searchTerm.toLowerCase()));
-            setData(filteredTitle)
-        } else {
-            getFromApi()
-        }
-    }, [searchTerm])
+    // useEffect(() => {
+    //     if (searchTerm) {
+    //         const filteredTitle = data.filter((el) => el.title.toLowerCase().includes(searchTerm.toLowerCase()));
+    //         setData(filteredTitle)
+    //     } else {
+    //         getFromApi()
+    //     }
+    // }, [searchTerm])
 
 
     const postBlog = async (e, title, authorName, authorAvatar, cover, readValue, readUnit, content, category) => {
@@ -175,22 +175,21 @@ export default function AllBlogPosts() {
 
     return (
         <>
-            <MyNavbar />
 
             <Container>
                 <div className='d-flex justify-content-center'>
-
+                    {/* 
                     <InputGroup className="mx-5 my-5" style={{ width: "60%" }}>
                         <Form.Control
                             placeholder="Inserisci il nome di un blog..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                        />
-                        {/* <Button variant="outline-secondary"
+                        /> */}
+                    {/* <Button variant="outline-secondary"
                         onClick={() => handleSearch()}>
                         Cerca Blog
                     </Button> */}
-                    </InputGroup>
+                    {/* </InputGroup> */}
                 </div>
                 <Row>
                     <Button ref={ref} variant='secondary' onClick={() => setForm(!form)}>{form ? "Chiudi Form" : "Apri Form per aggiungere o modificare"}</Button>
@@ -221,8 +220,7 @@ export default function AllBlogPosts() {
                             </Col>))}
 
                 </Row>
-            </Container>
-            <MyFooter />
+            </Container >
         </>
     )
 }

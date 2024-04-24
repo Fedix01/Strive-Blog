@@ -14,8 +14,56 @@ export default function AddBlogPost({ post, put, mod, id }) {
 
     const [content, setContent] = useState("");
 
+    const endpoint = "http://localhost:3001/api/blogPosts";
+
+    const postBlog = async (e, title, authorName, authorAvatar, cover, readValue, readUnit, content, category) => {
+        e.preventDefault();
+        const payload = {
+            "category": category,
+            "title": title,
+            "readTime": {
+                "value": readValue,
+                "unit": readUnit
+            },
+            "author": {
+                "name": authorName,
+                "avatar": authorAvatar
+            },
+            "content": content
+        };
+
+        try {
+            const res = await fetch(endpoint, {
+                method: "POST",
+                headers: { "Content-Type": "Application/json" },
+                body: JSON.stringify(payload)
+            });
+            if (res.ok) {
+                const newBlog = await res.json();
+                const formData = new FormData();
+                formData.append("cover", cover);
+                const patch = await fetch(`${endpoint}/${newBlog._id}/cover`, {
+                    method: "PATCH",
+                    body: formData
+                });
+                if (patch.ok) {
+                    const posted = await patch.json();
+                    console.log(posted)
+                    // setAlert("Blog post aggiunto correttamente");
+                    // setInterval(() => {
+                    //     setAlert("")
+                    // }, 3000);
+                    console.log("Blog Post creato")
+
+                }
+            }
+        } catch (error) {
+            console.error(error)
+        }
+    };
+
     const handleFormPost = (e, title, authorName, authorAvatar, cover, readValue, readUnit, content, category) => {
-        post(e, title, authorName, authorAvatar, cover, readValue, readUnit, content, category);
+        postBlog(e, title, authorName, authorAvatar, cover, readValue, readUnit, content, category);
         setTitle("");
         setAuthorName("");
         setAuthorAvatar("");
