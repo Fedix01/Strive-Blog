@@ -3,15 +3,9 @@ import { Card, Button } from 'react-bootstrap';
 
 export default function SingleBlogPost(props) {
 
-    const { id, category, title, cover, timeValue, timeUnit, authorName, authorAvatar, content, deleteBlog, setMod, setId, openForm, scroll } = props;
+    const { id, category, title, cover, timeValue, timeUnit, authorName, authorAvatar, content } = props;
 
 
-    const handleModify = async () => {
-        setId(id);
-        setMod(false);
-        openForm(true);
-        scroll()
-    };
     return (
         <>
             <Card className='mt-4'>
@@ -34,8 +28,6 @@ export default function SingleBlogPost(props) {
                     {timeValue} {timeUnit}
                 </Card.Footer>
 
-                <Button variant='danger' onClick={() => deleteBlog(id)}>Elimina</Button>
-                <Button variant='primary' onClick={() => handleModify(id)}>Modifica</Button>
 
             </Card>
         </>
