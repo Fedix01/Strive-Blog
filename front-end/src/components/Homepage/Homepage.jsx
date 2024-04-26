@@ -51,19 +51,34 @@ export default function Homepage() {
     }, [searchTopic])
     // Filtro dai bottoni topics
     useEffect(() => {
-        if (filteredTopic) {
-            const filtered = data.filter((el) => el.category.toLowerCase().includes(filteredTopic.toLowerCase()));
-            setData(filtered)
-            console.log(filtered)
-        } else {
-            getFromApi()
-        }
+        console.log(filteredTopic)
     }, [filteredTopic])
 
+    const filteredBtnTopic = async (topic) => {
+        if (topic) {
+            try {
+                const response = await fetch(endpoint);
+                if (response.ok) {
+                    const results = await response.json();
+
+                    if (topic === "Esplora topic") {
+                        setData(results)
+                    } else {
+                        const filtered = results.filter((el) => el.category.toLowerCase().includes(topic.toLowerCase()));
+                        setData(filtered)
+                        console.log(filtered)
+                        console.log("filter ok")
+                    }
+                }
+            } catch (error) {
+                console.error(error)
+            }
+        }
+    }
     return (
         <>
             <MyNavbar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-            <AllTopics setFilteredTopic={setFilteredTopic} filteredTopic={filteredTopic} searchTopic={searchTopic} setSearchTopic={setSearchTopic} />
+            <AllTopics setFilteredTopic={setFilteredTopic} filteredTopic={filteredTopic} searchTopic={searchTopic} setSearchTopic={setSearchTopic} getFromApi={getFromApi} filteredBtnTopic={filteredBtnTopic} />
             <AllBlogPosts data={data} getFromApi={getFromApi} />
             <MyFooter />
         </>

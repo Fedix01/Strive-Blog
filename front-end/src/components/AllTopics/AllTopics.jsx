@@ -3,19 +3,22 @@ import { Button, InputGroup, Form } from 'react-bootstrap';
 import './AllTopics.css';
 import { IoIosSearch } from "react-icons/io";
 
-export default function AllTopics({ setFilteredTopic, filteredTopic, searchTopic, setSearchTopic }) {
+export default function AllTopics({ setFilteredTopic, filteredTopic, searchTopic, setSearchTopic, getFromApi, filteredBtnTopic }) {
 
-    const handleTopics = (topic) => {
-        if (topic === "Esplora topic") {
-            setFilteredTopic("")
+    const handleTopics = (value) => {
+        if (value === "Esplora topic") {
+            setFilteredTopic("Esplora topic");
+
         }
-        setFilteredTopic("");
-        setFilteredTopic(topic)
+        else {
+            setFilteredTopic(value);
+            filteredBtnTopic(value);
+        }
     }
     return (
         <>
             <div className='mt-4'>
-                <button className='btn topic mx-1' value={'Esplora topic'} onClick={(e) => handleTopics(e.target.value)}>Esplora Topic</button>
+                <button className='btn topic mx-1' value={'Esplora topic'} onClick={(e) => handleTopics(e.target.value)}>Esplora Topics</button>
                 <button className='btn topic mx-1' value={'Programmazione'} onClick={(e) => handleTopics(e.target.value)}>Programmazione</button>
                 <button className='btn topic mx-1' value={'Tecnologia'} onClick={(e) => handleTopics(e.target.value)}>Tecnologia</button>
                 <button className='btn topic mx-1' value={'corse'} onClick={(e) => handleTopics(e.target.value)}>corse</button>
@@ -27,7 +30,7 @@ export default function AllTopics({ setFilteredTopic, filteredTopic, searchTopic
                 {(filteredTopic === "Esplora topic") &&
                     <>
                         <div className='d-flex justify-content-center mt-3'>
-                            <h2>Esplora categoria</h2>
+                            <h2>Esplora in tutte le categorie</h2>
                         </div>
 
                         <div className='container-search mt-3'>
