@@ -27,7 +27,9 @@ export default function AllBlogPosts({ data }) {
 
             <Container>
                 <Row>
-
+                    <Col md={12}>
+                        <h2>Tutti i Blog</h2>
+                    </Col>
 
                     {data &&
                         data.map((el) => (

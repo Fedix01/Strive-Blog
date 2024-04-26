@@ -18,7 +18,7 @@ export default function Homepage() {
             if (response.ok) {
                 const results = await response.json();
                 setData(results);
-                console.log("fetch get ok")
+                console.log("fetch get ok", results)
             }
         } catch (error) {
             console.error(error)
