@@ -3,12 +3,12 @@ import { Button, InputGroup, Form } from 'react-bootstrap';
 import './AllTopics.css';
 import { IoIosSearch } from "react-icons/io";
 
-export default function AllTopics({ setFilteredTopic, filteredTopic, searchTopic, setSearchTopic, getFromApi, filteredBtnTopic }) {
+export default function AllTopics({ setFilteredTopic, filteredTopic, searchTopic, setSearchTopic, getFromApi, filteredBtnTopic, exploreTopic }) {
 
     const handleTopics = (value) => {
         if (value === "Esplora topic") {
-            setFilteredTopic("Esplora topic");
-
+            setFilteredTopic("Esplora topic")
+            exploreTopic()
         }
         else {
             setFilteredTopic(value);

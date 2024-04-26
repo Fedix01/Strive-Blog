@@ -60,25 +60,34 @@ export default function Homepage() {
                 const response = await fetch(endpoint);
                 if (response.ok) {
                     const results = await response.json();
-
-                    if (topic === "Esplora topic") {
-                        setData(results)
-                    } else {
-                        const filtered = results.filter((el) => el.category.toLowerCase().includes(topic.toLowerCase()));
-                        setData(filtered)
-                        console.log(filtered)
-                        console.log("filter ok")
-                    }
+                    const filtered = results.filter((el) => el.category.toLowerCase().includes(topic.toLowerCase()));
+                    setData(filtered)
+                    console.log(filtered)
+                    console.log("filter ok")
                 }
-            } catch (error) {
+            }
+            catch (error) {
                 console.error(error)
             }
+        }
+    }
+
+
+    const exploreTopic = async () => {
+        try {
+            const response = await fetch(endpoint);
+            if (response.ok) {
+                const results = await response.json();
+                setData(results);
+            }
+        } catch (error) {
+            console.error(error)
         }
     }
     return (
         <>
             <MyNavbar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-            <AllTopics setFilteredTopic={setFilteredTopic} filteredTopic={filteredTopic} searchTopic={searchTopic} setSearchTopic={setSearchTopic} getFromApi={getFromApi} filteredBtnTopic={filteredBtnTopic} />
+            <AllTopics setFilteredTopic={setFilteredTopic} filteredTopic={filteredTopic} searchTopic={searchTopic} setSearchTopic={setSearchTopic} getFromApi={getFromApi} filteredBtnTopic={filteredBtnTopic} exploreTopic={exploreTopic} />
             <AllBlogPosts data={data} getFromApi={getFromApi} />
             <MyFooter />
         </>
