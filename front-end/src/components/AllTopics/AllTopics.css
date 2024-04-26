@@ -1,0 +1,55 @@
+* {
+    margin: 0;
+    padding: 0%;
+}
+
+.topic {
+    background-color: #F9F9F9;
+    color: #242424;
+    border: 1px solid #F9F9F9;
+    border-radius: 100px;
+    padding: 8px 16px;
+}
+
+.topic:hover {
+    background-color: lightgray;
+}
+
+
+.container-search {
+    height: 100%;
+    width: 100%;
+    background-position: center;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-bar-topic {
+    width: 100%;
+    max-width: 700px;
+    background: #F9F9F9;
+    display: flex;
+    align-items: center;
+    border-radius: 60px;
+    border-color: #F9F9F9;
+    padding: 10px;
+}
+
+.search-bar-topic .input-topic {
+    background: transparent;
+    flex: 1;
+    border: 0;
+    padding: 5px 20px;
+    font-size: 20px;
+}
+
+.button-topic {
+    border: none;
+}
+
+.button-topic:hover {
+    background-color: transparent;
+    color: none;
+}
