@@ -2,6 +2,8 @@ import { Router } from "express";
 import BlogPost from "../models/blogPost.model.js";
 import { coverCloud } from '../middlewares/multer.js';
 import { sendEmail } from "../middlewares/sendEmail.js";
+import Comments from "../models/comment.model.js/";
+
 export const apiRoutePosts = Router();
 
 
@@ -82,7 +84,7 @@ apiRoutePosts.patch("/:id/cover", coverCloud.single("cover"), async (req, res, n
 apiRoutePosts.get("/:id/comments", async (req, res, next) => {
     try {
         let blogPost = await BlogPost.findById(req.params.id);
-        let comments = blogPost.comments
+        let comments = await Comments.find({ blog: req.params.id })
         res.send(comments)
     } catch (error) {
         next(error)
@@ -108,11 +110,22 @@ apiRoutePosts.post("/:id", async (req, res, next) => {
         if (!blogPost) {
             return res.status(404).send('Post del blog non trovato');
         }
-        blogPost.comments.push({ comment: req.body.comment });
+        const newComment = new Comments({
+            comment: req.body.comment,
+            author: blogPost.author, // Assicurati che l'autore del commento sia fornito nella richiesta
+            blog: blogPost._id // Associa il commento al post del blog
+        });
 
-        const updateBlogPost = await blogPost.save();
+        // Salva il nuovo commento nel database
+        const savedComment = await newComment.save();
 
-        res.send(updateBlogPost)
+        // Aggiorna l'array dei commenti nel post del blog con l'ID del nuovo commento
+        blogPost.comments.push(savedComment._id);
+
+        // Salva il post del blog aggiornato
+        await blogPost.save();
+
+        res.status(201).json(savedComment);
 
     } catch (error) {
         next(error)

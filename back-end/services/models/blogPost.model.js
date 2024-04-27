@@ -29,14 +29,8 @@ const blogPostModel = new Schema(
         },
 
         author: {
-            name: {
-                type: String,
-                require: true
-            },
-            avatar: {
-                type: String,
-                require: true
-            }
+            type: Schema.Types.ObjectId,
+            ref: "User",
         },
 
         content: {
@@ -45,12 +39,13 @@ const blogPostModel = new Schema(
         },
 
         comments: [
+
             {
-                comment: {
-                    type: String,
-                    required: true
-                }
+                type: Schema.Types.ObjectId,
+                ref: "Comments"
             }
+
+
         ]
     },
 
