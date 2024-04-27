@@ -38,15 +38,13 @@ const blogPostModel = new Schema(
             require: true
         },
 
-        comments: [
-
-            {
+        comments: [{
+            "text": String,
+            "author": {
                 type: Schema.Types.ObjectId,
-                ref: "Comments"
-            }
-
-
-        ]
+                ref: "User",
+            },
+        }]
     },
 
     {

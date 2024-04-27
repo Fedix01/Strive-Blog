@@ -2,22 +2,21 @@ import { Schema, model } from "mongoose";
 
 const commentsSchema = new Schema(
     {
-        comment: {
+        text: {
             type: String,
-            required: true
+            required: true,
         },
         author: {
             type: Schema.Types.ObjectId,
-            ref: "User"
+            ref: "User",
         },
         blog: {
             type: Schema.Types.ObjectId,
-            ref: "BlogPost"
+            ref: "BlogPost",
         }
     },
-    {
-        collection: "comments"
-    }
+    { collection: "comments" }
+
 )
 
 export default model("Comments", commentsSchema)

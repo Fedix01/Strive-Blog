@@ -2,7 +2,7 @@ import { Router } from "express";
 import BlogPost from "../models/blogPost.model.js";
 import { coverCloud } from '../middlewares/multer.js';
 import { sendEmail } from "../middlewares/sendEmail.js";
-import Comments from "../models/comment.model.js/";
+import Comments from "../models/comment.model.js";
 
 export const apiRoutePosts = Router();
 
@@ -81,99 +81,90 @@ apiRoutePosts.patch("/:id/cover", coverCloud.single("cover"), async (req, res, n
 
 })
 
+
 apiRoutePosts.get("/:id/comments", async (req, res, next) => {
     try {
-        let blogPost = await BlogPost.findById(req.params.id);
-        let comments = await Comments.find({ blog: req.params.id })
+        let comments = await Comments.find({
+            blog: req.params.id,
+        }).populate({
+            path: "author",
+            model: "User",
+            select: ["name", "lastName", "avatar"],
+        })
         res.send(comments)
     } catch (error) {
         next(error)
     }
 })
 
+
 apiRoutePosts.get("/:id/comments/:commentId", async (req, res, next) => {
     try {
-        const blogPostId = req.params.id;
-        const commentId = req.params.commentId;
+        let comments = await Comments.find({
+            blog: req.params.id,
+            _id: req.params.commentId
+        }).populate({
+            path: "author",
+            model: "User",
+            select: ["name", "lastName", "avatar"],
+        })
+        res.send(comments)
+    } catch (error) {
+        next(error)
+    }
+})
 
-        const blogPost = await BlogPost.findById(blogPostId);
-        const comment = blogPost.comments.find((el) => el._id == commentId)
+
+
+apiRoutePosts.post("/:id", async (req, res, next) => {
+    try {
+        let newComment = await Comments.create({ ...req.body, blog: req.params.id })
+        console.log(newComment)
+        let post = await BlogPost.findByIdAndUpdate(
+            req.params.id,
+            {
+                $push: {
+                    comments: newComment,
+                },
+            },
+            { new: true }
+        ).populate({
+            path: "comments",
+            populate: {
+                path: "author",
+                model: "User",
+                select: ["name", "lastName", "avatar"],
+            },
+        })
+        res.send(post)
+    } catch (error) {
+        next(error)
+    }
+})
+
+apiRoutePosts.put("/:id/comments/:commentId", async (req, res, next) => {
+    try {
+        let comment = await Comments.findOneAndUpdate({
+            blog: req.params.id,
+            _id: req.params.commentId
+        }, req.body, { new: true }).populate({
+            path: "author",
+            model: "User",
+            select: ["name", "lastName", "avatar"],
+        })
         res.send(comment)
     } catch (error) {
         next(error)
     }
 })
 
-apiRoutePosts.post("/:id", async (req, res, next) => {
+apiRoutePosts.delete("/:id/comments/:commentId", async (req, res, next) => {
     try {
-        const blogPost = await BlogPost.findById(req.params.id);
-        if (!blogPost) {
-            return res.status(404).send('Post del blog non trovato');
-        }
-        const newComment = new Comments({
-            comment: req.body.comment,
-            author: blogPost.author, // Assicurati che l'autore del commento sia fornito nella richiesta
-            blog: blogPost._id // Associa il commento al post del blog
-        });
-
-        // Salva il nuovo commento nel database
-        const savedComment = await newComment.save();
-
-        // Aggiorna l'array dei commenti nel post del blog con l'ID del nuovo commento
-        blogPost.comments.push(savedComment._id);
-
-        // Salva il post del blog aggiornato
-        await blogPost.save();
-
-        res.status(201).json(savedComment);
-
-    } catch (error) {
-        next(error)
-    }
-})
-
-apiRoutePosts.put("/:id/comment/:commentId", async (req, res, next) => {
-    try {
-        const blogPostId = req.params.id;
-        const commentId = req.params.commentId;
-
-        const commentBody = req.body.comment;
-
-        const post = await BlogPost.findById(blogPostId);
-
-        const comments = post.comments.id(commentId);
-
-        if (!comments) {
-            return res.status(404).send('commento del blog non trovato');
-
-        }
-
-        comments.comment = commentBody;
-
-        await post.save();
-
-        res.send(comments);
-    } catch (error) {
-        next(error)
-    }
-})
-
-
-apiRoutePosts.delete("/:id/comment/:commentId", async (req, res, next) => {
-    try {
-        const blogPostId = req.params.id;
-        const commentId = req.params.commentId;
-
-        const blog = await BlogPost.findById(blogPostId);
-        const comments = blog.comments;
-
-        const del = comments.find((el) => el._id == commentId);
-
-        comments.pull(del);
-
-        await blog.save();
-
-        res.send(del)
+        const deleteComment = await Comments.findOneAndDelete({
+            blog: req.params.id,
+            _id: req.params.commentId
+        })
+        res.send(deleteComment)
     } catch (error) {
         next(error)
     }
