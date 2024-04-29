@@ -17,12 +17,9 @@ apiRoutePosts.get("/", async (req, res, next) => {
             posts = await BlogPost.find({ title: { $eq: query } });
         } else {
             posts = await BlogPost.find().populate({
-                path: "comments",
-                populate: {
-                    path: "author",
-                    model: "User",
-                    select: ["nome", "cognome", "avatar"],
-                },
+                path: "author",
+                model: "User",
+                select: ["nome", "cognome", "avatar"],
             });
         }
 
