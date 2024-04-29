@@ -3,6 +3,7 @@ import BlogPost from "../models/blogPost.model.js";
 import { coverCloud } from '../middlewares/multer.js';
 import { sendEmail } from "../middlewares/sendEmail.js";
 import Comments from "../models/comment.model.js";
+import User from "../models/user.model.js";
 
 export const apiRoutePosts = Router();
 
@@ -15,7 +16,14 @@ apiRoutePosts.get("/", async (req, res, next) => {
         if (query) {
             posts = await BlogPost.find({ title: { $eq: query } });
         } else {
-            posts = await BlogPost.find();
+            posts = await BlogPost.find().populate({
+                path: "comments",
+                populate: {
+                    path: "author",
+                    model: "User",
+                    select: ["nome", "cognome", "avatar"],
+                },
+            });
         }
 
         res.send(posts);
@@ -36,8 +44,12 @@ apiRoutePosts.get("/:id", async (req, res, next) => {
 apiRoutePosts.post("/", async (req, res, next) => {
     try {
         let makePost = await BlogPost.create(req.body);
+        let author = await User.findById(makePost.author);
+        console.log(author);
+        if (author) {
+            sendEmail(author.email)
+        }
         res.send(makePost);
-        sendEmail(makePost.author.name)
     } catch (error) {
         next(error)
     }
@@ -89,7 +101,7 @@ apiRoutePosts.get("/:id/comments", async (req, res, next) => {
         }).populate({
             path: "author",
             model: "User",
-            select: ["name", "lastName", "avatar"],
+            select: ["nome", "cognome", "avatar"],
         })
         res.send(comments)
     } catch (error) {
@@ -106,7 +118,7 @@ apiRoutePosts.get("/:id/comments/:commentId", async (req, res, next) => {
         }).populate({
             path: "author",
             model: "User",
-            select: ["name", "lastName", "avatar"],
+            select: ["nome", "cognome", "avatar"],
         })
         res.send(comments)
     } catch (error) {
@@ -133,7 +145,7 @@ apiRoutePosts.post("/:id", async (req, res, next) => {
             populate: {
                 path: "author",
                 model: "User",
-                select: ["name", "lastName", "avatar"],
+                select: ["nome", "cognome", "avatar"],
             },
         })
         res.send(post)
@@ -150,7 +162,7 @@ apiRoutePosts.put("/:id/comments/:commentId", async (req, res, next) => {
         }, req.body, { new: true }).populate({
             path: "author",
             model: "User",
-            select: ["name", "lastName", "avatar"],
+            select: ["nome", "cognome", "avatar"],
         })
         res.send(comment)
     } catch (error) {
