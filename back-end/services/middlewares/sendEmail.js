@@ -1,6 +1,6 @@
 import nodemailer from 'nodemailer';
 
-export const sendEmail = async (author) => {
+export const sendEmail = async (email, body) => {
     const transporter = nodemailer.createTransport({
         host: 'smtp.ethereal.email',
         port: 587,
@@ -12,9 +12,9 @@ export const sendEmail = async (author) => {
     try {
         const emailSender = await transporter.sendMail({
             from: 'prova <earnest.wisozk@ethereal.email>',
-            to: author,
+            to: email,
             subject: 'Email prova',
-            html: 'la mia mail bellissima!!'
+            html: body
         })
         console.log(emailSender.messageId)
     } catch (error) {

@@ -15,7 +15,10 @@ const commentsSchema = new Schema(
             ref: "BlogPost",
         }
     },
-    { collection: "comments" }
+    {
+        collection: "comments",
+        timestamps: true,
+    }
 
 )
 

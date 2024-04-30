@@ -48,7 +48,8 @@ const blogPostModel = new Schema(
     },
 
     {
-        collection: "BlogPost"
+        collection: "BlogPost",
+        timestamps: true,
     }
 );
 

@@ -2,6 +2,8 @@ import { Router } from "express";
 import User from "../models/user.model.js";
 import { avatarCloud } from '../middlewares/multer.js';
 import { sendEmail } from "../middlewares/sendEmail.js";
+import bcrypt from "bcryptjs";
+import { authMiddleware, generateJWT } from "../middlewares/authentication.js";
 // Importo il modello dell api
 
 export const apiRouteAuthors = Router();
@@ -26,17 +28,53 @@ apiRouteAuthors.get("/:id", async (req, res, next) => {
         next(error)
     }
 });
-// Chiamata post col body
+// Chiamata post col body e password con bcrypt (Registrazione)
 
 apiRouteAuthors.post("/", async (req, res, next) => {
+
     try {
-        let user = await User.create(req.body);
-        res.send(user).status(400);
-        sendEmail(user.email)
+        let user = await User.create({
+            ...req.body,
+            password: await bcrypt.hash(req.body.password, 10)
+        });
+        sendEmail(req.body.email, `<h1>Ciao ${req.body.nome}, benvenuto nel sito</h1>`);
+        res.send(user)
     } catch (error) {
-        next(error)
+        next(err)
     }
 });
+
+// Chiamata post con comparazione di password per il login 
+
+apiRouteAuthors.post("/login", async (req, res, next) => {
+
+    try {
+        let userFound = await User.findOne({
+            email: req.body.email
+        });
+        if (userFound) {
+            const matching = await bcrypt.compare(
+                req.body.password,
+                userFound.password)
+
+            if (matching) {
+                const token = await generateJWT({
+                    nome: userFound.nome
+                });
+                res.send({ user: userFound, token })
+            } else {
+                res.status(400).send("password sbagliata")
+            }
+        } else {
+            res.send("utente non trovato")
+        }
+
+
+    } catch (error) {
+        nexy(error)
+    }
+
+})
 // Chiamata put con id e body allegati
 
 apiRouteAuthors.put("/:id", async (req, res, next) => {

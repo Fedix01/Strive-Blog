@@ -18,17 +18,23 @@ const userSchema = new Schema(
         },
 
         dataDiNascita: {
-            type: Date,
+            type: String,
             required: true
         },
 
         avatar: {
             type: String,
             required: false
+        },
+
+        password: {
+            type: String,
+            required: true
         }
     },
     {
-        collection: "authors"
+        collection: "authors",
+        timestamps: true,
     }
 );
 // Esporto il modello
