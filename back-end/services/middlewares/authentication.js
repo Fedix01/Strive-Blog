@@ -48,7 +48,7 @@ export const authMiddleware = async (req, res, next) => {
             if (decoded.exp) {
                 delete decoded.iat;
                 delete decoded.exp;
-
+                console.log(decoded)
                 const me = await User.findOne({
                     ...decoded
                 });

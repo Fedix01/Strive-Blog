@@ -12,8 +12,15 @@ const userSchema = new Schema(
             required: true
         },
 
+        username: {
+            type: String,
+            unique: true,
+            required: true
+        },
+
         email: {
             type: String,
+            unique: true,
             required: true
         },
 
@@ -29,8 +36,10 @@ const userSchema = new Schema(
 
         password: {
             type: String,
+            select: false,
             required: true
         }
+
     },
     {
         collection: "authors",

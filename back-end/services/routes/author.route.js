@@ -18,6 +18,14 @@ apiRouteAuthors.get("/", async (req, res, next) => {
     }
 });
 
+apiRouteAuthors.get("/me", authMiddleware, async (req, res, next) => {
+    try {
+        let user = await User.findById(req.user.id);
+        res.send(user)
+    } catch (error) {
+        next(error)
+    }
+})
 // Chiamata get all esatto parametro passato
 apiRouteAuthors.get("/:id", async (req, res, next) => {
     try {
@@ -28,6 +36,8 @@ apiRouteAuthors.get("/:id", async (req, res, next) => {
         next(error)
     }
 });
+
+// Chiamata get col profilo loggato
 // Chiamata post col body e password con bcrypt (Registrazione)
 
 apiRouteAuthors.post("/", async (req, res, next) => {
@@ -40,7 +50,7 @@ apiRouteAuthors.post("/", async (req, res, next) => {
         sendEmail(req.body.email, `<h1>Ciao ${req.body.nome}, benvenuto nel sito</h1>`);
         res.send(user)
     } catch (error) {
-        next(err)
+        next(error)
     }
 });
 
@@ -51,7 +61,7 @@ apiRouteAuthors.post("/login", async (req, res, next) => {
     try {
         let userFound = await User.findOne({
             email: req.body.email
-        });
+        }).select('+password');
         if (userFound) {
             const matching = await bcrypt.compare(
                 req.body.password,
@@ -59,7 +69,7 @@ apiRouteAuthors.post("/login", async (req, res, next) => {
 
             if (matching) {
                 const token = await generateJWT({
-                    nome: userFound.nome
+                    _id: userFound._id
                 });
                 res.send({ user: userFound, token })
             } else {
@@ -71,7 +81,7 @@ apiRouteAuthors.post("/login", async (req, res, next) => {
 
 
     } catch (error) {
-        nexy(error)
+        next(error)
     }
 
 })

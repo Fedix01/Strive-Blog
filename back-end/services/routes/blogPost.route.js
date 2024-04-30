@@ -4,6 +4,7 @@ import { coverCloud } from '../middlewares/multer.js';
 import { sendEmail } from "../middlewares/sendEmail.js";
 import Comments from "../models/comment.model.js";
 import User from "../models/user.model.js";
+import { authMiddleware } from "../middlewares/authentication.js";
 
 export const apiRoutePosts = Router();
 
@@ -38,14 +39,15 @@ apiRoutePosts.get("/:id", async (req, res, next) => {
     }
 });
 
-apiRoutePosts.post("/", async (req, res, next) => {
+apiRoutePosts.post("/", authMiddleware, async (req, res, next) => {
     try {
-        let makePost = await BlogPost.create(req.body);
-        let author = await User.findById(makePost.author);
-        console.log(author);
-        if (author) {
-            sendEmail(author.email)
-        }
+        let authorId = req.user._id;
+
+        let makePost = await BlogPost.create({
+            ...req.body,
+            author: authorId
+        });
+
         res.send(makePost);
     } catch (error) {
         next(error)
