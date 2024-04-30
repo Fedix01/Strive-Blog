@@ -41,11 +41,17 @@ apiRoutePosts.get("/:id", async (req, res, next) => {
 
 apiRoutePosts.post("/", authMiddleware, async (req, res, next) => {
     try {
-        let authorId = req.user._id;
+        let authorId = req.user.id;
 
         let makePost = await BlogPost.create({
             ...req.body,
             author: authorId
+        });
+
+        await makePost.populate({
+            path: "author",
+            model: "User",
+            select: ["nome", "cognome", "avatar"],
         });
 
         res.send(makePost);
