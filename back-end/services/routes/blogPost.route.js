@@ -133,9 +133,16 @@ apiRoutePosts.get("/:id/comments/:commentId", async (req, res, next) => {
 
 
 
-apiRoutePosts.post("/:id", async (req, res, next) => {
+apiRoutePosts.post("/:id", authMiddleware, async (req, res, next) => {
     try {
-        let newComment = await Comments.create({ ...req.body, blog: req.params.id })
+
+        let authorId = req.user.id;
+
+        let newComment = await Comments.create({
+            ...req.body,
+            blog: req.params.id,
+            author: authorId
+        })
         console.log(newComment)
         let post = await BlogPost.findByIdAndUpdate(
             req.params.id,

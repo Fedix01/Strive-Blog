@@ -18,6 +18,7 @@ apiRouteAuthors.get("/", async (req, res, next) => {
     }
 });
 
+// Chiamata get col profilo loggato
 apiRouteAuthors.get("/me", authMiddleware, async (req, res, next) => {
     try {
         let user = await User.findById(req.user.id);
@@ -37,7 +38,6 @@ apiRouteAuthors.get("/:id", async (req, res, next) => {
     }
 });
 
-// Chiamata get col profilo loggato
 // Chiamata post col body e password con bcrypt (Registrazione)
 
 apiRouteAuthors.post("/", async (req, res, next) => {
