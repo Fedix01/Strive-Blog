@@ -47,8 +47,14 @@ apiRouteAuthors.post("/", async (req, res, next) => {
             ...req.body,
             password: await bcrypt.hash(req.body.password, 10)
         });
+
+        const token = await generateJWT({
+            _id: user._id
+        });
+
         sendEmail(req.body.email, `<h1>Ciao ${req.body.nome}, benvenuto nel sito</h1>`);
-        res.send(user)
+
+        res.send({ user, token })
     } catch (error) {
         next(error)
     }
