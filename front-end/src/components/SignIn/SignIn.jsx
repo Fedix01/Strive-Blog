@@ -19,7 +19,7 @@ export default function SignIn() {
         nome: '',
         cognome: '',
         date: '',
-        avatar: ''
+        avatar: null
     });
 
     const endpoint = "http://localhost:3001/api/authors";
@@ -36,6 +36,7 @@ export default function SignIn() {
                 "username": formData.username
             }
             console.log(payload);
+            console.log(formData.avatar)
 
             const post = await fetch(endpoint, {
                 method: "POST",
@@ -44,12 +45,30 @@ export default function SignIn() {
             });
             if (post.ok) {
                 const response = await post.json();
-                console.log(response.token);
-                localStorage.setItem("token", response.token);
-                localStorage.setItem("user", JSON.stringify(response.user))
+                if (formData.avatar) {
+                    const formDataFile = new FormData();
+                    console.log(response.user._id)
+                    formDataFile.append("avatar", formData.avatar);
+                    const patch = await fetch(`${endpoint}/${response.user._id}/avatar`, {
+                        method: "PATCH",
+                        body: formDataFile
+                    });
+                    if (patch.ok) {
+                        const newAuthor = await patch.json();
+                        console.log(newAuthor);
+                        console.log(newAuthor.token);
+                        localStorage.setItem("token", newAuthor.token);
+                        localStorage.setItem("user", JSON.stringify(newAuthor.user))
+                        console.log(newAuthor);
+                        navigate("/")
 
-                console.log(response);
-                navigate("/")
+                    }
+                } else {
+                    localStorage.setItem("token", response.token);
+                    localStorage.setItem("user", JSON.stringify(response.user))
+                    console.log(response);
+                    navigate("/")
+                }
 
             }
         } catch (error) {
@@ -138,7 +157,6 @@ export default function SignIn() {
                         <Form.Control
                             type="file"
                             placeholder="Inserisci Avatar"
-                            value={formData.avatar}
                             onChange={(e) => setFormData({ ...formData, avatar: e.target.files[0] })}
 
                         />

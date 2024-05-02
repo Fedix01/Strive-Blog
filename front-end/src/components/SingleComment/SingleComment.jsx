@@ -3,7 +3,7 @@ import { Button } from 'react-bootstrap';
 import { BsFillPencilFill } from "react-icons/bs";
 import { FaTrash } from "react-icons/fa";
 
-export default function SingleComment({ comment, avatar, authorName, authorLastName, deleteComment, commentId, authorId, currentUser }) {
+export default function SingleComment({ comment, avatar, authorName, authorLastName, deleteComment, modifyComment, commentId, authorId, currentUser }) {
 
     const [editComment, setEditComment] = useState(false);
 
@@ -29,7 +29,7 @@ export default function SingleComment({ comment, avatar, authorName, authorLastN
                     <div>{comment}</div>
                     {editComment &&
                         <div>
-                            <Button variant='transparent'>
+                            <Button variant='transparent' onClick={() => modifyComment(commentId, authorId)}>
                                 <BsFillPencilFill />
                             </Button>
                             <Button variant='transparent' onClick={() => deleteComment(commentId, authorId)}>

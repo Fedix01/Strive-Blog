@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import SingleComment from '../SingleComment/SingleComment';
 import { Form, Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+
 
 
 export default function CommentArea({ id }) {
@@ -9,6 +11,13 @@ export default function CommentArea({ id }) {
 
     const [text, setText] = useState("");
     const [user, setUser] = useState([]);
+
+    const [mod, setMod] = useState(false);
+
+    const [commentId, setCommentId] = useState("");
+    const [authorId, setAuthorId] = useState("");
+
+    const navigate = useNavigate();
 
     const endpoint = `http://localhost:3001/api/blogPosts/${id}/comments`;
 
@@ -45,6 +54,7 @@ export default function CommentArea({ id }) {
 
     const addComment = async (e) => {
         e.preventDefault();
+        // if (user._id === authorId) {
         try {
             const payload = {
                 "text": text
@@ -60,11 +70,16 @@ export default function CommentArea({ id }) {
             if (res.ok) {
                 const posted = await res.json();
                 console.log(posted);
-                getFromApi()
+                getFromApi();
+                setText("");
             }
         } catch (error) {
             console.error(error)
         }
+
+        // } else {
+        //     navigate("/signIn")
+        // }
     }
 
     const deleteComment = async (commentId, authorId) => {
@@ -93,8 +108,42 @@ export default function CommentArea({ id }) {
 
     }
 
+    const modifyComment = (idComment, authorId) => {
+        setCommentId(idComment);
+        setAuthorId(authorId);
+        setMod(true);
+    }
 
+    const handleModifyComment = async (e) => {
+        e.preventDefault();
+        if (user._id === authorId) {
+            try {
+                const payload = {
+                    "text": text
+                };
 
+                const res = await fetch(`${endpoint}/${commentId}`, {
+                    method: "PUT",
+                    headers:
+                    {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`
+                    },
+                    body: JSON.stringify(payload)
+                });
+                if (res.ok) {
+                    const modified = await res.json();
+                    console.log(modified);
+                    getFromApi();
+                    setText("");
+                    setMod(false);
+                }
+            } catch (error) {
+                console.error(error)
+            }
+
+        }
+    }
 
     return (
         <>
@@ -102,13 +151,14 @@ export default function CommentArea({ id }) {
                 {data &&
                     data.map((el) => <SingleComment key={el._id}
                         comment={el.text}
-                        avatar={el.author.avatar}
-                        authorName={el.author.nome}
-                        authorLastName={el.author.cognome}
+                        avatar={el.author ? el.author.avatar : null}
+                        authorName={el.author ? el.author.nome : null}
+                        authorLastName={el.author ? el.author.cognome : null}
                         commentId={el._id}
-                        authorId={el.author._id}
+                        authorId={el.author ? el.author._id : null}
                         deleteComment={deleteComment}
-                        currentUser={user} />)}
+                        currentUser={user}
+                        modifyComment={modifyComment} />)}
 
                 <div className='d-flex align-items-center'>
                     <img src={user.avatar ? user.avatar : "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIAL0AyAMBIgACEQEDEQH/xAAaAAEAAwEBAQAAAAAAAAAAAAAAAwQFAQIH/8QAMhABAAIBAwIDBAgHAAAAAAAAAAECAwQRITFBElFxBTJCgRMUIiNSYaHhNENykZKxwf/EABUBAQEAAAAAAAAAAAAAAAAAAAAB/8QAFREBAQAAAAAAAAAAAAAAAAAAABH/2gAMAwEAAhEDEQA/APqgCoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAivqMVJ5vHy5BKK/13D52/xeq6rDP8zb1jYEw5W9b+7aLekugAAAAAAAAAAAAAAAAAAeqvn1VMUzWI8V/KOzzrdROOPo8fFpjeZ8mfv+vUgly6jJl9632fwx0Q7OhAAIEcdOPRdwayJ2rljw7fF2Ugg2u0THSe4paDNM/d27RwugAAAAAAAAAAAAAAOuPOW22K894iQZefJ9Jntbtvt8kYKAAAAAAJdLfw6mkz3mIarHxbRlpM9ItDYQAAAAAAAAAAAAAAEWo/h8n9MpXjJHix3jzjYGQAoAAAAAAbtqOjGiN5iGzG/wAkAAAAAAAAAAAAAABV1+/0MbT3jdaQa2N9NO3baQZgCgAAAAABu09Hv9Xrv+f+2Y1dPXw4McT5IJQAAAAAAAAAAAAAHjJWbYr1jras7PYDGmtqztas1n84cXfaVZ+7t12md1JaAAAAAAPVMdrzEVjflsbcRHkraCu2Dfbm0ysoAAAAAAAAAAAAAAAAI8+P6XDNI67RMerJmJidp4mOJj820zvaFYjPEx8Uc/3BWAUAAHaVm9opXrM7OLPs+InNO/av/QaFaRWsVjpERDoIAAAAAAAAAAAAAAAHIDN19t88R5V5es2svMzXHM0iJ6qszM9Z3nzIACgAAs6CdtRt+KvCs7EzExMcTANnkZ+HWXiYrk+3Ez1aHKAAAAAAAAAAAG/7osmoxY/evHy5BKb+XPop319elKzPrwr5NVlycTbaPKvBBfy6jHiifFaPSFTNrL3+zXetf1Ve+/cjggAKAAAAAAC1h1l6fZtvav6qp1SDVxajHliPDaPSUu+3Xj1Yvffumx6rLj4i28eVuSDUFOmvr0vWY9OU+PUYsnu3j58EEob/ALAAADze8UrNrcVh6UfaN58VafDtE7Ai1Gqvl3rEzWnaPNXiNnegQAFAAAAAAAAAAAAAAByY3dAT6fVXxbVmZtTvHk0aXi9YtXmssdc9nXnxWp8O0zsgvAA//9k="}
@@ -117,7 +167,11 @@ export default function CommentArea({ id }) {
                         className='me-2' />
                     <Form.Control type='text' className='flex-grow-1' placeholder='Inserisci un commento' required value={text} onChange={(e) => setText(e.target.value)}>
                     </Form.Control>
-                    <Button type='submit' onClick={(e) => addComment(e)}>Commenta</Button>
+                    {mod ? (
+                        <Button variant='primary' type='submit' onClick={(e) => handleModifyComment(e)}>Modifica</Button>)
+                        :
+                        (<Button variant='outline-dark' type='submit' onClick={(e) => addComment(e)}>Commenta</Button>)
+                    }
                 </div>
             </div>
         </>

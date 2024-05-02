@@ -20,14 +20,9 @@ export default function SingleBlogPost(props) {
                         <span className='ms-2'>Autore: {authorName} {authorLastName}</span>
                     </div>
                     <Card.Title>{title}</Card.Title>
-
                     <div>
-                        <h4>Categoria: </h4>
+                        {content}
                     </div>
-
-                    {content}
-
-
                 </Card.Body>
                 <Card.Footer style={{ borderTop: "none", backgroundColor: "transparent" }}>
                     <div>
@@ -36,12 +31,12 @@ export default function SingleBlogPost(props) {
                         </span>
                         <span className='ms-3' style={{ padding: "5px 10px", backgroundColor: "lightgrey", borderRadius: "20px" }}>{category}</span>
                     </div>
-                    <Button onClick={() => setComment(!comment)}>
+                    <Button variant='transparent' onClick={() => setComment(!comment)}>
                         <FaRegComment />
                     </Button>
-
-
-                    <CommentArea id={id} />
+                    {comment &&
+                        <CommentArea id={id} />
+                    }
                 </Card.Footer>
 
 

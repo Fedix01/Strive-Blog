@@ -124,7 +124,13 @@ apiRouteAuthors.patch("/:id/avatar", avatarCloud.single("avatar"), async (req, r
             { avatar: req.file.path },
             { new: true }
         );
-        res.send(updateUser)
+
+        const token = await generateJWT({
+            _id: updateUser._id
+        });
+
+
+        res.send({ user: updateUser, token });
     }
 
     catch (error) {
