@@ -40,8 +40,8 @@ export default function SingleBlogPost(props) {
                         <FaRegComment />
                     </Button>
 
-                    {comment &&
-                        <CommentArea id={id} />}
+
+                    <CommentArea id={id} />
                 </Card.Footer>
 
 
