@@ -6,6 +6,7 @@ import AlertProvider from './components/AlertProvider/AlertProvider';
 import Backoffice from './components/Backoffice/Backoffice';
 import SignIn from './components/SignIn/SignIn';
 import UserProfile from './components/UserProfile/UserProfile';
+import SignUp from './components/SignUp/SignUp';
 function App() {
   return (
     <>
@@ -15,6 +16,7 @@ function App() {
 
             <Route path='/' element={<Homepage />}></Route>
             <Route path='/signIn' element={<SignIn />}></Route>
+            <Route path='/signUp' element={<SignUp />}></Route>
             <Route path='/me' element={<UserProfile />}></Route>
             <Route path='/newPost' element={<Backoffice />}></Route>
             <Route path='/*' element={<NotFound />}></Route>

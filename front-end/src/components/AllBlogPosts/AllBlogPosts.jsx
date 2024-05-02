@@ -42,6 +42,7 @@ export default function AllBlogPosts({ data }) {
                                     timeValue={el.readTime.value}
                                     timeUnit={el.readTime.unit}
                                     authorName={el.author ? el.author.nome : "Nome Autore Non Disponibile"}
+                                    authorLastName={el.author.cognome ? el.author.cognome : "Cognome Autore Non Disponibile"}
                                     authorAvatar={el.author ? el.author.avatar : "URL Autore Non Disponibile"}
                                     content={el.content}
 

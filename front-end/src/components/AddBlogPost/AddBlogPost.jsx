@@ -10,9 +10,6 @@ export default function AddBlogPost({ id, getFromApi, reference, open, setOpen }
     const [readUnit, setReadUnit] = useState("");
     const [readValue, setReadValue] = useState(0);
 
-    const [authorName, setAuthorName] = useState("");
-    const [authorAvatar, setAuthorAvatar] = useState("");
-
     const { setAlert } = useContext(alertContext);
 
 
@@ -20,7 +17,9 @@ export default function AddBlogPost({ id, getFromApi, reference, open, setOpen }
 
     const endpoint = "http://localhost:3001/api/blogPosts";
 
-    const postBlog = async (e, title, authorName, authorAvatar, cover, readValue, readUnit, content, category) => {
+    const token = localStorage.getItem("token");
+
+    const postBlog = async (e, title, cover, readValue, readUnit, content, category) => {
         e.preventDefault();
         const payload = {
             "category": category,
@@ -29,17 +28,16 @@ export default function AddBlogPost({ id, getFromApi, reference, open, setOpen }
                 "value": readValue,
                 "unit": readUnit
             },
-            "author": {
-                "name": authorName,
-                "avatar": authorAvatar
-            },
             "content": content
         };
 
         try {
             const res = await fetch(endpoint, {
                 method: "POST",
-                headers: { "Content-Type": "Application/json" },
+                headers: {
+                    "Content-Type": "Application/json",
+                    "Authorization": `Bearer ${token}`
+                },
                 body: JSON.stringify(payload)
             });
             if (res.ok) {
@@ -68,7 +66,7 @@ export default function AddBlogPost({ id, getFromApi, reference, open, setOpen }
     };
 
 
-    const modifyBlog = async (e, title, authorName, authorAvatar, cover, readValue, readUnit, content, category, id) => {
+    const modifyBlog = async (e, title, cover, readValue, readUnit, content, category, id) => {
         e.preventDefault()
         const payload = {
             "category": category,
@@ -77,16 +75,15 @@ export default function AddBlogPost({ id, getFromApi, reference, open, setOpen }
                 "value": readValue,
                 "unit": readUnit
             },
-            "author": {
-                "name": authorName,
-                "avatar": authorAvatar
-            },
             "content": content
         };
         try {
             let res = await fetch(`${endpoint}/${id}`, {
                 method: "PUT",
-                headers: { "Content-Type": "Application/json" },
+                headers: {
+                    "Content-Type": "Application/json",
+                    "Authorization": `Bearer ${token}`
+                },
                 body: JSON.stringify(payload)
             });
             if (res.ok) {
@@ -116,11 +113,9 @@ export default function AddBlogPost({ id, getFromApi, reference, open, setOpen }
     }
 
 
-    const handleFormPost = (e, title, authorName, authorAvatar, cover, readValue, readUnit, content, category) => {
-        postBlog(e, title, authorName, authorAvatar, cover, readValue, readUnit, content, category);
+    const handleFormPost = (e, title, cover, readValue, readUnit, content, category) => {
+        postBlog(e, title, cover, readValue, readUnit, content, category);
         setTitle("");
-        setAuthorName("");
-        setAuthorAvatar("");
         setCover("");
         setReadValue(0);
         setReadUnit("");
@@ -128,11 +123,9 @@ export default function AddBlogPost({ id, getFromApi, reference, open, setOpen }
         setCategory("");
     }
 
-    const handleFormPut = (e, title, authorName, authorAvatar, cover, readValue, readUnit, content, category, id) => {
-        modifyBlog(e, title, authorName, authorAvatar, cover, readValue, readUnit, content, category, id);
+    const handleFormPut = (e, title, cover, readValue, readUnit, content, category, id) => {
+        modifyBlog(e, title, cover, readValue, readUnit, content, category, id);
         setTitle("");
-        setAuthorName("");
-        setAuthorAvatar("");
         setCover("");
         setReadValue(0);
         setReadUnit("");
@@ -149,49 +142,40 @@ export default function AddBlogPost({ id, getFromApi, reference, open, setOpen }
 
                 <Form>
                     <Row className="mb-3">
-                        <Form.Group as={Col} controlId="formGridName">
+                        <Form.Group as={Col} >
                             <Form.Label>Titolo del blog Post</Form.Label>
                             <Form.Control type="text" placeholder="Inserisci il titolo..." value={title} onChange={(e) => setTitle(e.target.value)} />
                         </Form.Group>
 
-                        <Form.Group as={Col} controlId="formGridSurname">
-                            <Form.Label>Autore</Form.Label>
-                            <Form.Control type="text" placeholder="Inserisci l'autore..." value={authorName} onChange={(e) => setAuthorName(e.target.value)} />
+
+                        <Form.Group className="mb-3" >
+                            <Form.Label>Cover</Form.Label>
+                            <Form.Control type='file' placeholder='Inserisci la cover...' onChange={(e) => setCover(e.target.files[0])} />
+                        </Form.Group>
+
+                        <Form.Group className="mb-3" >
+                            <Form.Label>Tempo di lettura</Form.Label>
+                            <Form.Control type='number' placeholder='Inserisci il tempo di lettura in numero' value={readValue} onChange={(e) => setReadValue(e.target.value)} />
+                        </Form.Group>
+
+                        <Form.Group className="mb-3" >
+                            <Form.Label>Minuti o ore</Form.Label>
+                            <Form.Control type='text' placeholder='Inserisci il minuti oppure ore' value={readUnit} onChange={(e) => setReadUnit(e.target.value)} />
+                        </Form.Group>
+
+                        <Form.Group className="mb-3" >
+                            <Form.Label>Contenuto</Form.Label>
+                            <Form.Control type='text' placeholder='Inserisci il contenuto' value={content} onChange={(e) => setContent(e.target.value)} />
+                        </Form.Group>
+
+                        <Form.Group className="mb-3" >
+                            <Form.Label>Categoria</Form.Label>
+                            <Form.Control type='text' placeholder='Inserisci la categoria' value={category} onChange={(e) => setCategory(e.target.value)} />
                         </Form.Group>
                     </Row>
-
-                    <Form.Group className="mb-3" controlId="formGridEmail">
-                        <Form.Label>Avatar dell'autore</Form.Label>
-                        <Form.Control type='text' placeholder="Inserisci l'avatar..." value={authorAvatar} onChange={(e) => setAuthorAvatar(e.target.value)} />
-                    </Form.Group>
-
-                    <Form.Group className="mb-3" controlId="formGridDate">
-                        <Form.Label>Cover</Form.Label>
-                        <Form.Control type='file' placeholder='Inserisci la cover...' onChange={(e) => setCover(e.target.files[0])} />
-                    </Form.Group>
-
-                    <Form.Group className="mb-3" controlId="formGridDate">
-                        <Form.Label>Tempo di lettura</Form.Label>
-                        <Form.Control type='number' placeholder='Inserisci il tempo di lettura in numero' value={readValue} onChange={(e) => setReadValue(e.target.value)} />
-                    </Form.Group>
-
-                    <Form.Group className="mb-3" controlId="formGridDate">
-                        <Form.Label>Minuti o ore</Form.Label>
-                        <Form.Control type='text' placeholder='Inserisci il minuti oppure ore' value={readUnit} onChange={(e) => setReadUnit(e.target.value)} />
-                    </Form.Group>
-
-                    <Form.Group className="mb-3" controlId="formGridDate">
-                        <Form.Label>Contenuto</Form.Label>
-                        <Form.Control type='text' placeholder='Inserisci il contenuto' value={content} onChange={(e) => setContent(e.target.value)} />
-                    </Form.Group>
-
-                    <Form.Group className="mb-3" controlId="formGridDate">
-                        <Form.Label>Categoria</Form.Label>
-                        <Form.Control type='text' placeholder='Inserisci la categoria' value={category} onChange={(e) => setCategory(e.target.value)} />
-                    </Form.Group>
-                    {id ? <Button variant="primary" type="submit" onClick={(e) => handleFormPut(e, title, authorName, authorAvatar, cover, readValue, readUnit, content, category, id)}>
+                    {id ? <Button variant="primary" type="submit" onClick={(e) => handleFormPut(e, title, cover, readValue, readUnit, content, category, id)}>
                         Modifica
-                    </Button> : <Button variant="success" type="submit" onClick={(e) => handleFormPost(e, title, authorName, authorAvatar, cover, readValue, readUnit, content, category)}>
+                    </Button> : <Button variant="success" type="submit" onClick={(e) => handleFormPost(e, title, cover, readValue, readUnit, content, category)}>
                         Aggiungi
                     </Button>}
 

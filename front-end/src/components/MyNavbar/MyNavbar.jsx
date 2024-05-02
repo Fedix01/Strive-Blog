@@ -49,7 +49,7 @@ export default function MyNavbar({ searchTerm, setSearchTerm }) {
                         <Form.Control className="form-control me-2" type="search" placeholder="Search" onChange={(e) => setSearchTerm(e.target.value)} value={searchTerm}></Form.Control>
                     </Form>
                     <div>
-                        {user ? (
+                        {user.length !== 0 ? (
                             <>
                                 <div className='d-flex justify-content-between align-items-center'>
                                     <Button variant='success' onClick={() => navigate("/newPost")}>Scrivi nuovo post</Button>
@@ -62,7 +62,7 @@ export default function MyNavbar({ searchTerm, setSearchTerm }) {
                             <>
                                 <Button variant='transparent' onClick={() => navigate("/signIn")}>Registrati</Button>
                                 <Button variant='success' onClick={() => navigate("/newPost")}>Scrivi nuovo post</Button>
-                                <Button variant='transparent'>Log In</Button>
+                                <Button variant='transparent' onClick={() => navigate("/signUp")}>Log In</Button>
                             </>
                         )
                         }
