@@ -113,10 +113,10 @@ apiRouteAuthors.put("/:id", async (req, res, next) => {
 
 apiRouteAuthors.delete("/:id", async (req, res, next) => {
     try {
-        await User.deleteOne({
+        const deleted = await User.deleteOne({
             _id: req.params.id
         });
-        res.send("Autore eliminato correttamente").status(204);
+        res.send(deleted);
     } catch (error) {
         next(error)
     }

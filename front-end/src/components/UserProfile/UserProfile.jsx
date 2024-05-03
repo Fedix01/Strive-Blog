@@ -15,7 +15,7 @@ export default function UserProfile() {
 
     const endpointPATCH = `http://localhost:3001/api/authors`;
 
-    const endpointPUT = `http://localhost:3001/api/authors/${data._id}`
+    const endpointId = `http://localhost:3001/api/authors/${data._id}`
 
     const token = localStorage.getItem("token");
 
@@ -59,7 +59,7 @@ export default function UserProfile() {
                 "username": username,
                 "password": password
             };
-            const res = await fetch(endpointPUT, {
+            const res = await fetch(endpointId, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json"
@@ -102,6 +102,31 @@ export default function UserProfile() {
             console.error(error)
         }
     }
+
+
+
+    const handleDelete = async () => {
+        try {
+            const res = await fetch(endpointId, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "Application/json"
+                }
+            });
+            if (res.ok) {
+                const deleted = await res.json();
+                console.log("oggetto eliminato", deleted);
+                localStorage.removeItem("user");
+                localStorage.removeItem("token");
+                navigate("/")
+            } else {
+                console.error("Errore durante l eliminazione", res.status);
+
+            }
+        } catch (error) {
+            console.error(error)
+        }
+    }
     return (
         <>
 
@@ -126,6 +151,7 @@ export default function UserProfile() {
                                     <h3>Username: <b>{data.username}</b></h3>
                                     <h3>Data di nascita: <b>{data.dataDiNascita}</b></h3>
                                     <Button variant='warning' onClick={() => setMod(true)}>Modifica profilo</Button>
+                                    <Button variant='danger' className='ms-3' onClick={() => handleDelete()}>Cancella Profilo</Button>
                                 </>
                             }
                         </Col>
