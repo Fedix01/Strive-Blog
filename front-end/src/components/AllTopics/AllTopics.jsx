@@ -17,7 +17,7 @@ export default function AllTopics({ setFilteredTopic, filteredTopic, searchTopic
     }
     return (
         <>
-            <div className='mt-4'>
+            <div className='mt-4 mx-5'>
                 <button className='btn topic mx-1' value={'Esplora topic'} onClick={(e) => handleTopics(e.target.value)}>Esplora Topics</button>
                 <button className='btn topic mx-1' value={'Programmazione'} onClick={(e) => handleTopics(e.target.value)}>Programmazione</button>
                 <button className='btn topic mx-1' value={'Tecnologia'} onClick={(e) => handleTopics(e.target.value)}>Tecnologia</button>

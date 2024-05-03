@@ -1,9 +1,11 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useContext } from 'react';
 import MyNavbar from '../MyNavbar/MyNavbar';
 import AddBlogPost from '../AddBlogPost/AddBlogPost';
 import AddAuthor from '../AddAuthor/AddAuthor';
 import TableBackoffice from '../TableBackoffice/TableBackoffice';
 import { Container } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import { alertContext } from '../AlertProvider/AlertProvider';
 
 
 export default function Backoffice() {
@@ -12,9 +14,13 @@ export default function Backoffice() {
 
     const [data, setData] = useState([]);
 
+    const { alert, setAlert } = useContext(alertContext);
+
     const endpoint = "http://localhost:3001/api/blogPosts";
 
     const ref = useRef(null);
+
+    const navigate = useNavigate();
 
     const [open, setOpen] = useState(false);
 
@@ -36,7 +42,16 @@ export default function Backoffice() {
     }
 
     useEffect(() => {
-        getFromApi()
+        const user = localStorage.getItem("user");
+        if (user) {
+            getFromApi()
+        } else {
+            setAlert("Per scrivere un nuovo post devi fare il login")
+            setTimeout(() => {
+                setAlert("")
+            }, 4000);
+            navigate("/signUp")
+        }
     }, [])
 
 

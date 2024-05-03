@@ -166,6 +166,10 @@ export default function SignIn() {
                         Registrati
                     </Button>
                 </Form>
+                <div className='d-flex align-items-center mt-3'>
+                    <h6>Hai gia un account?</h6>
+                    <Button variant='transparent' style={{ color: "#0067BF", fontWeight: "bold" }} className='mb-2' onClick={() => navigate("/signUp")}>Log In</Button>
+                </div>
             </Container>
             <MyFooter />
         </>

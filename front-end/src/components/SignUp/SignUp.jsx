@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
-import { Button, Container, Form } from 'react-bootstrap';
+import { Button, Container, Form, Alert } from 'react-bootstrap';
 import MyNavbar from '../MyNavbar/MyNavbar';
 import MyFooter from '../MyFooter/MyFooter';
+import { useNavigate } from 'react-router-dom';
 
 export default function SignUp() {
 
@@ -9,6 +10,10 @@ export default function SignUp() {
         email: '',
         password: '',
     });
+
+    const [alert, setAlert] = useState("");
+
+    const navigate = useNavigate();
 
     const endpoint = "http://localhost:3001/api/authors/login";
 
@@ -33,7 +38,11 @@ export default function SignUp() {
                 console.log(login)
             }
         } catch (error) {
-            console.error(error)
+            console.error(error);
+            setAlert("Email o password errati");
+            setTimeout(() => {
+                setAlert("")
+            }, 4000);
         }
     }
 
@@ -65,9 +74,17 @@ export default function SignUp() {
                         />
                     </Form.Group>
 
-
-                    <Button type='submit'>Loggati</Button>
+                    <Button type='submit' style={{ width: "100%" }}>Loggati</Button>
                 </Form>
+                {alert &&
+                    <Alert className='my-2' variant='danger'>
+                        {alert}
+                    </Alert>
+                }
+                <div className='d-flex align-items-center mt-3'>
+                    <h6>Non hai un account?</h6>
+                    <Button variant='transparent' style={{ color: "#0067BF", fontWeight: "bold" }} className='mb-2' onClick={() => navigate("/signIn")}>Registrati</Button>
+                </div>
             </Container>
             <MyFooter />
         </>

@@ -72,9 +72,10 @@ export default function MyNavbar({ searchTerm, setSearchTerm }) {
             </Navbar>
             <div style={{ position: "sticky", top: "56px", zIndex: 2 }}>
                 {alert &&
-                    <Alert variant={variant}>
+                    <Alert variant='info'>
                         {alert}
                     </Alert>}
+
             </div>
         </>
     );
