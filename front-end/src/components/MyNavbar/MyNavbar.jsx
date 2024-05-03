@@ -32,6 +32,7 @@ export default function MyNavbar({ searchTerm, setSearchTerm }) {
 
         }
     }, []);
+
     return (
         <>
             <Navbar bg="light" data-bs-theme="light" style={{ position: "sticky", top: 0, zIndex: 2 }}>

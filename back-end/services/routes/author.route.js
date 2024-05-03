@@ -98,7 +98,12 @@ apiRouteAuthors.put("/:id", async (req, res, next) => {
         let user = await User.findByIdAndUpdate(req.params.id, req.body, {
             new: true
         });
-        res.send(user)
+
+        const token = await generateJWT({
+            _id: user._id
+        });
+
+        res.send({ user, token })
     } catch (error) {
         next(error)
     }
