@@ -7,6 +7,7 @@ import Backoffice from './components/Backoffice/Backoffice';
 import SignIn from './components/SignIn/SignIn';
 import UserProfile from './components/UserProfile/UserProfile';
 import SignUp from './components/SignUp/SignUp';
+import BlogDetails from './components/BlogDetails/BlogDetails';
 function App() {
   return (
     <>
@@ -15,6 +16,7 @@ function App() {
           <Routes>
 
             <Route path='/' element={<Homepage />}></Route>
+            <Route path='/blogDetails/:id' element={<BlogDetails />}></Route>
             <Route path='/signIn' element={<SignIn />}></Route>
             <Route path='/signUp' element={<SignUp />}></Route>
             <Route path='/me' element={<UserProfile />}></Route>

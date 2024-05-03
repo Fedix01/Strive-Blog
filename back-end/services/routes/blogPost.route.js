@@ -34,6 +34,11 @@ apiRoutePosts.get("/", async (req, res, next) => {
 apiRoutePosts.get("/:id", async (req, res, next) => {
     try {
         let singlePost = await BlogPost.findById(req.params.id);
+        await singlePost.populate({
+            path: "author",
+            model: "User",
+            select: ["nome", "cognome", "avatar"]
+        });
         res.send(singlePost)
     } catch (error) {
         next(error)

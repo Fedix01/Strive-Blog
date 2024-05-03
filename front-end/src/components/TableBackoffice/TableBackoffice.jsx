@@ -44,18 +44,22 @@ export default function TableBackoffice({ setId, data, getFromApi, handleScroll,
             </thead>
             <tbody>
 
-                {data &&
+                {data !== null ?
                     data.map((el, index) => <SingleRow
                         key={el._id}
                         id={el._id}
                         index={index + 1}
-                        author={el.author.name}
+                        author={el.author.nome ? el.author.nome : "Nessun nome autore"}
                         title={el.title}
                         category={el.category}
                         deleteBlog={deleteBlog}
                         setId={setId}
                         handleScroll={handleScroll}
-                        setOpen={setOpen} />)}
+                        setOpen={setOpen} />)
+                    :
+                    <>
+                        <h2>Nessun dato</h2>
+                    </>}
 
             </tbody>
         </Table>

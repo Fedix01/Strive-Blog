@@ -60,7 +60,7 @@ export default function Backoffice() {
             <MyNavbar />
             <Container>
                 <AddBlogPost id={id} getFromApi={getFromApi} reference={ref} open={open} setOpen={setOpen} />
-                <TableBackoffice setId={setId} data={data} setData={setData} getFromApi={getFromApi} handleScroll={handleScroll} setOpen={setOpen} />
+                {/* <TableBackoffice setId={setId} data={data} setData={setData} getFromApi={getFromApi} handleScroll={handleScroll} setOpen={setOpen} /> */}
                 {/* <AddAuthor /> */}
             </Container>
         </>
