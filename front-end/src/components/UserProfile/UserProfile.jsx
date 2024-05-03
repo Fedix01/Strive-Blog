@@ -1,15 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import MyNavbar from '../MyNavbar/MyNavbar';
 import MyFooter from '../MyFooter/MyFooter';
 import { Container, Row, Col, Button, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import ModifyUser from '../ModifyUser/ModifyUser';
+import { alertContext } from '../AlertProvider/AlertProvider';
 
 export default function UserProfile() {
 
     const [data, setData] = useState([]);
 
     const [mod, setMod] = useState(false);
+
+    const { setAlert } = useContext(alertContext);
 
     const endpoint = "http://localhost:3001/api/authors/me";
 
@@ -43,6 +46,10 @@ export default function UserProfile() {
     const handleLogOut = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
+        setAlert("Logout effettuato correttamente!");
+        setInterval(() => {
+            setAlert("")
+        }, 4000);
         navigate("/")
     }
 
@@ -118,6 +125,10 @@ export default function UserProfile() {
                 console.log("oggetto eliminato", deleted);
                 localStorage.removeItem("user");
                 localStorage.removeItem("token");
+                setAlert("Profilo cancellato correttamente!");
+                setInterval(() => {
+                    setAlert("")
+                }, 4000);
                 navigate("/")
             } else {
                 console.error("Errore durante l eliminazione", res.status);

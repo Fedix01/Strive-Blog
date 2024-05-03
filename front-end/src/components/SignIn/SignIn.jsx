@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Container, Form, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import MyNavbar from '../MyNavbar/MyNavbar';
 import MyFooter from '../MyFooter/MyFooter';
+import { alertContext } from '../AlertProvider/AlertProvider';
 
 
 export default function SignIn() {
@@ -10,7 +11,7 @@ export default function SignIn() {
 
     const navigate = useNavigate();
 
-
+    const { setAlert } = useContext(alertContext);
 
     const [formData, setFormData] = useState({
         username: '',
@@ -60,6 +61,10 @@ export default function SignIn() {
                         localStorage.setItem("token", newAuthor.token);
                         localStorage.setItem("user", JSON.stringify(newAuthor.user))
                         console.log(newAuthor);
+                        setAlert(`Benvenuto ${newAuthor.user.nome}!`);
+                        setInterval(() => {
+                            setAlert("")
+                        }, 4000);
                         navigate("/")
 
                     }
@@ -67,12 +72,20 @@ export default function SignIn() {
                     localStorage.setItem("token", response.token);
                     localStorage.setItem("user", JSON.stringify(response.user))
                     console.log(response);
+                    setAlert(`Benvenuto ${response.user.nome}!`);
+                    setInterval(() => {
+                        setAlert("")
+                    }, 4000);
                     navigate("/")
                 }
 
             }
         } catch (error) {
-            console.error(error)
+            console.error(error);
+            setAlert("Errore nella creazione del profilo");
+            setInterval(() => {
+                setAlert("")
+            }, 4000);
         }
 
     };
