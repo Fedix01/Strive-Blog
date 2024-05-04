@@ -35,16 +35,18 @@ export default function BlogDetails() {
             <Container>
                 <Row>
                     <Col md={12}>
-                        {(data.length !== 0 && data.author) &&
-                            <BlogDetailsContent key={data._id}
+                        {data.length !== 0 &&
+                            <BlogDetailsContent
+                                key={data._id}
                                 cover={data.cover}
-                                authorAvatar={data.author.avatar ? data.author.avatar : null}
-                                authorName={data.author.nome ? data.author.nome : null}
-                                authorSurname={data.author.cognome ? data.author.cognome : null}
+                                authorAvatar={data.author ? (data.author.avatar ? data.author.avatar : "") : ""}
+                                authorName={data.author ? (data.author.nome ? data.author.nome : "Autore non esistente") : "Autore non esistente"}
+                                authorSurname={data.author ? (data.author.cognome ? data.author.cognome : "") : ""}
                                 title={data.title}
-                                readValue={data.readTime.value}
-                                readUnit={data.readTime.unit}
+                                readValue={data.readTime ? (data.readTime.value ? data.readTime.value : 0) : 0}
+                                readUnit={data.readTime ? (data.readTime.unit ? data.readTime.unit : "min") : "min"}
                                 content={data.content}
+
                             />}
                     </Col>
                 </Row>
