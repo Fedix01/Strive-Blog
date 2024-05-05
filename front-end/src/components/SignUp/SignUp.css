@@ -1,0 +1,39 @@
+.left {
+    height: 100vh;
+}
+
+.left h2 {
+    font-size: 55px;
+}
+
+.left button {
+    border: 1px solid gray;
+    border-radius: 20px;
+}
+
+.log {
+    width: 50%;
+    background-color: #28B498;
+    color: white;
+}
+
+
+.right {
+    background-image: url(../../assets/backgroundSite.jpg);
+    height: 100vh;
+    color: white;
+}
+
+.right button {
+    width: 60%;
+    border-radius: 20px;
+}
+
+form {
+    width: 75%;
+}
+
+form .form-control {
+    border-radius: 20px;
+    background-color: #EDF4F3;
+}

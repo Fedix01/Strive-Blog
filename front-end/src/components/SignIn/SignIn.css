@@ -1,0 +1,16 @@
+.left-reg {
+    background-image: url(../../assets/backgroundSite.jpg);
+    height: 100vh;
+    color: white;
+}
+
+
+.left-reg button {
+    color: #0067BF;
+    font-weight: bold;
+}
+
+.sign-in {
+    background-color: #28B498;
+    width: 50%;
+}

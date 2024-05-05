@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
-import { Button, Container, Form, Alert, Row, Col } from 'react-bootstrap';
+import { Button, Form, Alert, Row, Col } from 'react-bootstrap';
 import MyNavbar from '../MyNavbar/MyNavbar';
-import MyFooter from '../MyFooter/MyFooter';
 import { useNavigate } from 'react-router-dom';
-import backgroundSite from '../../assets/backgroundSite.jpg';
 import { FcGoogle } from "react-icons/fc";
+import '../SignUp/SignUp.css';
 
 export default function SignUp() {
 
@@ -52,14 +51,14 @@ export default function SignUp() {
         <>
             <MyNavbar />
             <Row>
-                <Col md={8} style={{ height: "100vh" }} className='d-flex flex-column justify-content-center align-items-center'>
-                    <h2 style={{ fontSize: "55px" }}>Log In al Tuo Account</h2>
+                <Col md={8} className='left d-flex flex-column justify-content-center align-items-center'>
+                    <h2>Log In al Tuo Account</h2>
                     <p>Login usando Google</p>
-                    <Button variant='transparent' className='p-2' style={{ border: "1px solid gray", borderRadius: "20px" }}>
+                    <Button variant='transparent' className='p-2'>
                         <FcGoogle />
                         <span className='ms-2'>Login con Google</span>
                     </Button>
-                    <hr />
+
                     <Form onSubmit={handleSubmit}>
                         <Form.Group>
                             <Form.Label>Email</Form.Label>
@@ -82,8 +81,9 @@ export default function SignUp() {
                                 required
                             />
                         </Form.Group>
-
-                        <Button type='submit' style={{ width: "100%" }}>Loggati</Button>
+                        <div className='d-flex justify-content-center'>
+                            <button type='submit' className='log mt-3 p-2'>Loggati</button>
+                        </div>
                     </Form>
 
                     {alert &&
@@ -92,10 +92,10 @@ export default function SignUp() {
                         </Alert>
                     }
                 </Col>
-                <Col md={4} className='d-flex flex-column justify-content-center align-items-center' style={{ backgroundImage: `url(${backgroundSite})`, height: "100vh", color: "white" }}>
+                <Col md={4} className=' right d-flex flex-column justify-content-center align-items-center'>
                     <h2><b>Non hai un account?</b></h2>
                     <p className='my-3'>Registrati per accedere alla creazione dei blog e poter scrivere commenti!</p>
-                    <Button variant='light' className='mt-2' style={{ width: "60%", borderRadius: "20px" }} onClick={() => navigate("/signIn")}>Registrati</Button>
+                    <Button variant='light' className='mt-2' onClick={() => navigate("/signIn")}>Registrati</Button>
                 </Col>
             </Row>
         </>
