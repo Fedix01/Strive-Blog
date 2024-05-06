@@ -14,6 +14,8 @@ export default function UserProfile() {
 
     const { setAlert } = useContext(alertContext);
 
+    const { setSearchBar } = useContext(false);
+
     const endpoint = "http://localhost:3001/api/authors/me";
 
     const endpointPATCH = `http://localhost:3001/api/authors`;
@@ -54,7 +56,8 @@ export default function UserProfile() {
     }
 
     useEffect(() => {
-        getProfile()
+        setSearchBar(false);
+        getProfile();
     }, [])
 
     const handleModify = async (nome, cognome, email, username, password, avatar) => {

@@ -15,7 +15,6 @@ export default function BlogDetailsContent(props) {
 
     return (
         <>
-            <MyNavbar />
             <div className='d-flex justify-content-center'>
                 <div>
                     <Row className='mt-4'>
@@ -66,7 +65,6 @@ export default function BlogDetailsContent(props) {
                     <p>{content}</p>
                 </Col>
             </Row>
-            <MyFooter />
         </>
     )
 }

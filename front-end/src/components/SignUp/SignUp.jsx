@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Button, Form, Alert, Row, Col } from 'react-bootstrap';
 import MyNavbar from '../MyNavbar/MyNavbar';
 import { useNavigate } from 'react-router-dom';
 import { FcGoogle } from "react-icons/fc";
 import '../SignUp/SignUp.css';
+import { SearchBarContext } from '../SearchBarProvider/SearchBarProvider';
 
 export default function SignUp() {
 
@@ -13,6 +14,8 @@ export default function SignUp() {
     });
 
     const [alert, setAlert] = useState("");
+
+    const { setSearchBar } = useContext(SearchBarContext);
 
     const navigate = useNavigate();
 
@@ -35,8 +38,11 @@ export default function SignUp() {
             if (res.ok) {
                 const login = await res.json();
                 localStorage.setItem("user", JSON.stringify(login.user));
-                localStorage.setItem("token", login.token)
-                console.log(login)
+                localStorage.setItem("token", login.token);
+                const expirationTime = new Date().getTime() + (60 * 60 * 1000);
+                localStorage.setItem("expiration", expirationTime);
+                console.log(login);
+                navigate("/")
             }
         } catch (error) {
             console.error(error);
@@ -47,20 +53,25 @@ export default function SignUp() {
         }
     }
 
+    useEffect(() => {
+        setSearchBar(false);
+    }, [])
+
+
     return (
         <>
             <MyNavbar />
             <Row>
                 <Col md={8} className='left d-flex flex-column justify-content-center align-items-center'>
                     <h2>Log In al Tuo Account</h2>
-                    <p>Login usando Google</p>
-                    <Button variant='transparent' className='p-2'>
+                    <p>Login usando Social Networks</p>
+                    <Button variant='transparent' className='google-btn p-2'>
                         <FcGoogle />
                         <span className='ms-2'>Login con Google</span>
                     </Button>
 
                     <Form onSubmit={handleSubmit}>
-                        <Form.Group>
+                        <Form.Group className='my-3'>
                             <Form.Label>Email</Form.Label>
                             <Form.Control
                                 type="email"
@@ -71,7 +82,7 @@ export default function SignUp() {
                             />
                         </Form.Group>
 
-                        <Form.Group>
+                        <Form.Group className='my-3'>
                             <Form.Label>Password</Form.Label>
                             <Form.Control
                                 type="password"

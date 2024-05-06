@@ -6,6 +6,7 @@ import TableBackoffice from '../TableBackoffice/TableBackoffice';
 import { Container } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { alertContext } from '../AlertProvider/AlertProvider';
+import UserProfile from '../UserProfile/UserProfile';
 
 
 export default function Backoffice() {
@@ -15,6 +16,7 @@ export default function Backoffice() {
     const [data, setData] = useState([]);
 
     const { alert, setAlert } = useContext(alertContext);
+
 
     const endpoint = "http://localhost:3001/api/blogPosts";
 
@@ -28,13 +30,16 @@ export default function Backoffice() {
         return ref.current.scrollIntoView({ behavior: 'smooth' })
     }
 
-    const getFromApi = async () => {
+    const getFromApi = async (user) => {
         try {
             const response = await fetch(endpoint);
             if (response.ok) {
                 const results = await response.json();
-                setData(results);
-                console.log("fetch get ok")
+                const filtered = results.filter((el) => {
+                    return (el.author && el.author._id) && el.author._id.includes(user?._id)
+                });
+                setData(filtered);
+                console.log(filtered)
             }
         } catch (error) {
             console.error(error)
@@ -44,7 +49,9 @@ export default function Backoffice() {
     useEffect(() => {
         const user = localStorage.getItem("user");
         if (user) {
-            getFromApi()
+            const newUser = JSON.parse(user);
+            console.log(newUser);
+            getFromApi(newUser)
         } else {
             setAlert("Per scrivere un nuovo post devi fare il login")
             setTimeout(() => {
@@ -60,7 +67,7 @@ export default function Backoffice() {
             <MyNavbar />
             <Container>
                 <AddBlogPost id={id} getFromApi={getFromApi} reference={ref} open={open} setOpen={setOpen} />
-                {/* <TableBackoffice setId={setId} data={data} setData={setData} getFromApi={getFromApi} handleScroll={handleScroll} setOpen={setOpen} /> */}
+                <TableBackoffice setId={setId} data={data} setData={setData} getFromApi={getFromApi} handleScroll={handleScroll} setOpen={setOpen} />
                 {/* <AddAuthor /> */}
             </Container>
         </>

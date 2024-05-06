@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Container, Row, Col } from 'react-bootstrap';
 import { useParams } from 'react-router-dom'
 import BlogDetailsContent from '../BlogDetailsContent/BlogDetailsContent';
+import { SearchBarContext } from '../SearchBarProvider/SearchBarProvider';
+import MyNavbar from '../MyNavbar/MyNavbar';
+import MyFooter from '../MyFooter/MyFooter';
 
 
 export default function BlogDetails() {
@@ -10,7 +13,9 @@ export default function BlogDetails() {
 
     const [data, setData] = useState({});
 
-    const endpoint = `http://localhost:3001/api/blogPosts/${params.id}`
+    const endpoint = `http://localhost:3001/api/blogPosts/${params.id}`;
+
+    const { setSearchBar } = useContext(SearchBarContext);
 
     const handleDetails = async () => {
         try {
@@ -26,12 +31,14 @@ export default function BlogDetails() {
     }
 
     useEffect(() => {
+        setSearchBar(false);
         handleDetails()
     }, [])
 
 
     return (
         <>
+            <MyNavbar />
             <Container>
                 <Row>
                     <Col md={12}>
@@ -51,6 +58,7 @@ export default function BlogDetails() {
                     </Col>
                 </Row>
             </Container>
+            <MyFooter />
         </>
     )
 }

@@ -49,7 +49,7 @@ export default function TableBackoffice({ setId, data, getFromApi, handleScroll,
                         key={el._id}
                         id={el._id}
                         index={index + 1}
-                        author={el.author.nome ? el.author.nome : "Nessun nome autore"}
+                        author={el.author ? (el.author.nome ? el.author.nome : "Nessun nome autore") : "Nessun autore"}
                         title={el.title}
                         category={el.category}
                         deleteBlog={deleteBlog}

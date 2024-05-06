@@ -1,9 +1,10 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Row, Col, Form, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import MyNavbar from '../MyNavbar/MyNavbar';
 import { alertContext } from '../AlertProvider/AlertProvider';
 import '../SignIn/SignIn.css'
+import { SearchBarContext } from '../SearchBarProvider/SearchBarProvider';
 
 
 export default function SignIn() {
@@ -12,6 +13,8 @@ export default function SignIn() {
     const navigate = useNavigate();
 
     const { setAlert } = useContext(alertContext);
+
+    const { setSearchBar } = useContext(SearchBarContext);
 
     const [formData, setFormData] = useState({
         username: '',
@@ -90,19 +93,24 @@ export default function SignIn() {
 
     };
 
+    useEffect(() => {
+        setSearchBar(false)
+    }, [])
+
+
     return (
         <>
             <MyNavbar />
             <Row>
-                <Col md={4} className='left-reg d-flex flex-column justify-content-center align-items-center mt-3'>
-                    <h6>Hai gia un account?</h6>
-                    <p>Esegui il login per accedere alla creazioni di Blog e Commenti</p>
-                    <Button variant='transparent' className='mb-2' onClick={() => navigate("/signUp")}>Log In</Button>
+                <Col md={4} className='left-reg d-flex flex-column justify-content-center align-items-center'>
+                    <h2><b>Hai gia un account?</b></h2>
+                    <p className='my-3'>Esegui il login per accedere alla creazioni di Blog e Commenti</p>
+                    <Button variant='light' className='mt-2' onClick={() => navigate("/signUp")}>Log In</Button>
                 </Col>
                 <Col md={8} className='d-flex flex-column justify-content-center align-items-center'>
                     <h2>Registrazione</h2>
                     <Form onSubmit={handleSubmit}>
-                        <Form.Group>
+                        <Form.Group className='my-3'>
                             <Form.Label>Username</Form.Label>
                             <Form.Control
                                 type="text"
@@ -114,7 +122,7 @@ export default function SignIn() {
                             />
                         </Form.Group>
 
-                        <Form.Group>
+                        <Form.Group className='my-3'>
                             <Form.Label>Email address</Form.Label>
                             <Form.Control
                                 type="email"
@@ -126,7 +134,7 @@ export default function SignIn() {
                             />
                         </Form.Group>
 
-                        <Form.Group>
+                        <Form.Group className='my-3'>
                             <Form.Label>Password</Form.Label>
                             <Form.Control
                                 type="password"
@@ -138,7 +146,7 @@ export default function SignIn() {
                             />
                         </Form.Group>
 
-                        <Form.Group>
+                        <Form.Group className='my-3'>
                             <Form.Label>Nome</Form.Label>
                             <Form.Control
                                 type="text"
@@ -149,7 +157,7 @@ export default function SignIn() {
                             />
                         </Form.Group>
 
-                        <Form.Group>
+                        <Form.Group className='my-3'>
                             <Form.Label>Cognome</Form.Label>
                             <Form.Control
                                 type="text"
@@ -160,7 +168,7 @@ export default function SignIn() {
                             />
                         </Form.Group>
 
-                        <Form.Group>
+                        <Form.Group className='my-3'>
                             <Form.Label>Data Di Nascita</Form.Label>
                             <Form.Control
                                 type="date"
@@ -171,7 +179,7 @@ export default function SignIn() {
                             />
                         </Form.Group>
 
-                        <Form.Group>
+                        <Form.Group className='my-3'>
                             <Form.Label>Avatar</Form.Label>
                             <Form.Control
                                 type="file"

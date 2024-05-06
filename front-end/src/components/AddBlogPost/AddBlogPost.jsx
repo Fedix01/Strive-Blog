@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { alertContext } from '../AlertProvider/AlertProvider';
+import { useNavigate } from 'react-router-dom';
 
 export default function AddBlogPost({ id, getFromApi, reference, open, setOpen }) {
     const [title, setTitle] = useState("");
@@ -12,6 +13,7 @@ export default function AddBlogPost({ id, getFromApi, reference, open, setOpen }
 
     const { setAlert } = useContext(alertContext);
 
+    const navigate = useNavigate();
 
     const [content, setContent] = useState("");
 
@@ -42,22 +44,34 @@ export default function AddBlogPost({ id, getFromApi, reference, open, setOpen }
             });
             if (res.ok) {
                 const newBlog = await res.json();
-                const formData = new FormData();
-                formData.append("cover", cover);
-                const patch = await fetch(`${endpoint}/${newBlog._id}/cover`, {
-                    method: "PATCH",
-                    body: formData
-                });
-                if (patch.ok) {
-                    const posted = await patch.json();
-                    console.log(posted)
+                if (cover) {
+                    const formData = new FormData();
+                    formData.append("cover", cover);
+                    const patch = await fetch(`${endpoint}/${newBlog._id}/cover`, {
+                        method: "PATCH",
+                        body: formData
+                    });
+                    if (patch.ok) {
+                        const posted = await patch.json();
+                        console.log(posted)
+                        setAlert("Blog post aggiunto correttamente");
+                        setInterval(() => {
+                            setAlert("")
+                        }, 3000);
+                        getFromApi();
+                        console.log("Blog Post creato")
+                        navigate("/")
+                    }
+
+                } else {
+
                     setAlert("Blog post aggiunto correttamente");
                     setInterval(() => {
                         setAlert("")
                     }, 3000);
                     getFromApi();
                     console.log("Blog Post creato")
-
+                    navigate("/")
                 }
             }
         } catch (error) {

@@ -1,14 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import AllBlogPosts from '../AllBlogPosts/AllBlogPosts';
 import MyNavbar from '../MyNavbar/MyNavbar';
 import MyFooter from '../MyFooter/MyFooter';
 import AllTopics from '../AllTopics/AllTopics';
+import { SearchBarContext } from '../SearchBarProvider/SearchBarProvider';
 
 export default function Homepage() {
     const [data, setData] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
     const [searchTopic, setSearchTopic] = useState("");
     const [filteredTopic, setFilteredTopic] = useState("");
+
+    const { setSearchBar } = useContext(SearchBarContext);
 
     const endpoint = "http://localhost:3001/api/blogPosts";
 
@@ -56,6 +59,25 @@ export default function Homepage() {
         console.log(filteredTopic)
     }, [filteredTopic])
 
+    useEffect(() => {
+        checkToken()
+    }, [])
+
+
+    useEffect(() => {
+        setSearchBar(true)
+    }, [])
+
+
+    const checkToken = () => {
+        const expirationTime = localStorage.getItem("expiration");
+
+        if (expirationTime === null) {
+            localStorage.removeItem("token");
+            localStorage.removeItem("user");
+        }
+    }
+
     const filteredBtnTopic = async (topic) => {
         if (topic) {
             try {
@@ -90,7 +112,7 @@ export default function Homepage() {
         <>
             <MyNavbar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
             <AllTopics setFilteredTopic={setFilteredTopic} filteredTopic={filteredTopic} searchTopic={searchTopic} setSearchTopic={setSearchTopic} getFromApi={getFromApi} filteredBtnTopic={filteredBtnTopic} exploreTopic={exploreTopic} />
-            <AllBlogPosts data={data} getFromApi={getFromApi} />
+            <AllBlogPosts data={data} getFromApi={getFromApi} filteredTopic={filteredTopic} />
             <MyFooter />
         </>
     )

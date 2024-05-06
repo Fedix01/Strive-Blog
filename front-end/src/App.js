@@ -8,22 +8,25 @@ import SignIn from './components/SignIn/SignIn';
 import UserProfile from './components/UserProfile/UserProfile';
 import SignUp from './components/SignUp/SignUp';
 import BlogDetails from './components/BlogDetails/BlogDetails';
+import SearchBarProvider from './components/SearchBarProvider/SearchBarProvider';
 function App() {
   return (
     <>
       <BrowserRouter>
         <AlertProvider>
-          <Routes>
+          <SearchBarProvider>
+            <Routes>
 
-            <Route path='/' element={<Homepage />}></Route>
-            <Route path='/blogDetails/:id' element={<BlogDetails />}></Route>
-            <Route path='/signIn' element={<SignIn />}></Route>
-            <Route path='/signUp' element={<SignUp />}></Route>
-            <Route path='/me' element={<UserProfile />}></Route>
-            <Route path='/newPost' element={<Backoffice />}></Route>
-            <Route path='/*' element={<NotFound />}></Route>
+              <Route path='/' element={<Homepage />}></Route>
+              <Route path='/blogDetails/:id' element={<BlogDetails />}></Route>
+              <Route path='/signIn' element={<SignIn />}></Route>
+              <Route path='/signUp' element={<SignUp />}></Route>
+              <Route path='/me' element={<UserProfile />}></Route>
+              <Route path='/newPost' element={<Backoffice />}></Route>
+              <Route path='/*' element={<NotFound />}></Route>
 
-          </Routes>
+            </Routes>
+          </SearchBarProvider>
         </AlertProvider>
       </BrowserRouter>
     </>

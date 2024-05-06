@@ -2,7 +2,7 @@ import React from 'react';
 import { Row, Col, Container } from 'react-bootstrap';
 import SingleBlogPost from '../SingleBlogPost/SingleBlogPost';
 
-export default function AllBlogPosts({ data }) {
+export default function AllBlogPosts({ data, filteredTopic }) {
 
     // const [data, setData] = useState([]);
 
@@ -27,9 +27,17 @@ export default function AllBlogPosts({ data }) {
 
             <Container>
                 <Row>
-                    <Col md={12}>
-                        <h2>Tutti i Blog</h2>
-                    </Col>
+                    {filteredTopic ?
+                        <Col md={12}>
+                            <h2>Tutti i Blog in: {filteredTopic}</h2>
+                            <p>Risultati trovati: {data.length}</p>
+                        </Col>
+                        :
+                        <Col md={12}>
+                            <h2>Tutti i Blog</h2>
+                            <p>Risultati trovati: {data.length}</p>
+                        </Col>
+                    }
 
                     {data &&
                         data.map((el) => (

@@ -6,11 +6,17 @@
 
 
 .left-reg button {
-    color: #0067BF;
-    font-weight: bold;
+    border-radius: 20px;
+    width: 100px;
 }
 
 .sign-in {
     background-color: #28B498;
     width: 50%;
+    border-radius: 20px;
+    border: 1px solid white;
+}
+
+.sign-in:hover {
+    background-color: #28B498;
 }
