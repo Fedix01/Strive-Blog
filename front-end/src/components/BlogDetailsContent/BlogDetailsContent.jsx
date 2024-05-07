@@ -6,10 +6,11 @@ import { FaRegComment } from "react-icons/fa6";
 import { FaRegBookmark } from "react-icons/fa";
 import { IoPlayCircleOutline } from "react-icons/io5";
 import { FiUpload } from "react-icons/fi";
+import CommentArea from '../CommentArea/CommentArea';
 
 export default function BlogDetailsContent(props) {
 
-    const { cover, authorName, authorSurname, authorAvatar, title, readValue, readUnit, content } = props;
+    const { id, cover, authorName, authorSurname, authorAvatar, title, readValue, readUnit, content } = props;
 
     const [comment, setComment] = useState(false);
 
@@ -52,16 +53,23 @@ export default function BlogDetailsContent(props) {
                             </Col>
 
                         </Row>
+
+                        {comment &&
+                            <Row>
+                                <Col md={12}>
+                                    <CommentArea id={id} />
+                                </Col>
+                            </Row>}
                     </div>
                 </div>
             </div>
-            <Row>
+            <Row className='my-4'>
                 <Col md={12} className='d-flex justify-content-center'>
                     <img src={cover} alt="cover" style={{ width: "70%" }} />
                 </Col>
             </Row>
-            <Row>
-                <Col md={12} className='d-flex justify-content-start'>
+            <Row className='mt-4'>
+                <Col md={12} className='d-flex justify-content-center'>
                     <p>{content}</p>
                 </Col>
             </Row>

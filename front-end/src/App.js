@@ -9,6 +9,7 @@ import UserProfile from './components/UserProfile/UserProfile';
 import SignUp from './components/SignUp/SignUp';
 import BlogDetails from './components/BlogDetails/BlogDetails';
 import SearchBarProvider from './components/SearchBarProvider/SearchBarProvider';
+import AllAuthors from './components/AllAuthors/AllAuthors';
 function App() {
   return (
     <>
@@ -22,6 +23,7 @@ function App() {
               <Route path='/signIn' element={<SignIn />}></Route>
               <Route path='/signUp' element={<SignUp />}></Route>
               <Route path='/me' element={<UserProfile />}></Route>
+              <Route path='/authors' element={<AllAuthors />}></Route>
               <Route path='/newPost' element={<Backoffice />}></Route>
               <Route path='/*' element={<NotFound />}></Route>
 

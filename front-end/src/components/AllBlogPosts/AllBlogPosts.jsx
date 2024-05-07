@@ -35,7 +35,7 @@ export default function AllBlogPosts({ data, filteredTopic }) {
                         :
                         <Col md={12}>
                             <h2>Tutti i Blog</h2>
-                            <p>Risultati trovati: {data.length}</p>
+                            <p>{data.length === 0 ? "Nessun risultato trovato" : `Risultati trovati: ${data.length}`}</p>
                         </Col>
                     }
 

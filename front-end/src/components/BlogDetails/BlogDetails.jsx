@@ -45,6 +45,7 @@ export default function BlogDetails() {
                         {data.length !== 0 &&
                             <BlogDetailsContent
                                 key={data._id}
+                                id={data._id}
                                 cover={data.cover}
                                 authorAvatar={data.author ? (data.author.avatar ? data.author.avatar : "") : ""}
                                 authorName={data.author ? (data.author.nome ? data.author.nome : "Autore non esistente") : "Autore non esistente"}

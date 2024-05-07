@@ -1,34 +1,23 @@
 import React from 'react';
-import { Card, ListGroup, Button } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 
 export default function SingleAuthor(props) {
-    const { name, surname, email, birth, avatar, deleteAuthor, id, setId, setMod, mod, scroll, openForm } = props;
+    const { name, surname, email, birth, avatar } = props;
 
 
-    const handleModify = (id) => {
-        setMod(true);
-        setId(id);
-        scroll();
-        openForm(true)
-    }
     return (
         <>
-            <Card className='ms-3' style={{ width: '20rem' }}>
-                <Card.Img variant="top" src={avatar} />
+            <Card className='mx-1 my-2' style={{ width: '20rem', border: "none" }}>
+                <Card.Img variant="top" src={avatar} style={{ height: '15rem' }} />
                 <Card.Body>
                     <Card.Title>
-                        <h2> Nome: {name}</h2>
-                        <h2>Cognome: {surname}</h2>
+                        <h4>{name} {surname}</h4>
                     </Card.Title>
+                    <Card.Text>
+                        <h5>Email: {email}</h5>
+                        <h5>Data di nascita: {birth}</h5>
+                    </Card.Text>
                 </Card.Body>
-                <ListGroup className="list-group-flush" style={{ borderBottom: "none" }}>
-                    <ListGroup.Item>Email: {email}</ListGroup.Item>
-                    <ListGroup.Item>Data di nascita: {birth}</ListGroup.Item>
-                </ListGroup>
-                <div className='ms-2 mt-2 mb-1'>
-                    <Button variant="primary" onClick={() => handleModify(id)}>Modifica</Button>
-                    <Button variant="danger" className='ms-3' onClick={() => deleteAuthor(id)}>Elimina</Button>
-                </div>
             </Card>
 
         </>

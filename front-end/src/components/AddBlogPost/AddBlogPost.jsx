@@ -75,7 +75,10 @@ export default function AddBlogPost({ id, getFromApi, reference, open, setOpen }
                 }
             }
         } catch (error) {
-            console.error(error)
+            console.error(error);
+            localStorage.removeItem("user");
+            localStorage.removeItem("token");
+            navigate("/signUp")
         }
     };
 
@@ -122,7 +125,10 @@ export default function AddBlogPost({ id, getFromApi, reference, open, setOpen }
                 console.log("Blog modificato");
             }
         } catch (error) {
-            console.error(error)
+            console.error(error);
+            localStorage.removeItem("user");
+            localStorage.removeItem("token");
+            navigate("/signUp")
         }
     }
 

@@ -42,6 +42,9 @@ export default function UserProfile() {
             }
         } catch (error) {
             console.error(error)
+            localStorage.removeItem("user");
+            localStorage.removeItem("token");
+            navigate("/signUp");
         }
     }
 

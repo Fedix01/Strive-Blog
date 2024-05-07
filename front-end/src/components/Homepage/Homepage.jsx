@@ -59,24 +59,12 @@ export default function Homepage() {
         console.log(filteredTopic)
     }, [filteredTopic])
 
-    useEffect(() => {
-        checkToken()
-    }, [])
-
 
     useEffect(() => {
         setSearchBar(true)
     }, [])
 
 
-    const checkToken = () => {
-        const expirationTime = localStorage.getItem("expiration");
-
-        if (expirationTime === null) {
-            localStorage.removeItem("token");
-            localStorage.removeItem("user");
-        }
-    }
 
     const filteredBtnTopic = async (topic) => {
         if (topic) {

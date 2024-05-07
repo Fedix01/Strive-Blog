@@ -8,7 +8,7 @@ import { PiNotePencilLight } from "react-icons/pi";
 import { SearchBarContext } from '../SearchBarProvider/SearchBarProvider';
 
 
-export default function MyNavbar({ searchTerm, setSearchTerm }) {
+export default function MyNavbar({ searchTerm, setSearchTerm, setSearchAuthors, searchAuthors, authorPage }) {
     const navigate = useNavigate();
     const { alert } = useContext(alertContext);
     const [variant, setVariant] = useState("");
@@ -47,14 +47,18 @@ export default function MyNavbar({ searchTerm, setSearchTerm }) {
                         <span className='ms-3'>Strive Blog</span>
                     </Navbar.Brand>
                     <Nav>
+                        <Nav.Link onClick={() => navigate("/")}>Blog Posts</Nav.Link>
                         <Nav.Link onClick={() => navigate("/authors")}>Autori</Nav.Link>
-                        {/* <Nav.Link onClick={() => navigate("/blogPosts")}>Blog Posts</Nav.Link>
-                        <Nav.Link href="pricing">Pricing</Nav.Link> */}
                     </Nav>
                 </div>
                 {searchBar &&
                     <Form className="d-flex justify-content-center" >
-                        <Form.Control className="nav-input form-control me-2" type="search" placeholder="Cerca" onChange={(e) => setSearchTerm(e.target.value)} value={searchTerm}></Form.Control>
+                        <Form.Control className="nav-input form-control me-2" type="search" placeholder="Cerca blog..." onChange={(e) => setSearchTerm(e.target.value)} value={searchTerm}></Form.Control>
+                    </Form>
+                }
+                {authorPage &&
+                    <Form className="d-flex justify-content-center" >
+                        <Form.Control className="nav-input form-control me-2" type="search" placeholder="Cerca autori..." onChange={(e) => setSearchAuthors(e.target.value)} value={searchAuthors}></Form.Control>
                     </Form>
                 }
 

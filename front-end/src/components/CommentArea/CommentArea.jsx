@@ -77,7 +77,10 @@ export default function CommentArea({ id }) {
                     setText("");
                 }
             } catch (error) {
-                console.error(error)
+                console.error(error);
+                localStorage.remove("user");
+                localStorage.remove("token");
+                navigate("/signUp")
             }
 
         } else {
@@ -87,11 +90,7 @@ export default function CommentArea({ id }) {
             }, 4000);
             navigate("/signUp");
         }
-        // if (user._id === authorId) {
 
-        // } else {
-        //     navigate("/signIn")
-        // }
     }
 
     const deleteComment = async (commentId, authorId) => {
@@ -111,7 +110,10 @@ export default function CommentArea({ id }) {
                     getFromApi()
                 }
             } catch (error) {
-                console.error(error)
+                console.error(error);
+                localStorage.removeItem("user");
+                localStorage.removeItem("token");
+                navigate("/signUp")
             }
 
         } else {
@@ -151,7 +153,10 @@ export default function CommentArea({ id }) {
                     setMod(false);
                 }
             } catch (error) {
-                console.error(error)
+                console.error(error);
+                localStorage.removeItem("user");
+                localStorage.removeItem("token");
+                navigate("/signUp")
             }
 
         }
@@ -160,22 +165,26 @@ export default function CommentArea({ id }) {
     return (
         <>
             <div className='my-3'>
-                {data.length > 0 ?
-                    data.map((el) => <SingleComment key={el._id}
-                        comment={el.text}
-                        avatar={el.author ? el.author.avatar : null}
-                        authorName={el.author ? el.author.nome : null}
-                        authorLastName={el.author ? el.author.cognome : null}
-                        commentId={el._id}
-                        authorId={el.author ? el.author._id : null}
-                        deleteComment={deleteComment}
-                        currentUser={user}
-                        modifyComment={modifyComment} />)
-                    :
-                    <>
-                        <h6>Nessun commento, scrivi una recensione...</h6>
-                    </>}
-
+                <div className='mb-2' style={{
+                    maxHeight: "100px",
+                    overflowY: "scroll",
+                }}>
+                    {data.length > 0 ?
+                        data.map((el) => <SingleComment key={el._id}
+                            comment={el.text}
+                            avatar={el.author ? el.author.avatar : null}
+                            authorName={el.author ? el.author.nome : null}
+                            authorLastName={el.author ? el.author.cognome : null}
+                            commentId={el._id}
+                            authorId={el.author ? el.author._id : null}
+                            deleteComment={deleteComment}
+                            currentUser={user}
+                            modifyComment={modifyComment} />)
+                        :
+                        <>
+                            <h6>Nessun commento, scrivi una recensione...</h6>
+                        </>}
+                </div>
                 <div className='d-flex align-items-center'>
                     <img src={user.avatar ? user.avatar : "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIAL0AyAMBIgACEQEDEQH/xAAaAAEAAwEBAQAAAAAAAAAAAAAAAwQFAQIH/8QAMhABAAIBAwIDBAgHAAAAAAAAAAECAwQRITFBElFxBTJCgRMUIiNSYaHhNENykZKxwf/EABUBAQEAAAAAAAAAAAAAAAAAAAAB/8QAFREBAQAAAAAAAAAAAAAAAAAAABH/2gAMAwEAAhEDEQA/APqgCoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAivqMVJ5vHy5BKK/13D52/xeq6rDP8zb1jYEw5W9b+7aLekugAAAAAAAAAAAAAAAAAAeqvn1VMUzWI8V/KOzzrdROOPo8fFpjeZ8mfv+vUgly6jJl9632fwx0Q7OhAAIEcdOPRdwayJ2rljw7fF2Ugg2u0THSe4paDNM/d27RwugAAAAAAAAAAAAAAOuPOW22K894iQZefJ9Jntbtvt8kYKAAAAAAJdLfw6mkz3mIarHxbRlpM9ItDYQAAAAAAAAAAAAAAEWo/h8n9MpXjJHix3jzjYGQAoAAAAAAbtqOjGiN5iGzG/wAkAAAAAAAAAAAAAABV1+/0MbT3jdaQa2N9NO3baQZgCgAAAAABu09Hv9Xrv+f+2Y1dPXw4McT5IJQAAAAAAAAAAAAAHjJWbYr1jras7PYDGmtqztas1n84cXfaVZ+7t12md1JaAAAAAAPVMdrzEVjflsbcRHkraCu2Dfbm0ysoAAAAAAAAAAAAAAAAI8+P6XDNI67RMerJmJidp4mOJj820zvaFYjPEx8Uc/3BWAUAAHaVm9opXrM7OLPs+InNO/av/QaFaRWsVjpERDoIAAAAAAAAAAAAAAAHIDN19t88R5V5es2svMzXHM0iJ6qszM9Z3nzIACgAAs6CdtRt+KvCs7EzExMcTANnkZ+HWXiYrk+3Ez1aHKAAAAAAAAAAAG/7osmoxY/evHy5BKb+XPop319elKzPrwr5NVlycTbaPKvBBfy6jHiifFaPSFTNrL3+zXetf1Ve+/cjggAKAAAAAAC1h1l6fZtvav6qp1SDVxajHliPDaPSUu+3Xj1Yvffumx6rLj4i28eVuSDUFOmvr0vWY9OU+PUYsnu3j58EEob/ALAAADze8UrNrcVh6UfaN58VafDtE7Ai1Gqvl3rEzWnaPNXiNnegQAFAAAAAAAAAAAAAAByY3dAT6fVXxbVmZtTvHk0aXi9YtXmssdc9nXnxWp8O0zsgvAA//9k="}
                         alt=""

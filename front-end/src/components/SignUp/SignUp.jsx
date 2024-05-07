@@ -39,8 +39,6 @@ export default function SignUp() {
                 const login = await res.json();
                 localStorage.setItem("user", JSON.stringify(login.user));
                 localStorage.setItem("token", login.token);
-                const expirationTime = new Date().getTime() + (60 * 60 * 1000);
-                localStorage.setItem("expiration", expirationTime);
                 console.log(login);
                 navigate("/")
             }
