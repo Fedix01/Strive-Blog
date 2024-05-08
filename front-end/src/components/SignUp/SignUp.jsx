@@ -21,6 +21,8 @@ export default function SignUp() {
 
     const endpoint = "http://localhost:3001/api/authors/login";
 
+    const endpointGoogle = "http://localhost:3001/api/authors/googleLogin";
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -51,6 +53,10 @@ export default function SignUp() {
         }
     }
 
+    const googleLogin = () => {
+        window.open(endpointGoogle, "_self");
+    }
+
     useEffect(() => {
         setSearchBar(false);
     }, [])
@@ -63,7 +69,7 @@ export default function SignUp() {
                 <Col md={8} className='left d-flex flex-column justify-content-center align-items-center'>
                     <h2>Log In al Tuo Account</h2>
                     <p>Login usando Social Networks</p>
-                    <Button variant='transparent' className='google-btn p-2'>
+                    <Button variant='transparent' className='google-btn p-2' onClick={googleLogin}>
                         <FcGoogle />
                         <span className='ms-2'>Login con Google</span>
                     </Button>

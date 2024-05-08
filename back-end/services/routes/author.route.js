@@ -4,9 +4,13 @@ import { avatarCloud } from '../middlewares/multer.js';
 import { sendEmail } from "../middlewares/sendEmail.js";
 import bcrypt from "bcryptjs";
 import { authMiddleware, generateJWT } from "../middlewares/authentication.js";
+import passport from "passport";
 // Importo il modello dell api
 
 export const apiRouteAuthors = Router();
+
+
+apiRouteAuthors.get("/googleLogin", passport.authenticate("google", { scope: ["profile", "email"] }));
 
 // Chiamata get a tutti gli oggetti dell api
 apiRouteAuthors.get("/", async (req, res, next) => {
@@ -18,6 +22,17 @@ apiRouteAuthors.get("/", async (req, res, next) => {
     }
 });
 
+apiRouteAuthors.get(
+    "/callback",
+    passport.authenticate("google", { session: false },
+        (req, res, next) => {
+            try {
+                res.redirect(`http://localhost:3000/?accessToken=${req.user.accToken}`);
+            } catch (error) {
+                next(error)
+            }
+        }));
+
 // Chiamata get col profilo loggato
 apiRouteAuthors.get("/me", authMiddleware, async (req, res, next) => {
     try {
@@ -26,7 +41,9 @@ apiRouteAuthors.get("/me", authMiddleware, async (req, res, next) => {
     } catch (error) {
         next(error)
     }
-})
+});
+
+
 // Chiamata get all esatto parametro passato
 apiRouteAuthors.get("/:id", async (req, res, next) => {
     try {

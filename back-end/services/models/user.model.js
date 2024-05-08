@@ -26,7 +26,7 @@ const userSchema = new Schema(
 
         dataDiNascita: {
             type: String,
-            required: true
+            required: false
         },
 
         avatar: {
@@ -38,6 +38,11 @@ const userSchema = new Schema(
             type: String,
             select: false,
             required: true
+        },
+
+        googleId: {
+            type: String,
+            required: false
         }
 
     },

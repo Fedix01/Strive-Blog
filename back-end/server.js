@@ -7,6 +7,8 @@ import { apiRoutePosts } from "./services/routes/blogPost.route.js";
 import { logger } from "./services/middlewares/logger.js";
 import { badRequestHandler, genericErrorHandler, notFoundHandler, unhatorizedHandler } from "./services/middlewares/errorHandler.js";
 import nodemailer from 'nodemailer';
+import passport from "passport";
+import googleStrategy from "./services/middlewares/passport.js";
 
 // Creo il server
 const app = express()
@@ -21,6 +23,9 @@ app.use(cors());
 // Aggiungo dei middleware
 app.use(logger);
 // app.use(authenticate)
+
+passport.use("google", googleStrategy);
+
 
 //  Importo la route
 app.use("/api/authors", apiRouteAuthors);
