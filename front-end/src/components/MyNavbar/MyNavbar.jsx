@@ -6,6 +6,7 @@ import { FaComments } from "react-icons/fa";
 import '../MyNavbar/MyNavbar.css';
 import { PiNotePencilLight } from "react-icons/pi";
 import { SearchBarContext } from '../SearchBarProvider/SearchBarProvider';
+import { GoogleContext } from '../GoogleUserProvider/GoogleUserProvider';
 
 
 export default function MyNavbar({ searchTerm, setSearchTerm, setSearchAuthors, searchAuthors, authorPage }) {
@@ -14,6 +15,8 @@ export default function MyNavbar({ searchTerm, setSearchTerm, setSearchAuthors, 
     const [variant, setVariant] = useState("");
 
     const [user, setUser] = useState([]);
+
+    const { googleUser } = useContext(GoogleContext);
 
     const { searchBar } = useContext(SearchBarContext);
 
@@ -30,12 +33,39 @@ export default function MyNavbar({ searchTerm, setSearchTerm, setSearchAuthors, 
     useEffect(() => {
         const userString = localStorage.getItem("user");
         if (userString) {
-            const newUser = JSON.parse(userString);
-            setUser(newUser);
-            console.log(newUser);
+            try {
+                const newUser = JSON.parse(userString);
+                setUser(newUser);
+                console.log(newUser);
+            } catch (error) {
+                console.error("Errore nel parsing del valore JSON:", error);
+            }
+        } else if (googleUser.length !== 0) {
+            const googleStor = localStorage.getItem("googleUser");
+            try {
+                const newUser = JSON.parse(googleStor);
+                setUser(newUser);
+                console.log(newUser)
+            } catch (error) {
+                console.error("Errore nel parsing del valore JSON:", error);
 
+            }
         }
     }, []);
+
+
+
+
+    // useEffect(() => {
+    //     const googleUserString = localStorage.getItem("userGoogle");
+    //     if (googleUserString) {
+    //         const newGoogleUser = JSON.parse(googleUserString);
+    //         setGoogleUser(newGoogleUser);
+    //     }
+    // }, []);
+
+
+
 
     return (
         <>
@@ -63,7 +93,7 @@ export default function MyNavbar({ searchTerm, setSearchTerm, setSearchAuthors, 
                 }
 
                 <div>
-                    {user.length !== 0 ? (
+                    {user ? (
                         <>
                             <div className='right-nav d-flex justify-content-center align-items-center'>
                                 <Button variant='success' onClick={() => navigate("/newPost")}>Scrivi nuovo post</Button>

@@ -10,24 +10,27 @@ import SignUp from './components/SignUp/SignUp';
 import BlogDetails from './components/BlogDetails/BlogDetails';
 import SearchBarProvider from './components/SearchBarProvider/SearchBarProvider';
 import AllAuthors from './components/AllAuthors/AllAuthors';
+import GoogleUserProvider from './components/GoogleUserProvider/GoogleUserProvider';
 function App() {
   return (
     <>
       <BrowserRouter>
         <AlertProvider>
           <SearchBarProvider>
-            <Routes>
+            <GoogleUserProvider>
+              <Routes>
 
-              <Route path='/' element={<Homepage />}></Route>
-              <Route path='/blogDetails/:id' element={<BlogDetails />}></Route>
-              <Route path='/signIn' element={<SignIn />}></Route>
-              <Route path='/signUp' element={<SignUp />}></Route>
-              <Route path='/me' element={<UserProfile />}></Route>
-              <Route path='/authors' element={<AllAuthors />}></Route>
-              <Route path='/newPost' element={<Backoffice />}></Route>
-              <Route path='/*' element={<NotFound />}></Route>
+                <Route path='/' element={<Homepage />}></Route>
+                <Route path='/blogDetails/:id' element={<BlogDetails />}></Route>
+                <Route path='/signIn' element={<SignIn />}></Route>
+                <Route path='/signUp' element={<SignUp />}></Route>
+                <Route path='/me' element={<UserProfile />}></Route>
+                <Route path='/authors' element={<AllAuthors />}></Route>
+                <Route path='/newPost' element={<Backoffice />}></Route>
+                <Route path='/*' element={<NotFound />}></Route>
 
-            </Routes>
+              </Routes>
+            </GoogleUserProvider>
           </SearchBarProvider>
         </AlertProvider>
       </BrowserRouter>

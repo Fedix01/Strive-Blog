@@ -5,6 +5,8 @@ import { Container, Row, Col, Button, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import ModifyUser from '../ModifyUser/ModifyUser';
 import { alertContext } from '../AlertProvider/AlertProvider';
+import { SearchBarContext } from '../SearchBarProvider/SearchBarProvider';
+import { GoogleContext } from '../GoogleUserProvider/GoogleUserProvider';
 
 export default function UserProfile() {
 
@@ -14,7 +16,9 @@ export default function UserProfile() {
 
     const { setAlert } = useContext(alertContext);
 
-    const { setSearchBar } = useContext(false);
+    const { setSearchBar } = useContext(SearchBarContext);
+
+    const { setGoogleUser } = useContext(GoogleContext);
 
     const endpoint = "http://localhost:3001/api/authors/me";
 
@@ -51,6 +55,8 @@ export default function UserProfile() {
     const handleLogOut = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
+        setGoogleUser([]);
+        localStorage.removeItem("googleUser");
         setAlert("Logout effettuato correttamente!");
         setInterval(() => {
             setAlert("")
@@ -130,6 +136,7 @@ export default function UserProfile() {
                 const deleted = await res.json();
                 console.log("oggetto eliminato", deleted);
                 localStorage.removeItem("user");
+                localStorage.removeItem("googleUser");
                 localStorage.removeItem("token");
                 setAlert("Profilo cancellato correttamente!");
                 setInterval(() => {

@@ -6,6 +6,7 @@ import AllTopics from '../AllTopics/AllTopics';
 import { SearchBarContext } from '../SearchBarProvider/SearchBarProvider';
 import { useLocation } from 'react-router-dom';
 import queryString from 'query-string';
+import { GoogleContext } from '../GoogleUserProvider/GoogleUserProvider';
 
 export default function Homepage() {
     const [data, setData] = useState([]);
@@ -13,7 +14,7 @@ export default function Homepage() {
     const [searchTopic, setSearchTopic] = useState("");
     const [filteredTopic, setFilteredTopic] = useState("");
 
-    const [googleUser, setGoogleUser] = useState({});
+    const { googleUser, setGoogleUser } = useContext(GoogleContext);
 
     const location = useLocation();
 
@@ -36,36 +37,47 @@ export default function Homepage() {
 
 
     // useEffect(() => {
-    //     // Ottieni i parametri dall'URL
-
     //     const params = queryString.parse(window.location.search);
     //     if (params) {
-
-    //         setGoogleUser({
-    //             token: params.accessToken,
-    //             user: {
-
-    //                 nome: params.name,
-    //                 cognome: params.surname,
-    //                 avatar: params.avatar
-
-    //             }
-    //         })
-
+    //         localStorage.setItem("token", params.accessToken)
     //     }
-    //     // Accesso ai parametri
-
-
     // }, [])
 
+    useEffect(() => {
+        // Ottieni i parametri dall'URL
+        const params = queryString.parse(window.location.search);
+        console.log(params);
 
-    // useEffect(() => {
-    //     if (googleUser) {
-    //         localStorage.setItem("token", googleUser.token);
-    //         localStorage.setItem("user", JSON.stringify(googleUser.user))
+        // Verifica che ci siano dei parametri
+        if (Object.keys(params).length > 0) {
+            const userGoogle = {
+                token: params.accessToken,
+                user: {
+                    nome: params.name || "",  // Assicurati che ogni campo abbia un valore definito o una stringa vuota
+                    cognome: params.surname || "",
+                    avatar: params.avatar || "",
+                    password: params.password || "",
+                    dataDiNascita: params.birthday || "",
+                    username: params.email || "",
+                    email: params.email || ""
+                }
+            };
 
-    //     }
-    // }, [googleUser])
+            // Verifica che almeno uno dei campi dell'utente sia definito prima di impostare googleUser
+            if (Object.values(userGoogle.user).some(value => value !== "")) {
+                setGoogleUser(userGoogle);
+                console.log(userGoogle);
+            }
+        }
+    }, []);
+
+    useEffect(() => {
+        if (googleUser.length !== 0) {
+            localStorage.setItem("googleUser", JSON.stringify(googleUser.user));
+            localStorage.setItem("token", googleUser.token);
+        }
+    }, [])
+
 
 
     useEffect(() => {

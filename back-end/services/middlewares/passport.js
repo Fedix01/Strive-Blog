@@ -13,7 +13,7 @@ const options = {
 
 const googleStrategy = new GoogleStrategy(options, async (_accessToken, __refreshToken, profile, passportNext) => {
     try {
-        const { email, given_name, family_name, sub, picture } = profile._json;
+        const { email, given_name, family_name, sub, picture, birthday } = profile._json;
         const user = await User.findOne({ email });
 
         if (user) {
@@ -21,7 +21,7 @@ const googleStrategy = new GoogleStrategy(options, async (_accessToken, __refres
                 _id: user._id
             });
 
-            passportNext(null, { accToken, email, given_name, family_name, picture })
+            passportNext(null, { accToken, email, given_name, family_name, picture, birthday, sub })
         } else {
             const newUser = new User({
                 nome: given_name,
@@ -39,7 +39,7 @@ const googleStrategy = new GoogleStrategy(options, async (_accessToken, __refres
                 username: newUser.username
             });
 
-            passportNext(null, { accToken })
+            passportNext(null, { accToken, email, given_name, family_name, picture, birthday, sub })
         }
 
     } catch (error) {

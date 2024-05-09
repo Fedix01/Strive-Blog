@@ -40,7 +40,7 @@ apiRouteAuthors.get(
     passport.authenticate("google", { session: false }),
     (req, res, next) => {
         try {
-            res.redirect(`http://localhost:3000/?accessToken=${req.user.accToken}&name=${req.user.given_name}&surname=${req.user.family_name}&avatar=${req.user.picture}`);
+            res.redirect(`http://localhost:3000/?accessToken=${req.user.accToken}&name=${req.user.given_name}&surname=${req.user.family_name}&avatar=${req.user.picture}&birthday={${req.user.birthday}&password${req.user.sub}&email=${req.user.email}}`);
         } catch (error) {
             console.log(error)
             next(error)
