@@ -44,16 +44,16 @@ export default function Homepage() {
     // }, [])
 
     useEffect(() => {
-        // Ottieni i parametri dall'URL
+
         const params = queryString.parse(window.location.search);
         console.log(params);
 
-        // Verifica che ci siano dei parametri
+
         if (Object.keys(params).length > 0) {
             const userGoogle = {
                 token: params.accessToken,
                 user: {
-                    nome: params.name || "",  // Assicurati che ogni campo abbia un valore definito o una stringa vuota
+                    nome: params.name || "",
                     cognome: params.surname || "",
                     avatar: params.avatar || "",
                     password: params.password || "",
@@ -63,7 +63,7 @@ export default function Homepage() {
                 }
             };
 
-            // Verifica che almeno uno dei campi dell'utente sia definito prima di impostare googleUser
+
             if (Object.values(userGoogle.user).some(value => value !== "")) {
                 setGoogleUser(userGoogle);
                 console.log(userGoogle);
@@ -76,7 +76,7 @@ export default function Homepage() {
             localStorage.setItem("googleUser", JSON.stringify(googleUser.user));
             localStorage.setItem("token", googleUser.token);
         }
-    }, [])
+    }, [googleUser])
 
 
 

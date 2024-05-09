@@ -7,6 +7,7 @@ import { Container } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { alertContext } from '../AlertProvider/AlertProvider';
 import UserProfile from '../UserProfile/UserProfile';
+import { GoogleContext } from '../GoogleUserProvider/GoogleUserProvider';
 
 
 export default function Backoffice() {
@@ -17,6 +18,7 @@ export default function Backoffice() {
 
     const { alert, setAlert } = useContext(alertContext);
 
+    const { googleUser } = useContext(GoogleContext);
 
     const endpoint = "http://localhost:3001/api/blogPosts";
 
@@ -48,10 +50,16 @@ export default function Backoffice() {
 
     useEffect(() => {
         const user = localStorage.getItem("user");
+        const googleUser = localStorage.getItem("googleUser");
         if (user) {
             const newUser = JSON.parse(user);
             console.log(newUser);
             getFromApi(newUser)
+        } else if (googleUser) {
+            const newUser = JSON.parse(user);
+            console.log(newUser);
+            getFromApi(newUser)
+
         } else {
             setAlert("Per scrivere un nuovo post devi fare il login")
             setTimeout(() => {

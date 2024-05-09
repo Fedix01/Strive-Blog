@@ -53,6 +53,23 @@ export default function MyNavbar({ searchTerm, setSearchTerm, setSearchAuthors, 
         }
     }, []);
 
+    useEffect(() => {
+        if (googleUser) {
+            const googleStor = localStorage.getItem("googleUser");
+            try {
+                const newUser = JSON.parse(googleStor);
+                setUser(newUser);
+                console.log(newUser)
+            } catch (error) {
+                console.error("Errore nel parsing del valore JSON:", error);
+
+            }
+        }
+
+
+    }, [])
+
+
 
 
 
@@ -93,7 +110,7 @@ export default function MyNavbar({ searchTerm, setSearchTerm, setSearchAuthors, 
                 }
 
                 <div>
-                    {user ? (
+                    {user && user.length !== 0 ? (
                         <>
                             <div className='right-nav d-flex justify-content-center align-items-center'>
                                 <Button variant='success' onClick={() => navigate("/newPost")}>Scrivi nuovo post</Button>
