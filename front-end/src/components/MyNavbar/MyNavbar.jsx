@@ -20,6 +20,7 @@ export default function MyNavbar({ searchTerm, setSearchTerm, setSearchAuthors, 
 
     const { searchBar } = useContext(SearchBarContext);
 
+
     useEffect(() => {
         if (alert === "Valore aggiunto") {
             setVariant("success")
@@ -30,45 +31,37 @@ export default function MyNavbar({ searchTerm, setSearchTerm, setSearchAuthors, 
         }
     }, [alert])
 
-    useEffect(() => {
-        const userString = localStorage.getItem("user");
-        if (userString) {
-            try {
+    const fetchUserData = async () => {
+        try {
+            const userString = localStorage.getItem("user");
+            const googleString = localStorage.getItem("googleUser");
+            if (userString) {
+
                 const newUser = JSON.parse(userString);
                 setUser(newUser);
                 console.log(newUser);
-            } catch (error) {
-                console.error("Errore nel parsing del valore JSON:", error);
-            }
-        } else if (googleUser.length !== 0) {
-            const googleStor = localStorage.getItem("googleUser");
-            try {
-                const newUser = JSON.parse(googleStor);
+
+
+            } else if (googleString) {
+
+                const newUser = JSON.parse(googleString);
                 setUser(newUser);
                 console.log(newUser)
-            } catch (error) {
-                console.error("Errore nel parsing del valore JSON:", error);
 
             }
+        } catch (error) {
+            console.error("Errore nel parsing del valore JSON:", error);
+
         }
-    }, []);
+    }
+
+
 
     useEffect(() => {
-        if (googleUser) {
-            const googleStor = localStorage.getItem("googleUser");
-            try {
-                const newUser = JSON.parse(googleStor);
-                setUser(newUser);
-                console.log(newUser)
-            } catch (error) {
-                console.error("Errore nel parsing del valore JSON:", error);
-
-            }
-        }
-
-
-    }, [])
-
+        setTimeout(() => {
+            fetchUserData()
+        }, 250);
+    }, []);
 
 
 
@@ -148,3 +141,4 @@ export default function MyNavbar({ searchTerm, setSearchTerm, setSearchAuthors, 
     );
 
 }
+
