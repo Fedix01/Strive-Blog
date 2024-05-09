@@ -4,12 +4,18 @@ import MyNavbar from '../MyNavbar/MyNavbar';
 import MyFooter from '../MyFooter/MyFooter';
 import AllTopics from '../AllTopics/AllTopics';
 import { SearchBarContext } from '../SearchBarProvider/SearchBarProvider';
+import { useLocation } from 'react-router-dom';
+import queryString from 'query-string';
 
 export default function Homepage() {
     const [data, setData] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
     const [searchTopic, setSearchTopic] = useState("");
     const [filteredTopic, setFilteredTopic] = useState("");
+
+    const [googleUser, setGoogleUser] = useState({});
+
+    const location = useLocation();
 
     const { setSearchBar } = useContext(SearchBarContext);
 
@@ -28,6 +34,38 @@ export default function Homepage() {
         }
     }
 
+
+    // useEffect(() => {
+    //     // Ottieni i parametri dall'URL
+
+    //     const params = queryString.parse(window.location.search);
+    //     if (params) {
+
+    //         setGoogleUser({
+    //             token: params.accessToken,
+    //             user: {
+
+    //                 nome: params.name,
+    //                 cognome: params.surname,
+    //                 avatar: params.avatar
+
+    //             }
+    //         })
+
+    //     }
+    //     // Accesso ai parametri
+
+
+    // }, [])
+
+
+    // useEffect(() => {
+    //     if (googleUser) {
+    //         localStorage.setItem("token", googleUser.token);
+    //         localStorage.setItem("user", JSON.stringify(googleUser.user))
+
+    //     }
+    // }, [googleUser])
 
 
     useEffect(() => {

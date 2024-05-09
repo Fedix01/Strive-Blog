@@ -17,11 +17,11 @@ const googleStrategy = new GoogleStrategy(options, async (_accessToken, __refres
         const user = await User.findOne({ email });
 
         if (user) {
-            const accToken = await createAccessToken({
+            const accToken = await generateJWT({
                 _id: user._id
             });
 
-            passportNext(null, { accToken })
+            passportNext(null, { accToken, email, given_name, family_name, picture })
         } else {
             const newUser = new User({
                 nome: given_name,
@@ -36,7 +36,7 @@ const googleStrategy = new GoogleStrategy(options, async (_accessToken, __refres
             await newUser.save();
 
             const accToken = await generateJWT({
-                email: newUser.email
+                username: newUser.username
             });
 
             passportNext(null, { accToken })

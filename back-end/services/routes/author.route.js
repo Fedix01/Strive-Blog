@@ -10,7 +10,6 @@ import passport from "passport";
 export const apiRouteAuthors = Router();
 
 
-apiRouteAuthors.get("/googleLogin", passport.authenticate("google", { scope: ["profile", "email"] }));
 
 // Chiamata get a tutti gli oggetti dell api
 apiRouteAuthors.get("/", async (req, res, next) => {
@@ -22,16 +21,6 @@ apiRouteAuthors.get("/", async (req, res, next) => {
     }
 });
 
-apiRouteAuthors.get(
-    "/callback",
-    passport.authenticate("google", { session: false },
-        (req, res, next) => {
-            try {
-                res.redirect(`http://localhost:3000/?accessToken=${req.user.accToken}`);
-            } catch (error) {
-                next(error)
-            }
-        }));
 
 // Chiamata get col profilo loggato
 apiRouteAuthors.get("/me", authMiddleware, async (req, res, next) => {
@@ -42,7 +31,21 @@ apiRouteAuthors.get("/me", authMiddleware, async (req, res, next) => {
         next(error)
     }
 });
+apiRouteAuthors.get("/googleLogin",
+    passport.authenticate("google",
+        { scope: ["profile", "email"] }));
 
+apiRouteAuthors.get(
+    "/callback",
+    passport.authenticate("google", { session: false }),
+    (req, res, next) => {
+        try {
+            res.redirect(`http://localhost:3000/?accessToken=${req.user.accToken}&name=${req.user.given_name}&surname=${req.user.family_name}&avatar=${req.user.picture}`);
+        } catch (error) {
+            console.log(error)
+            next(error)
+        }
+    });
 
 // Chiamata get all esatto parametro passato
 apiRouteAuthors.get("/:id", async (req, res, next) => {

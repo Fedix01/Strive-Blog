@@ -190,13 +190,15 @@ export default function CommentArea({ id }) {
                         alt=""
                         style={{ width: "40px", height: "40px", borderRadius: "50%" }}
                         className='me-2' />
-                    <Form.Control type='text' className='flex-grow-1' placeholder='Inserisci un commento' required value={text} onChange={(e) => setText(e.target.value)}>
-                    </Form.Control>
-                    {mod ? (
-                        <Button variant='primary' type='submit' onClick={(e) => handleModifyComment(e)}>Modifica</Button>)
-                        :
-                        (<Button variant='outline-dark' type='submit' onClick={(e) => addComment(e)}>Commenta</Button>)
-                    }
+                    <Form onSubmit={mod ? handleModifyComment : addComment} className='d-flex'>
+                        <Form.Control type='text' placeholder='Inserisci un commento' required value={text} onChange={(e) => setText(e.target.value)}>
+                        </Form.Control>
+                        {mod ? (
+                            <Button variant='primary' type='submit' >Modifica</Button>)
+                            :
+                            (<Button variant='outline-dark' type='submit'>Commenta</Button>)
+                        }
+                    </Form>
                 </div>
             </div>
         </>

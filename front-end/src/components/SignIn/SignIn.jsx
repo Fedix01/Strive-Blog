@@ -175,7 +175,7 @@ export default function SignIn() {
                                 placeholder="Inserisci data di nascita"
                                 value={formData.date}
                                 onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                                required
+
                             />
                         </Form.Group>
 
