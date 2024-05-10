@@ -53,6 +53,7 @@ export default function Homepage() {
             const userGoogle = {
                 token: params.accessToken,
                 user: {
+                    _id: params._id || "",
                     nome: params.name || "",
                     cognome: params.surname || "",
                     avatar: params.avatar || "",

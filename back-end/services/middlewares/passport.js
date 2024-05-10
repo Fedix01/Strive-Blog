@@ -21,7 +21,7 @@ const googleStrategy = new GoogleStrategy(options, async (_accessToken, __refres
                 _id: user._id
             });
 
-            passportNext(null, { accToken, email, given_name, family_name, picture, birthday, sub })
+            passportNext(null, { accToken, email, given_name, family_name, picture, birthday, sub, _id: user._id })
         } else {
             const newUser = new User({
                 nome: given_name,
@@ -39,7 +39,7 @@ const googleStrategy = new GoogleStrategy(options, async (_accessToken, __refres
                 username: newUser.username
             });
 
-            passportNext(null, { accToken, email, given_name, family_name, picture, birthday, sub })
+            passportNext(null, { accToken, email, given_name, family_name, picture, birthday, sub, _id: newUser._id })
         }
 
     } catch (error) {

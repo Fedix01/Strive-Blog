@@ -165,6 +165,9 @@ export default function CommentArea({ id }) {
 
         }
     }
+    useEffect(() => {
+        console.log(user)
+    }, [])
 
     return (
         <>

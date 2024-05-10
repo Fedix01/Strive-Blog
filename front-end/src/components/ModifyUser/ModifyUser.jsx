@@ -69,7 +69,6 @@ export default function ModifyUser({ data, handleModify }) {
                 <Form.Group>
                     <Form.Label>Data di nascita: </Form.Label>
                     <Form.Control
-                        required
                         type='date'
                         placeholder={data.date}
                         value={formData.date}

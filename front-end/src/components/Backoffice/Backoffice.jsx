@@ -41,7 +41,7 @@ export default function Backoffice() {
                     return (el.author && el.author._id) && el.author._id.includes(user?._id)
                 });
                 setData(filtered);
-                console.log(filtered)
+                console.log(data)
             }
         } catch (error) {
             console.error(error)
@@ -75,7 +75,12 @@ export default function Backoffice() {
             <MyNavbar />
             <Container>
                 <AddBlogPost id={id} getFromApi={getFromApi} reference={ref} open={open} setOpen={setOpen} />
-                <TableBackoffice setId={setId} data={data} setData={setData} getFromApi={getFromApi} handleScroll={handleScroll} setOpen={setOpen} />
+                {data ?
+
+                    <TableBackoffice setId={setId} data={data} setData={setData} getFromApi={getFromApi} handleScroll={handleScroll} setOpen={setOpen} />
+                    :
+                    <div>Nessun contenuto, puoi aggiungere post</div>
+                }
                 {/* <AddAuthor /> */}
             </Container>
         </>

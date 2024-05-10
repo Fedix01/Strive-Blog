@@ -8,6 +8,8 @@ export default function SingleComment({ comment, avatar, authorName, authorLastN
     const [editComment, setEditComment] = useState(false);
 
     useEffect(() => {
+        console.log(authorId);
+        console.log(currentUser._id)
         if (authorId === currentUser._id) {
             setEditComment(true)
         }

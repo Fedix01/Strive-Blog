@@ -46,7 +46,7 @@ export default function MyNavbar({ searchTerm, setSearchTerm, setSearchAuthors, 
 
                 const newUser = JSON.parse(googleString);
                 setUser(newUser);
-                console.log(newUser)
+                console.log(newUser);
 
             }
         } catch (error) {
@@ -58,11 +58,10 @@ export default function MyNavbar({ searchTerm, setSearchTerm, setSearchAuthors, 
 
 
     useEffect(() => {
-        setTimeout(() => {
-            fetchUserData()
-        }, 250);
-    }, []);
 
+        fetchUserData()
+
+    }, []);
 
 
 
@@ -73,7 +72,6 @@ export default function MyNavbar({ searchTerm, setSearchTerm, setSearchAuthors, 
     //         setGoogleUser(newGoogleUser);
     //     }
     // }, []);
-
 
 
 
