@@ -48,7 +48,8 @@ export default function Backoffice() {
         }
     }
 
-    useEffect(() => {
+    const fetchUser = () => {
+
         const user = localStorage.getItem("user");
         const googleUser = localStorage.getItem("googleUser");
         if (user) {
@@ -56,7 +57,7 @@ export default function Backoffice() {
             console.log(newUser);
             getFromApi(newUser)
         } else if (googleUser) {
-            const newUser = JSON.parse(user);
+            const newUser = JSON.parse(googleUser);
             console.log(newUser);
             getFromApi(newUser)
 
@@ -67,6 +68,14 @@ export default function Backoffice() {
             }, 4000);
             navigate("/signUp")
         }
+
+    }
+
+    useEffect(() => {
+
+        fetchUser()
+
+
     }, [])
 
 
