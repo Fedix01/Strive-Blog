@@ -17,21 +17,25 @@ export default function Homepage() {
     const { googleUser, setGoogleUser } = useContext(GoogleContext);
 
     const location = useLocation();
+    const [spinner, setSpinner] = useState(false);
 
     const { setSearchBar } = useContext(SearchBarContext);
 
     const endpoint = "http://localhost:3001/api/blogPosts";
 
     const getFromApi = async () => {
+        setSpinner(true)
         try {
             const response = await fetch(endpoint);
             if (response.ok) {
                 const results = await response.json();
                 setData(results);
                 console.log("fetch get ok", results)
+                setSpinner(false)
             }
         } catch (error) {
             console.error(error)
+            setSpinner(false)
         }
     }
 
@@ -151,7 +155,7 @@ export default function Homepage() {
         <>
             <MyNavbar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
             <AllTopics setFilteredTopic={setFilteredTopic} filteredTopic={filteredTopic} searchTopic={searchTopic} setSearchTopic={setSearchTopic} getFromApi={getFromApi} filteredBtnTopic={filteredBtnTopic} exploreTopic={exploreTopic} />
-            <AllBlogPosts data={data} getFromApi={getFromApi} filteredTopic={filteredTopic} />
+            <AllBlogPosts data={data} getFromApi={getFromApi} filteredTopic={filteredTopic} spinner={spinner} />
             <MyFooter />
         </>
     )

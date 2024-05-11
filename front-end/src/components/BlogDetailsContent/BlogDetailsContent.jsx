@@ -68,8 +68,8 @@ export default function BlogDetailsContent(props) {
                     <img src={cover} alt="cover" style={{ width: "60%" }} />
                 </Col>
             </Row>
-            <Row className='mt-4'>
-                <Col md={12} className='d-flex justify-content-center'>
+            <Row className='mt-4 mx-5'>
+                <Col md={12} className='mx-5 d-flex justify-content-center'>
                     <p>{content}</p>
                 </Col>
             </Row>

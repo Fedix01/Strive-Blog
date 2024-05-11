@@ -164,33 +164,45 @@ export default function AddBlogPost({ id, getFromApi, reference, open, setOpen }
                     <Row className="mb-3">
                         <Form.Group as={Col} >
                             <Form.Label>Titolo del blog Post</Form.Label>
-                            <Form.Control type="text" placeholder="Inserisci il titolo..." value={title} onChange={(e) => setTitle(e.target.value)} />
+                            <Form.Control type="text" placeholder="Inserisci il titolo..." required value={title} onChange={(e) => setTitle(e.target.value)} />
                         </Form.Group>
 
 
                         <Form.Group className="mb-3" >
                             <Form.Label>Cover</Form.Label>
-                            <Form.Control type='file' placeholder='Inserisci la cover...' onChange={(e) => setCover(e.target.files[0])} />
+                            <Form.Control type='file' placeholder='Inserisci la cover...' required onChange={(e) => setCover(e.target.files[0])} />
                         </Form.Group>
 
                         <Form.Group className="mb-3" >
                             <Form.Label>Tempo di lettura</Form.Label>
-                            <Form.Control type='number' placeholder='Inserisci il tempo di lettura in numero' value={readValue} onChange={(e) => setReadValue(e.target.value)} />
+                            <Form.Control type='number' placeholder='Inserisci il tempo di lettura in numero' required value={readValue} onChange={(e) => setReadValue(e.target.value)} />
                         </Form.Group>
 
                         <Form.Group className="mb-3" >
                             <Form.Label>Minuti o ore</Form.Label>
-                            <Form.Control type='text' placeholder='Inserisci il minuti oppure ore' value={readUnit} onChange={(e) => setReadUnit(e.target.value)} />
+                            <select className='form form-control' required placeholder='Inserisci i minuti oppure ore' value={readUnit} onChange={(e) => setReadUnit(e.target.value)} >
+                                <option value="">Scegli</option>
+                                <option value="minuti">Minuti</option>
+                                <option value="ore">Ore</option>
+                            </select>
                         </Form.Group>
 
                         <Form.Group className="mb-3" >
                             <Form.Label>Contenuto</Form.Label>
-                            <Form.Control type='text' placeholder='Inserisci il contenuto' value={content} onChange={(e) => setContent(e.target.value)} />
+                            <Form.Control type='text' placeholder='Inserisci il contenuto' required value={content} onChange={(e) => setContent(e.target.value)} />
                         </Form.Group>
 
                         <Form.Group className="mb-3" >
                             <Form.Label>Categoria</Form.Label>
-                            <Form.Control type='text' placeholder='Inserisci la categoria' value={category} onChange={(e) => setCategory(e.target.value)} />
+                            <select className='form form-control' placeholder='Inserisci la categoria' required value={category} onChange={(e) => setCategory(e.target.value)} >
+                                <option value="">Scegli</option>
+                                <option value="Programmazione">Programmazione</option>
+                                <option value="Tecnologia">Tecnologia</option>
+                                <option value="JavaScript">JavaScript</option>
+                                <option value="Web Development">Web Development</option>
+                                <option value="Intelligenza Artificiale">Intelligenza Artificiale</option>
+                                <option value="Sport">Sport</option>
+                            </select>
                         </Form.Group>
                     </Row>
                     {id ? <Button variant="primary" type="submit" onClick={(e) => handleFormPut(e, title, cover, readValue, readUnit, content, category, id)}>

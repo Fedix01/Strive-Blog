@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import SingleComment from '../SingleComment/SingleComment';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Spinner } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { alertContext } from '../AlertProvider/AlertProvider';
 
@@ -14,6 +14,8 @@ export default function CommentArea({ id }) {
     const [user, setUser] = useState([]);
 
     const [mod, setMod] = useState(false);
+
+    const [spinner, setSpinner] = useState(false);
 
     const [commentId, setCommentId] = useState("");
     const [authorId, setAuthorId] = useState("");
@@ -30,15 +32,18 @@ export default function CommentArea({ id }) {
     const token = localStorage.getItem("token");
 
     const getFromApi = async () => {
+        setSpinner(true)
         try {
             const response = await fetch(endpoint);
             if (response.ok) {
                 const results = await response.json();
                 setData(results)
                 console.log(results)
+                setSpinner(false)
             }
         } catch (error) {
             console.error(error)
+            setSpinner(false)
         }
     }
 
@@ -171,6 +176,10 @@ export default function CommentArea({ id }) {
 
     return (
         <>
+            {spinner &&
+                <Spinner animation="border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </Spinner>}
             <div className='my-3'>
                 <div className='mb-2' style={{
                     maxHeight: "100px",

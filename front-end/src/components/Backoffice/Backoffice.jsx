@@ -72,9 +72,7 @@ export default function Backoffice() {
     }
 
     useEffect(() => {
-
         fetchUser()
-
 
     }, [])
 

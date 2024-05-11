@@ -1,8 +1,8 @@
 import React from 'react';
-import { Row, Col, Container } from 'react-bootstrap';
+import { Row, Col, Container, Spinner } from 'react-bootstrap';
 import SingleBlogPost from '../SingleBlogPost/SingleBlogPost';
 
-export default function AllBlogPosts({ data, filteredTopic }) {
+export default function AllBlogPosts({ data, filteredTopic, spinner }) {
 
     // const [data, setData] = useState([]);
 
@@ -27,6 +27,11 @@ export default function AllBlogPosts({ data, filteredTopic }) {
 
             <Container>
                 <Row>
+                    {spinner &&
+                        <Spinner animation="border" role="status">
+                            <span className="visually-hidden">Loading...</span>
+                        </Spinner>
+                    }
                     {filteredTopic ?
                         <Col md={12}>
                             <h2>Tutti i Blog in: {filteredTopic}</h2>

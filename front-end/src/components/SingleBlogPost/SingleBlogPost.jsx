@@ -3,6 +3,7 @@ import { Card, Button } from 'react-bootstrap';
 import { FaRegComment } from "react-icons/fa6";
 import CommentArea from '../CommentArea/CommentArea';
 import { useNavigate } from 'react-router-dom';
+import '../SingleBlogPost/SingleBlogPost.css'
 
 export default function SingleBlogPost(props) {
 
@@ -27,7 +28,7 @@ export default function SingleBlogPost(props) {
                         <span className='ms-2'>{authorName} {authorLastName}</span>
                     </div>
                     <Card.Title style={{ cursor: "pointer" }} onClick={() => handleDetails()}>{title}</Card.Title>
-                    <div>
+                    <div className='content'>
                         {content}
                     </div>
                 </Card.Body>
