@@ -102,7 +102,7 @@ export default function SignIn() {
         <>
             <MyNavbar />
             <Row>
-                <Col md={4} className='left-reg d-flex flex-column justify-content-center align-items-center'>
+                <Col md={4} className='left-reg d-none d-md-flex flex-column justify-content-center align-items-center'>
                     <h2><b>Hai gia un account?</b></h2>
                     <p className='my-3'>Esegui il login per accedere alla creazioni di Blog e Commenti</p>
                     <Button variant='light' className='mt-2' onClick={() => navigate("/signUp")}>Log In</Button>
@@ -192,6 +192,10 @@ export default function SignIn() {
                             <Button variant="primary" type="submit" className='sign-in mt-3'>
                                 Registrati
                             </Button>
+                        </div>
+                        <div className='d-flex d-md-none'>
+                            <Button variant='light' className='mt-2' onClick={() => navigate("/signUp")}>Log In</Button>
+
                         </div>
                     </Form>
 

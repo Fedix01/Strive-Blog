@@ -1,14 +1,28 @@
+@media screen and (max-width:768px) {
+    .nav-input.nav-input-responsive {
+        width: 100px;
+    }
+
+    .right-nav.right-nav-responsive {
+        width: 5rem;
+    }
+
+    .responsive-log-in {
+        display: none;
+    }
+}
+
 .nav-input {
     background-color: white;
     width: 50%;
 }
 
 .left-nav {
-    width: 500px;
+    width: 31rem;
 }
 
 .right-nav {
-    width: 500px;
+    width: 31rem;
 }
 
 .sign-up {

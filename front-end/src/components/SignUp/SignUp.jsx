@@ -67,7 +67,7 @@ export default function SignUp() {
             <MyNavbar />
             <Row>
                 <Col md={8} className='left d-flex flex-column justify-content-center align-items-center'>
-                    <h2>Log In al Tuo Account</h2>
+                    <h2 className='ms-3'>Log In al Tuo Account</h2>
                     <p>Login usando Social Networks</p>
                     <Button variant='transparent' className='google-btn p-2' onClick={googleLogin}>
                         <FcGoogle />
@@ -99,6 +99,10 @@ export default function SignUp() {
                         <div className='d-flex justify-content-center'>
                             <button type='submit' className='log mt-3 p-2'>Loggati</button>
                         </div>
+                        <div className='d-flex d-md-none'>
+                            <Button variant='light' className='mt-2' onClick={() => navigate("/signIn")}>Registrati</Button>
+
+                        </div>
                     </Form>
 
                     {alert &&
@@ -107,7 +111,7 @@ export default function SignUp() {
                         </Alert>
                     }
                 </Col>
-                <Col md={4} className=' right d-flex flex-column justify-content-center align-items-center'>
+                <Col md={4} className='d-none d-md-flex right flex-column justify-content-center align-items-center'>
                     <h2><b>Non hai un account?</b></h2>
                     <p className='my-3'>Registrati per accedere alla creazione dei blog e poter scrivere commenti!</p>
                     <Button variant='light' className='mt-2' onClick={() => navigate("/signIn")}>Registrati</Button>

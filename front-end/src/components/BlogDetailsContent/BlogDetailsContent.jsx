@@ -30,8 +30,8 @@ export default function BlogDetailsContent(props) {
                                     alt="author" style={{ width: "40px", height: "40px", borderRadius: "50%" }} />
                             </Col>
                             <Col md={6}>
-                                <h6>{authorName} {authorSurname} <b className='ms-2' style={{ color: "#186E15" }}> Follow</b> </h6>
-                                <h6 style={{ color: "#6C6C6C" }}>{readValue} {readUnit}</h6>
+                                <h6 className='ms-1'>{authorName} {authorSurname} <b className='ms-2' style={{ color: "#186E15" }}> Follow</b> </h6>
+                                <h6 className='ms-1' style={{ color: "#6C6C6C" }}>{readValue} {readUnit}</h6>
                             </Col>
                         </Row>
 
@@ -65,7 +65,7 @@ export default function BlogDetailsContent(props) {
             </div>
             <Row className='my-4'>
                 <Col md={12} className='d-flex justify-content-center'>
-                    <img src={cover} alt="cover" style={{ width: "70%" }} />
+                    <img src={cover} alt="cover" style={{ width: "60%" }} />
                 </Col>
             </Row>
             <Row className='mt-4'>

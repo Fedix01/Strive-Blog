@@ -41,7 +41,7 @@ export default function AllBlogPosts({ data, filteredTopic }) {
 
                     {data &&
                         data.map((el) => (
-                            <Col md={6} key={el._id}>
+                            <Col md={6} xs={12} key={el._id}>
                                 <SingleBlogPost key={el._id}
                                     id={el._id}
                                     category={el.category}
