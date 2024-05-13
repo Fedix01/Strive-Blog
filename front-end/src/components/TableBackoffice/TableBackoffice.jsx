@@ -1,11 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { Table } from 'react-bootstrap';
 import SingleRow from '../SingleRow/SingleRow';
+import { alertContext } from '../AlertProvider/AlertProvider';
+import { useNavigate } from 'react-router-dom';
 
 export default function TableBackoffice({ setId, data, getFromApi, handleScroll, setOpen }) {
 
     const endpoint = "http://localhost:3001/api/blogPosts";
 
+    const { alert, setAlert } = useContext(alertContext);
+
+    const navigate = useNavigate();
 
     const deleteBlog = async (id) => {
         try {
@@ -16,10 +21,11 @@ export default function TableBackoffice({ setId, data, getFromApi, handleScroll,
             });
             if (res.ok) {
                 getFromApi();
-                // setAlert("Blog post cancellato correttamente");
-                // setInterval(() => {
-                //     setAlert("")
-                // }, 3000);
+                setAlert("Blog post cancellato correttamente");
+                setInterval(() => {
+                    setAlert("")
+                }, 4000);
+                navigate("/")
                 console.log("il blog post è stato cancellato")
             }
         } catch (error) {

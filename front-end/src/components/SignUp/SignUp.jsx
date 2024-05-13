@@ -42,6 +42,10 @@ export default function SignUp() {
                 localStorage.setItem("user", JSON.stringify(login.user));
                 localStorage.setItem("token", login.token);
                 console.log(login);
+                setAlert(`Benvenuto ${login.user.nome}!`);
+                setInterval(() => {
+                    setAlert("")
+                }, 4000);
                 navigate("/")
             }
         } catch (error) {

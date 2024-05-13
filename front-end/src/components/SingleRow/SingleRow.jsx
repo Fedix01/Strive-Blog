@@ -24,7 +24,7 @@ export default function SingleRow(props) {
                     <Button variant='primary' onClick={() => handleModify()}>
                         <TiPencil />
                     </Button>
-                    <Button variant='danger' onClick={() => deleteBlog(id)}>
+                    <Button variant='danger' className='ms-4' onClick={() => deleteBlog(id)}>
                         <MdOutlineDeleteOutline />
                     </Button>
                 </td>

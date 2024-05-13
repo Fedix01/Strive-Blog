@@ -118,6 +118,7 @@ export default function AddBlogPost({ id, getFromApi, reference, open, setOpen }
                     setAlert("")
                 }, 3000);
                 getFromApi();
+                navigate("/")
                 if (!coverRes.ok) {
                     throw new Error("Errore nell'aggiornamento della copertina");
                 }
@@ -205,11 +206,20 @@ export default function AddBlogPost({ id, getFromApi, reference, open, setOpen }
                             </select>
                         </Form.Group>
                     </Row>
-                    {id ? <Button variant="primary" type="submit" onClick={(e) => handleFormPut(e, title, cover, readValue, readUnit, content, category, id)}>
-                        Modifica
-                    </Button> : <Button variant="success" type="submit" onClick={(e) => handleFormPost(e, title, cover, readValue, readUnit, content, category)}>
-                        Aggiungi
-                    </Button>}
+                    {id ?
+                        <>
+                            <Button variant="primary" type="submit" onClick={(e) => handleFormPut(e, title, cover, readValue, readUnit, content, category, id)}>
+                                Modifica
+                            </Button>
+                            <span className='mx-2'>Oppure</span>
+                            <Button variant="success" type="submit" onClick={(e) => handleFormPost(e, title, cover, readValue, readUnit, content, category)}>
+                                Aggiungi nuovo Blog
+                            </Button>
+                        </>
+                        : <Button variant="success" type="submit" onClick={(e) => handleFormPost(e, title, cover, readValue, readUnit, content, category)}>
+                            Aggiungi
+                        </Button>
+                    }
 
 
                 </Form>}

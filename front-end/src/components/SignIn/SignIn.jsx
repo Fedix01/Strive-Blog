@@ -5,6 +5,8 @@ import MyNavbar from '../MyNavbar/MyNavbar';
 import { alertContext } from '../AlertProvider/AlertProvider';
 import '../SignIn/SignIn.css'
 import { SearchBarContext } from '../SearchBarProvider/SearchBarProvider';
+import { FcGoogle } from "react-icons/fc";
+
 
 
 export default function SignIn() {
@@ -27,6 +29,9 @@ export default function SignIn() {
     });
 
     const endpoint = "http://localhost:3001/api/authors";
+
+    const endpointGoogle = "http://localhost:3001/api/authors/googleLogin";
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -97,6 +102,9 @@ export default function SignIn() {
         setSearchBar(false)
     }, [])
 
+    const googleLogin = () => {
+        window.open(endpointGoogle, "_self");
+    }
 
     return (
         <>
@@ -109,6 +117,12 @@ export default function SignIn() {
                 </Col>
                 <Col md={8} className='d-flex flex-column justify-content-center align-items-center'>
                     <h2>Registrazione</h2>
+                    <p>Login usando Social Networks</p>
+                    <Button variant='transparent' className='google-btn p-2' onClick={googleLogin}>
+                        <FcGoogle />
+                        <span className='ms-2'>Registrati con Google</span>
+                    </Button>
+                    <h4 className='my-2'>Oppure</h4>
                     <Form onSubmit={handleSubmit}>
                         <Form.Group className='my-3'>
                             <Form.Label>Username</Form.Label>

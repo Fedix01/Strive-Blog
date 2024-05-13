@@ -62,6 +62,12 @@ export default function Backoffice() {
                 const newUser = JSON.parse(user || googleUser);
                 const filteredData = await getFromApi(newUser);
                 setData(filteredData);
+            } else {
+                navigate("/signUp");
+                setAlert("Per scrivere un nuovo Blog devi effettuare il login");
+                setTimeout(() => {
+                    setAlert("")
+                }, 4000);
             }
         };
 
@@ -79,7 +85,7 @@ export default function Backoffice() {
                     :
                     <div>Nessun contenuto, puoi aggiungere post</div>
                 }
-                {/* <AddAuthor /> */}
+
             </Container>
         </>
     )
