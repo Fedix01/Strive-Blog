@@ -40,49 +40,40 @@ export default function Backoffice() {
                 const filtered = results.filter((el) => {
                     return (el.author && el.author._id) && el.author._id.includes(user?._id)
                 });
-                setData(filtered);
-                console.log(data)
+                return filtered;
             }
         } catch (error) {
-            console.error(error)
+            console.error(error);
+            return [];
         }
     }
 
-    const fetchUser = () => {
-
-        const user = localStorage.getItem("user");
-        const googleUser = localStorage.getItem("googleUser");
-        if (user) {
-            const newUser = JSON.parse(user);
-            console.log(newUser);
-            getFromApi(newUser)
-        } else if (googleUser) {
-            const newUser = JSON.parse(googleUser);
-            console.log(newUser);
-            getFromApi(newUser)
-
-        } else {
-            setAlert("Per scrivere un nuovo post devi fare il login")
-            setTimeout(() => {
-                setAlert("")
-            }, 4000);
-            navigate("/signUp")
-        }
-
-    }
 
     useEffect(() => {
-        fetchUser()
+        console.log(data);
+    }, [data]);
 
-    }, [])
+    useEffect(() => {
+        // Utilizza una variabile locale per visualizzare il risultato corretto
+        const fetchData = async () => {
+            const user = localStorage.getItem("user");
+            const googleUser = localStorage.getItem("googleUser");
+            if (user || googleUser) {
+                const newUser = JSON.parse(user || googleUser);
+                const filteredData = await getFromApi(newUser);
+                setData(filteredData);
+            }
+        };
 
+        fetchData();
+    }, []);
 
     return (
         <>
             <MyNavbar />
             <Container>
                 <AddBlogPost id={id} getFromApi={getFromApi} reference={ref} open={open} setOpen={setOpen} />
-                {data ?
+                {data.length > 0 ?
 
                     <TableBackoffice setId={setId} data={data} setData={setData} getFromApi={getFromApi} handleScroll={handleScroll} setOpen={setOpen} />
                     :

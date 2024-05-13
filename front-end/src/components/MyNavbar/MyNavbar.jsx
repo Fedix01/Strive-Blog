@@ -31,38 +31,39 @@ export default function MyNavbar({ searchTerm, setSearchTerm, setSearchAuthors, 
         }
     }, [alert])
 
-    const fetchUserData = async () => {
-        try {
-            const userString = localStorage.getItem("user");
-            const googleString = localStorage.getItem("googleUser");
-            if (userString) {
+    const fetchUserData = (user) => {
 
-                const newUser = JSON.parse(userString);
-                setUser(newUser);
-                console.log(newUser);
-
-
-            } else if (googleString) {
-
-                const newUser = JSON.parse(googleString);
-                setUser(newUser);
-                console.log(newUser);
-
-            }
-        } catch (error) {
-            console.error("Errore nel parsing del valore JSON:", error);
-
+        if (user) {
+            setUser(user);
+            console.log(user);
+        } else {
+            console.log("Nessun user");
         }
-    }
+    };
 
-
+    const fetchData = () => {
+        const userLog = localStorage.getItem("user") || localStorage.getItem("googleUser");
+        if (userLog) {
+            const newUser = JSON.parse(userLog);
+            fetchUserData(newUser);
+        } else {
+            console.log("Nessun user")
+        }
+    };
 
     useEffect(() => {
+        const fetchDataWithDelay = async () => {
+            await new Promise(resolve => setTimeout(resolve, 100)); // Aggiungi un ritardo di 100ms
+            fetchData();
+        };
 
-        fetchUserData()
+        fetchDataWithDelay();
 
     }, []);
 
+    useEffect(() => {
+        console.log(user)
+    }, [user]);
 
 
     // useEffect(() => {

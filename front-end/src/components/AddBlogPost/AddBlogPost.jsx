@@ -156,7 +156,7 @@ export default function AddBlogPost({ id, getFromApi, reference, open, setOpen }
     return (
         <>
             <div className='d-flex justify-content-center' >
-                <Button className='my-3' ref={reference} variant='secondary' onClick={() => setOpen(!open)}>{open ? "Chiudi Form" : "Apri Form"}</Button>
+                <Button className='my-3' ref={reference} variant='secondary' onClick={() => setOpen(!open)}>{open ? "Chiudi Form" : "Aggiungi Blog"}</Button>
             </div>
             {open &&
 
