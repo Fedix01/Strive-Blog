@@ -52,12 +52,7 @@ export default function MyNavbar({ searchTerm, setSearchTerm, setSearchAuthors, 
     };
 
     useEffect(() => {
-        const fetchDataWithDelay = async () => {
-            await new Promise(resolve => setTimeout(resolve, 100)); // Aggiungi un ritardo di 100ms
-            fetchData();
-        };
-
-        fetchDataWithDelay();
+        fetchData()
 
     }, []);
 

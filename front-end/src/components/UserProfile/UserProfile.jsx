@@ -174,11 +174,13 @@ export default function UserProfile() {
                                     <h3>Email: <b>{data.email}</b></h3>
                                     <h3>Username: <b>{data.username}</b></h3>
                                     <h3>Data di nascita: <b>{data.dataDiNascita}</b></h3>
-                                    {googleUser.length === 0 &&
-                                        <>
-                                            <Button variant='warning' onClick={() => setMod(true)}>Modifica profilo</Button>
-                                            <Button variant='danger' className='ms-3' onClick={() => handleDelete()}>Cancella Profilo</Button>
-                                        </>
+                                    {
+                                        googleUser.length === 0 ? (
+                                            <>
+                                                <Button variant='warning' onClick={() => setMod(true)}>Modifica profilo</Button>
+                                                <Button variant='danger' className='ms-3' onClick={() => handleDelete()}>Cancella Profilo</Button>
+                                            </>
+                                        ) : null
                                     }
                                 </>
                             }

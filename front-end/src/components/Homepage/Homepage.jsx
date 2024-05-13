@@ -4,7 +4,7 @@ import MyNavbar from '../MyNavbar/MyNavbar';
 import MyFooter from '../MyFooter/MyFooter';
 import AllTopics from '../AllTopics/AllTopics';
 import { SearchBarContext } from '../SearchBarProvider/SearchBarProvider';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import queryString from 'query-string';
 import { GoogleContext } from '../GoogleUserProvider/GoogleUserProvider';
 
@@ -18,6 +18,7 @@ export default function Homepage() {
 
     const location = useLocation();
     const [spinner, setSpinner] = useState(false);
+    const navigate = useNavigate();
 
     const { setSearchBar } = useContext(SearchBarContext);
 
@@ -71,17 +72,12 @@ export default function Homepage() {
 
             if (Object.values(userGoogle.user).some(value => value !== "")) {
                 setGoogleUser(userGoogle);
+                localStorage.setItem("googleUser", JSON.stringify(userGoogle.user));
+                localStorage.setItem("token", userGoogle.token);
                 console.log(userGoogle);
             }
         }
     }, []);
-
-    useEffect(() => {
-        if (googleUser.length !== 0) {
-            localStorage.setItem("googleUser", JSON.stringify(googleUser.user));
-            localStorage.setItem("token", googleUser.token);
-        }
-    }, [googleUser])
 
 
 

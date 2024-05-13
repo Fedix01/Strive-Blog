@@ -13,10 +13,10 @@ export default function SingleAuthor(props) {
                     <Card.Title>
                         <h4>{name} {surname}</h4>
                     </Card.Title>
-                    <Card.Text>
+                    <div>
                         <h5>Email: {email}</h5>
                         <h5>Data di nascita: {birth}</h5>
-                    </Card.Text>
+                    </div>
                 </Card.Body>
             </Card>
 
