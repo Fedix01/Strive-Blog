@@ -74,7 +74,7 @@ export default function MyNavbar({ searchTerm, setSearchTerm, setSearchAuthors, 
     return (
         <>
             <Navbar bg="light" data-bs-theme="light" style={{ position: "sticky", top: 0, zIndex: 2, borderBottom: "1px solid lightgray" }} className='justify-content-between'>
-                <div className='left-nav d-flex justify-content-center align-items-center'>
+                <div className='left-nav left-nav-responsive d-flex justify-content-center align-items-center'>
 
                     <Navbar.Brand onClick={() => navigate("/")} style={{ cursor: "pointer" }}>
                         <FaComments />
@@ -99,11 +99,11 @@ export default function MyNavbar({ searchTerm, setSearchTerm, setSearchAuthors, 
                 <div>
                     {user && user.length !== 0 ? (
                         <>
-                            <div className='right-nav d-flex justify-content-center align-items-center'>
-                                <Button variant='success' onClick={() => navigate("/newPost")}>Scrivi nuovo post</Button>
-                                <Button variant='transparent' onClick={() => navigate("/me")}>{user.nome} {user.cognome}
+                            <div className='right-nav right-nav-responsive d-flex justify-content-center align-items-center'>
+                                <Button variant='success' className='newPost-responsive' onClick={() => navigate("/newPost")}>Scrivi nuovo post</Button>
+                                <Button variant='transparent' className='d-flex align-items-center' onClick={() => navigate("/me")}>{user.nome} {user.cognome}
                                     <img src={user.avatar ? user.avatar : "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIAL0AyAMBIgACEQEDEQH/xAAaAAEBAQEBAQEAAAAAAAAAAAAABAUDAQIH/8QAMBABAAIBAgQEBAQHAAAAAAAAAAECEQMhBDFBYQUSIlEyUnGRE7Hh8BQzU2JygaH/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAf/EABURAQEAAAAAAAAAAAAAAAAAAAAR/9oADAMBAAIRAxEAPwD9UAVAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAeTON3HU4vSp180+0A7iP+Pj+nP3fdON0rfFFq/WAUjnTX0rz6dSHT9wAAAAAAAAAAAAAAAAAAD1PxHE10YxztPKPY4vX/C09vityZszM280zmfcH3qa+pqRi1vT8scnP8vYCAfQCBtzxuo0OKtpTFb+qv5JzJBsxaJiJjfbOXqHgNXEzpT13r2XAAAAAAAAAAAAAAAA8mcRM+2QZvG6nn17Y5V2/24E7zMz1nIQAFAAAAH1S00vFoneGxE5jPZi9GxT4K/SEH0AAAAAAAAAAAAAA+NXbS1J/tl9uet/KvEfLIMkBQAAAAAAa2jOdGn+MMlraGfwqRPywg6AAAAAAAAAAAAAAI/EZmPJGdt1iTxGudOto6TuCABQAAAAAAW+HTOLxmcRhEv8ADqzGneZ6ygrAAAAAAAAAAAAAAc+IpOpoWrHOY2dDqDGtW1Z9UTHbDxd4hTNa3xvHplCtAAAAAAHta2tPpiZ7YavD0nT0KVnnEbp/D6Yra+N59MLOqAAAAAAAAAAAAAAAADy9IvSa25TGGRek6dprbnDYReI1jGnbrmYBEAoAAPqlJ1LxWvOf+Plb4dWMaluuYgFlKRSkVryiMPQQAAAAAAAAAAAAAAAO3UDP6ofELVmKVi0Zicz2ecbrXi3kpbFMb46pPfuQAFAABZ4fesRqVmYznMd0Yg2s/oIOC1rzbyXtmmNs9F/bqAAAAAAAAAAAHLnjHWU2rxlKbU9du3IFMe2N3ze9aR67Vr2lnanFa14x5vLHtDhO85mcz3IL9TjqR8Eeb67JtXidXUjFrYj2jZxCAAoAAAAAAO2lxOrpxitsx7Tu4iQX6fHUn448v03U0vW8ei1bdoY5G05icT2INqfbG4zNPitakY83mj2lVpcZS+1/RbvyIKQ58sY6SAAAAZ2+4M/jteZtOnWZ8sbT3lK9mZm0zPOXhAAUAAAAAAAAAAAAAAAAVcFrzFo07Zms7RnpLQY0TMWiY6NnO32QAAf/2Q=="} alt=""
-                                        style={{ width: "40px", borderRadius: "50%", marginLeft: "1rem" }} />
+                                        style={{ width: "40px", borderRadius: "50%", marginLeft: "1rem" }} className='d-none d-md-flex' />
                                 </Button>
                             </div>
                         </>) : (

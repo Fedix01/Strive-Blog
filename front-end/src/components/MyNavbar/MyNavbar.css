@@ -1,14 +1,27 @@
 @media screen and (max-width:768px) {
     .nav-input.nav-input-responsive {
-        width: 100px;
+        width: 4rem;
+        height: 2rem;
     }
 
     .right-nav.right-nav-responsive {
-        width: 5rem;
+        width: 8rem;
     }
 
     .responsive-log-in {
         display: none;
+    }
+
+    .newPost-responsive {
+        background-color: transparent;
+        color: black;
+        font-size: 10px;
+        border: transparent;
+    }
+
+    .user-responsive {
+        font-size: 10px;
+        margin-right: 5px;
     }
 }
 
