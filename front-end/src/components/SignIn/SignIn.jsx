@@ -207,7 +207,10 @@ export default function SignIn() {
                                 Registrati
                             </Button>
                         </div>
-                        <div className='d-flex d-md-none'>
+                        <div className='d-flex d-md-none justify-content-center mt-3'>
+                            <h6>sennò effettua</h6>
+                        </div>
+                        <div className='d-flex d-md-none justify-content-center'>
                             <Button variant='light' className='mt-2' onClick={() => navigate("/signUp")}>Log In</Button>
 
                         </div>

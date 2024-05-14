@@ -103,7 +103,11 @@ export default function SignUp() {
                         <div className='d-flex justify-content-center'>
                             <button type='submit' className='log mt-3 p-2'>Loggati</button>
                         </div>
-                        <div className='d-flex d-md-none'>
+                        <div className='d-flex d-md-none justify-content-center mt-2'>
+                            <h6>oppure</h6>
+                        </div>
+                        <div className='d-flex d-md-none justify-content-center'>
+
                             <Button variant='light' className='mt-2' onClick={() => navigate("/signIn")}>Registrati</Button>
 
                         </div>
