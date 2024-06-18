@@ -57,7 +57,10 @@ export default function MyNavbar({ searchTerm, setSearchTerm, setSearchAuthors, 
     }, []);
 
     useEffect(() => {
-        console.log(user)
+        if (user && user.avatar) {
+            const img = new Image();
+            img.src = user.avatar;
+        }
     }, [user]);
 
 
